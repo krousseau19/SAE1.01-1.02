@@ -1,0 +1,1 @@
+#import global_var as g
