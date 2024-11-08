@@ -26,13 +26,14 @@ if __name__ == "__main__" :
             if g.nb_j_valide :
                 pass
             else :
-                print("Pas assez de joueurs")
+                print("Pas assez de joueurs") 
         elif choix == 2 :
             if g.nb_j_valide :
                 g.début_de_partie()
                 allumette = all.creation_plateau(all.liste_allumettes)
                 g.j1.score = 1
                 g.j2.score = 1
+                all.fin_partie = False
                 while not all.fin_partie :
                     print("Tour : ", g.tour, "(",g.qui_joue,")")
                     if g.qui_joue == 1 :
@@ -43,6 +44,8 @@ if __name__ == "__main__" :
                     print(g.j2.pseudo," a gagné la partie en ", g.tour," tours !")
                 else :
                     print(g.j1.pseudo," a gagné la partie en ", g.tour," tours !")
+                g.j1.nb_parties += 1
+                g.j2.nb_parties += 1
             else :
                 print("Pas assez de joueurs")
         elif choix == 3 :
