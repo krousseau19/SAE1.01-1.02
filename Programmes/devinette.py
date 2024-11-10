@@ -39,14 +39,11 @@ def devine_nombre(j1 : Joueur, j2: Joueur):
         saisi_j2 = False
         tentatives += 1
         if devine < nombre_secret:
-            print("\x1b[38;5;1mTrop petit.")
-            print("\x1b[37m")
+            print("\x1b[38;5;1mTrop petit.\x1b[37m")
         elif devine > nombre_secret:
-            print("\x1b[38;5;1mTrop grand.")
-            print("\x1b[37m")
+            print("\x1b[38;5;1mTrop grand.\x1b[37m")
         else:
             print(f"\033[2J")
-            print("\x1b[32mBravo ! ", joueur, " a trouvé en ", tentatives, " tentatives.")
-            print("\x1b[37m")
+            print("\x1b[32mBravo ! ", joueur, " a trouvé en ", tentatives, " tentatives.\x1b[37m")
             partie_finie = True
             

@@ -1,5 +1,7 @@
 from global_var import Joueur, début_de_partie
 
+symbole = " "
+
 def afficher_plateau(plateau : list[list[str]]):
     print("   0   1   2")
     print("0  " + plateau[0][0] + " | " + plateau[0][1] + " | " + plateau[0][2])
@@ -9,7 +11,8 @@ def afficher_plateau(plateau : list[list[str]]):
     print("2  " + plateau[2][0] + " | " + plateau[2][1] + " | " + plateau[2][2])
 
 
-def verifier_victoire(plateau : list[list[str]], joueur : str):
+def verifier_victoire(plateau : list[list[str]]):
+
     for i in range(3):
         if plateau[i][0] == plateau[i][1] == plateau[i][2] != ' ':
             return True
@@ -17,7 +20,7 @@ def verifier_victoire(plateau : list[list[str]], joueur : str):
             return True
     if plateau[0][0] == plateau[1][1] == plateau[2][2] != ' ':
         return True
-    if plateau[0][2] == plateau[1][1] == plateau[2][0] == joueur:
+    if plateau[0][2] == plateau[1][1] == plateau[2][0] != ' ':
         return True
     return False
 
@@ -30,6 +33,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     colonne : int
     plateau : list[list[str]]
     joueur : str
+    global symbole
 
     print("\n    === Jeu du morprion ===")
 
@@ -39,27 +43,38 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     
     while not jeu_termine:
         afficher_plateau(plateau)
-        print(f"Tour du joueur {joueur}")
+        print(f"Tour de {joueur}")
+        if joueur == j1.pseudo :
+            symbole = '\x1b[31mX\x1b[37m'
+        else :
+            symbole = '\x1b[34mO\x1b[37m'
 
         try:
             ligne = int(input("Choisissez une ligne (0, 1 ou 2) : "))
             colonne = int(input("Choisissez une colonne (0, 1 ou 2) : "))
+            print(f"\033[2J")
             if plateau[ligne][colonne] != " ":
+                print(f"\033[2J")
                 print("Cette case est déjà prise. Choisissez une autre case.")
                 continue
-            plateau[ligne][colonne] = joueur
+            plateau[ligne][colonne] = symbole
         except (ValueError, IndexError):
+            print(f"\033[2J")
             print("Coordonnées invalides. Veuillez entrer des chiffres entre 0 et 2.")
             continue
 
-        if verifier_victoire(plateau, joueur):
+        if verifier_victoire(plateau):
+            print(f"\033[2J")
             afficher_plateau(plateau)
-            print(f"Félicitations ! Le joueur {joueur} a gagné !")
+            print("\x1b[32mFélicitations !", joueur, " a gagné !\x1b[37m")
             jeu_termine = True
         elif verifier_egalite(plateau):
+            print(f"\033[2J")
             afficher_plateau(plateau)
-            print("La partie est une égalité !")
+            print("\x1b[38;5;208mIl y a eu égalité !\x1b[37m")
             jeu_termine = True
         else:
-            
-            joueur = "O" if joueur == "X" else "X"
+            if joueur == j1.pseudo :
+                joueur = j2.pseudo
+            else :
+                joueur = j1.pseudo
