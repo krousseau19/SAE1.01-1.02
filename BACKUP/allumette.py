@@ -1,46 +1,46 @@
-import global_var as g
+from global_var import Joueur, début_de_partie
 
-liste_allumettes : list[int]
-positions : str
-liste_pos : list[str]
-fin_partie : bool
-
-liste_allumettes = []
-
-def creation_plateau(liste_allumettes: list[int]) -> list[int] :
-    liste_allumettes = []
-    for i in range(1,21):
-        liste_allumettes.append(i)
-    g.tour = 0        
-    print(liste_allumettes)
-    return liste_allumettes
-
-fin_partie = False
-
-def coups(liste_allumettes : list[int], j:g.Joueur):
-    global fin_partie
-    i : str
-    all : int
-    compteur : int
-    compteur = 0
-    fin_partie = False
-    if not fin_partie :
-        positions = input("Saisir les allumettes à retirer (séparées par des virgules, avec 3 max) : ")
-        liste_pos = positions.split(',')
-        print(liste_pos)
-        for i in liste_pos:
-            liste_allumettes[int(i)-1] = 0
-        g.tour +=1
-        if g.qui_joue == 1 :
-            g.qui_joue = 2
+def jeu_allumettes(j1 : Joueur, j2 : Joueur):
+    allumettes : int
+    joueur : str
+    nb_all : int
+    i : int # type: ignore
+    saisi_all : bool
+    
+    print(f"\033[2J")
+    print("\n    === Jeu des allumettes ===")
+    allumettes = 20
+    joueur = début_de_partie()
+    while allumettes > 0:
+        print(f"\033[2J")
+        print("Il reste ", allumettes, "allumettes.")
+        for i in range(0,allumettes) :  # type: ignore
+            print("\x1b[38;5;1m.", end=" ")
+        print("")
+        for i in range(0,allumettes) :  # type: ignore
+            print("\x1b[38;5;94m|", end=" ")
+        print("\x1b[37m")
+        saisi_all = False
+        nb_all = -1
+        while not saisi_all :
+            try :
+                nb_all = int(input(f"{joueur} combien d'allumettes prenez-vous (1-3) ? "))
+                saisi_all = True
+            except ValueError :
+                print("Erreur : Veuillez saisir un argument valide.")
+        saisi_all = False
+        if nb_all < 1 or nb_all > 3:
+                print("Veuillez prendre entre 1 et 3 allumettes.")
+                continue
+        allumettes -= nb_all
+        if allumettes <= 0:
+            print(f"\033[2J")
+            print("\x1b[38;5;1m", joueur, " a perdu !")
+            print("\x1b[37m")
+        if joueur == j1.pseudo :
+            joueur = j2.pseudo
         else :
-            g.qui_joue = 1
-        print(liste_allumettes)
-        for all in liste_allumettes :
-            if all != 0 :
-                compteur += 1
-        if compteur == 0 :
-            fin_partie = True
-            j.score = 0
+            joueur = j1.pseudo
+
 
 
