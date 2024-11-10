@@ -1,6 +1,6 @@
 from devinette import devine_nombre
 from allumette import jeu_allumettes
-#from morpion import
+from morpion import jeu_morpion
 #from puissance4 import
 from global_var import creation_joueurs, afficher_menu, saisir_choix, j1, j2
 
@@ -18,7 +18,7 @@ if __name__ == "__main__" :
         elif choix == 2 :
             jeu_allumettes(j1, j2)
         elif choix == 3 :
-            pass
+            jeu_morpion(j1, j2)
         elif choix == 4 :
             pass
         elif choix == 5 :
