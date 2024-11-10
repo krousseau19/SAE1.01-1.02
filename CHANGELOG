@@ -3,6 +3,7 @@ Changelog du 10/11/24 (Kylian) {
   - Nouvelle façon de faire pour le jeu des allumettes
   - Ajout du jeu des devinettes
   - Le choix des joueurs est maintenant obligatoire dès le lancement du programme
+  - Modification de l'affichage avec ANSI ( couleurs et clear de la console)
 }
 
 Changelog du 08/11/24 (Kylian & Jules) {
