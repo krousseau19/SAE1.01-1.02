@@ -1,3 +1,5 @@
+#import os
+
 class Joueur :
         pseudo : str
         score : int
@@ -19,6 +21,7 @@ def creation_joueurs() :
      j2.pseudo = input("Veuillez saisir votre pseudo : ")
      j2.score = 0
      nb_j_valide = True
+     print(f"\033[2J")
 
 def afficher_menu():
     print("\n    === MENU ===")
@@ -71,5 +74,7 @@ def début_de_partie() :
                print("La partie va commencer.")
           else :
                print("Choix invalide")
+     #os.system('cls' if os.name == 'nt' else 'clear') -> pas sûr d'avoir le droit, à demander
+     print(f"\033[2J")
      return qui_joue
      

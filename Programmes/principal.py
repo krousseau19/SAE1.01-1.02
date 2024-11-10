@@ -25,4 +25,5 @@ if __name__ == "__main__" :
             print("Au revoir !")
             menu_actif = False
         else :
+            print(f"\033[2J")
             print("Veuillez entrer un nombre valide.")

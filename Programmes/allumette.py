@@ -6,18 +6,20 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     nb_all : int
     i : int # type: ignore
     saisi_all : bool
-
+    
+    print(f"\033[2J")
     print("\n    === Jeu des allumettes ===")
     allumettes = 20
     joueur = début_de_partie()
     while allumettes > 0:
+        print(f"\033[2J")
         print("Il reste ", allumettes, "allumettes.")
         for i in range(0,allumettes) :  # type: ignore
-            print(".", end=" ")
+            print("\x1b[38;5;1m.", end=" ")
         print("")
         for i in range(0,allumettes) :  # type: ignore
-            print("|", end=" ")
-        print("")
+            print("\x1b[38;5;94m|", end=" ")
+        print("\x1b[37m")
         saisi_all = False
         nb_all = -1
         while not saisi_all :
@@ -32,7 +34,9 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                 continue
         allumettes -= nb_all
         if allumettes <= 0:
-            print(joueur, " a perdu !")
+            print(f"\033[2J")
+            print("\x1b[38;5;1m", joueur, " a perdu !")
+            print("\x1b[37m")
         if joueur == j1.pseudo :
             joueur = j2.pseudo
         else :
