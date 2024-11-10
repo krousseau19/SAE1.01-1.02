@@ -1,3 +1,8 @@
+Changelog du 10/11/24 (Kylian) {
+  - Correction de bug d'affichages et de vérification en cas de victoire/égalité pour le morpion
+  - Ajout de couleurs et de clear console pour meilleure expérience
+}
+
 Changelog du 10/11/24 (Jules) {
   - Ajout du jeu de morpion (complet)
   - Ajout du lien entre le morpion et reste de l'application
