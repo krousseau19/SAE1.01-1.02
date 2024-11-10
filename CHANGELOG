@@ -1,3 +1,8 @@
+
+Changelog du 08/11/24 (Kylian) {
+  - Ajout de contrôles dans le jeu des allumettes lors des saisis
+  - Correction de problèmes mineurs (synthaxe et code)
+
 Changelog du 07/11/24 (Kylian) {
   - Création nouveau fichier "global_var" contenant fonctions et variables communes aux différents fichiers pour éviter les doublons.
   - Avancement sur le fichier "Allumette". (fonction pour créer la liste, faire un coup)
