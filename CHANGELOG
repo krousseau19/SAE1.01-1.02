@@ -1,11 +1,11 @@
-Changelog du 10/11/24 (Kylian {
+Changelog du 10/11/24 (Kylian) {
   - Refonte totale de la structure des fichiers (simplification du tout, fonctions, imports, etc...)
   - Nouvelle façon de faire pour le jeu des allumettes
   - Ajout du jeu des devinettes
   - Le choix des joueurs est maintenant obligatoire dès le lancement du programme
 }
 
-Changelog du 08/11/24 (Kylian) {
+Changelog du 08/11/24 (Kylian & Jules) {
   - Ajout de contrôles dans le jeu des allumettes lors des saisis
   - Correction de problèmes mineurs (synthaxe et code)
 }
