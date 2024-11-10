@@ -1,1 +1,1 @@
-#import global_var as g
+#from global_var import
