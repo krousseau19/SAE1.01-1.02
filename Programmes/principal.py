@@ -22,6 +22,7 @@ if __name__ == "__main__" :
         elif choix == 4 :
             pass
         elif choix == 5 :
+            print(f"\033[2J")
             print("Au revoir !")
             menu_actif = False
         else :

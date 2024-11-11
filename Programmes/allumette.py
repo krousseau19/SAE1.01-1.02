@@ -28,7 +28,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                 print(f"\033[2J")
                 if nb_all < 1 or nb_all > 3:
                     print(f"\033[2J")
-                    print("Veuillez prendre entre 1 et 3 allumettes.")
+                    print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
                     continue
                 saisi_all = True
             except ValueError :

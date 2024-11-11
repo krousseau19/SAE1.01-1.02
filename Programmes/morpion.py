@@ -1,7 +1,5 @@
 from global_var import Joueur, début_de_partie
 
-symbole = " "
-
 def afficher_plateau(plateau : list[list[str]]):
     print("   0   1   2")
     print("0  " + plateau[0][0] + " | " + plateau[0][1] + " | " + plateau[0][2])
@@ -33,10 +31,10 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     colonne : int
     plateau : list[list[str]]
     joueur : str
-    global symbole
+    symbole : str
 
+    print(f"\033[2J")
     print("\n    === Jeu du morprion ===")
-
     plateau = [[" " for _ in range(3)] for _ in range(3)]
     jeu_termine = False
     joueur = début_de_partie()
@@ -55,12 +53,12 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
             print(f"\033[2J")
             if plateau[ligne][colonne] != " ":
                 print(f"\033[2J")
-                print("Cette case est déjà prise. Choisissez une autre case.")
+                print("Erreur : Cette case est déjà prise. Choisissez une autre case.")
                 continue
             plateau[ligne][colonne] = symbole
         except (ValueError, IndexError):
             print(f"\033[2J")
-            print("Coordonnées invalides. Veuillez entrer des chiffres entre 0 et 2.")
+            print("Erreur : Coordonnées invalides. Veuillez entrer des chiffres entre 0 et 2.")
             continue
 
         if verifier_victoire(plateau):

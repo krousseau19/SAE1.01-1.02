@@ -1,4 +1,4 @@
-#import os
+import random
 
 class Joueur :
         pseudo : str
@@ -49,6 +49,7 @@ def début_de_partie() :
      global j2
      choix : int
      choix_valide : bool
+     aleatoire : int
 
      choix = 0
      choix_valide = False
@@ -56,7 +57,7 @@ def début_de_partie() :
      while choix != 3 :
           print("1.", j1.pseudo)
           print("2.", j2.pseudo)
-          print("3. Quitter")
+          print("3. Aléatoire")
           while not choix_valide :
                try :
                     choix = int(input("Saisir un choix : "))
@@ -71,9 +72,13 @@ def début_de_partie() :
              qui_joue = j2.pseudo
              choix = 3
           elif choix == 3 :
-               print("La partie va commencer.")
+               aleatoire = random.randint(1,2)
+               if aleatoire == 1 :
+                    qui_joue = j1.pseudo
+               else :
+                    qui_joue = j2.pseudo
           else :
-               print("Choix invalide")
+               print("Erreur : Veuillez saisir un choix valide.")
      #os.system('cls' if os.name == 'nt' else 'clear') -> pas sûr d'avoir le droit, à demander
      print(f"\033[2J")
      return qui_joue
