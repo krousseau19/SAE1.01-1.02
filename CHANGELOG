@@ -1,3 +1,9 @@
+Changelog du 11/11/24 (Kylian) {
+  - Modification du jeu devinette pour que le joueur faisant deviner choisisse si le nombre de son adversaire
+    est trop petit, trop grand, ou si c'est gagné (ajout de la fonctionnalité et des tests associés en cas d'erreur)
+  - Modification de la fonction début de partie, pour que le 3ème choix soit un joueur aléatoire qui commence entre les deux
+}
+
 Changelog du 10/11/24 (Kylian) {
   - Correction de bug d'affichages et de vérification en cas de victoire/égalité pour le morpion
   - Ajout de couleurs et de clear console pour meilleure expérience
