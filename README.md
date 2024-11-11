@@ -3,6 +3,8 @@ Un projet de 1ère année en BUT informatique, son objectif est d'implémenter u
 
 # To-do list :
   - Faire programme pour le puissance 4 (code + lien avec application)
+  - Modifier le jeu devinette pour que le joueur faisant deviner puisse répondre à chaque essai (trop grand, trop petit, ou c'est gagné)
+  - Ajout système de score ( à pouvoir afficher du meilleur au moins bon par jeu, et à sauvegarder entre les sessions -> fichier .json)
   - Amélioration de l'affichage pour esthétique et meilleure lisibilité
   - Potentielles optimisations
   - Docstrings et commentaires pour meilleure compréhension
