@@ -40,10 +40,10 @@ def saisir_choix() -> int :
 tour : int
 tour = 1
 
-qui_joue : str
-qui_joue = ""
+qui_joue : Joueur
+qui_joue = Joueur()
 
-def début_de_partie() :
+def début_de_partie() -> Joueur :
      global qui_joue
      global j1
      global j2
@@ -66,17 +66,17 @@ def début_de_partie() :
                     print("Erreur : Veuillez saisir un choix valide.")
           choix_valide = False
           if choix == 1 :
-             qui_joue = j1.pseudo
+             qui_joue = j1
              choix = 3
           elif choix == 2 :
-             qui_joue = j2.pseudo
+             qui_joue =j2
              choix = 3
           elif choix == 3 :
                aleatoire = random.randint(1,2)
                if aleatoire == 1 :
-                    qui_joue = j1.pseudo
+                    qui_joue = j1
                else :
-                    qui_joue = j2.pseudo
+                    qui_joue = j2
           else :
                print("Erreur : Veuillez saisir un choix valide.")
      #os.system('cls' if os.name == 'nt' else 'clear') -> pas sûr d'avoir le droit, à demander

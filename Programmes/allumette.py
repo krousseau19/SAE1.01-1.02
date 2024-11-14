@@ -2,7 +2,7 @@ from global_var import Joueur, début_de_partie
 
 def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     allumettes : int
-    joueur : str
+    joueur : Joueur
     nb_all : int
     i : int # type: ignore
     saisi_all : bool
@@ -24,7 +24,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                 print("\x1b[38;5;94m|", end=" ")
             print("\x1b[37m")
             try :
-                nb_all = int(input(f"{joueur} combien d'allumettes prenez-vous (1-3) ? "))
+                nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
                 print(f"\033[2J")
                 if nb_all < 1 or nb_all > 3:
                     print(f"\033[2J")
@@ -39,11 +39,11 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
         allumettes -= nb_all
         if allumettes <= 0:
             print(f"\033[2J")
-            print("\x1b[38;5;1m", joueur, " a perdu !\x1b[37m")
-        if joueur == j1.pseudo :
-            joueur = j2.pseudo
+            print("\x1b[38;5;1m", joueur.pseudo, " a perdu !\x1b[37m")
+        if joueur == j1 :
+            joueur = j2
         else :
-            joueur = j1.pseudo
+            joueur = j1
 
 
 

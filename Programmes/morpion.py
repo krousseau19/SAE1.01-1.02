@@ -30,7 +30,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     ligne : int
     colonne : int
     plateau : list[list[str]]
-    joueur : str
+    joueur : Joueur
     symbole : str
 
     print(f"\033[2J")
@@ -41,8 +41,8 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     
     while not jeu_termine:
         afficher_plateau(plateau)
-        print(f"Tour de {joueur}")
-        if joueur == j1.pseudo :
+        print(f"Tour de {joueur.pseudo}")
+        if joueur == j1 :
             symbole = '\x1b[31mX\x1b[37m'
         else :
             symbole = '\x1b[34mO\x1b[37m'
@@ -64,7 +64,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
         if verifier_victoire(plateau):
             print(f"\033[2J")
             afficher_plateau(plateau)
-            print("\x1b[32mFélicitations !", joueur, " a gagné !\x1b[37m")
+            print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !\x1b[37m")
             jeu_termine = True
         elif verifier_egalite(plateau):
             print(f"\033[2J")
@@ -72,7 +72,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
             print("\x1b[38;5;208mIl y a eu égalité !\x1b[37m")
             jeu_termine = True
         else:
-            if joueur == j1.pseudo :
-                joueur = j2.pseudo
+            if joueur == j1 :
+                joueur = j2
             else :
-                joueur = j1.pseudo
+                joueur = j1
