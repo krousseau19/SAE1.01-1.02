@@ -1,3 +1,9 @@
+Changelog du 16/11/24 (Kylian) {
+  - Système de score implémenté pour les jeux présents (tout sauf puissance 4 donc), seul l'affichage est manquant
+  - Modification du saisi pour le morpion, lettre pour ligne, chiffre pour colonne (Ex : A1)
+  - Simplification générale du code pour le morpion
+}
+
 Changelog du 14/11/24 (Jules & Kylian) {
   - Ajout du choix d'un intervalle pour le jeu devinette, pour faciliter le calcul du score (et des tests associés)
   - Début d'implémentation du score pour les joueurs dans devinette
