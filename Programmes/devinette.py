@@ -32,7 +32,7 @@ def saisir_intervalle() -> int :
     choix = -1
 
     while choix != 1 and choix != 2 and choix != 3 :
-        print("Choisir un intervalle : ")
+        print("Veuillez choisir un intervalle : ")
         print("1 - [1 - 100]")
         print("2 - [1 - 1 000]")
         print("3 - [1 - 10 000]")
@@ -105,22 +105,34 @@ def devine_nombre(j1 : Joueur, j2: Joueur):
                 print("Erreur : veuillez entrer un nombre entier valide.")
         saisi_j2 = False
         tentatives += 1
-        joueur.score = joueur.score - (intervalle*(5//100))
-        print(joueur.score)
+        joueur.score = int(joueur.score - (intervalle*(10/100)))
         choix_valide = False
         while not choix_valide :
             choix = saisir_victoire(joueur, j1, j2, devine)
             if devine < nombre_secret and choix == 1:
-                print(f"\033[2J")
-                print("\x1b[38;5;1mTrop petit.\x1b[37m")
+                if joueur.score <= 0 :
+                    print(f"\033[2J")
+                    print(f"\x1b[38;5;1m{joueur.pseudo} n'a pas réussi à trouver le nombre à temps ! (Score nul)\x1b[37m")
+                    partie_finie = True
+                else :
+                    print(f"\033[2J")
+                    print("\x1b[38;5;1mTrop petit.\x1b[37m")
+                    print("")
                 choix_valide = True
             elif devine > nombre_secret and choix == 2:
-                print(f"\033[2J")
-                print("\x1b[38;5;1mTrop grand.\x1b[37m")
+                if joueur.score <= 0 :
+                    print(f"\033[2J")
+                    print(f"\x1b[38;5;1m{joueur.pseudo} n'a pas réussi à trouver le nombre à temps ! (Score nul)\x1b[37m")
+                    partie_finie = True
+                else :
+                    print(f"\033[2J")
+                    print("\x1b[38;5;1mTrop grand.\x1b[37m")
+                    print("")
                 choix_valide = True
             elif devine == nombre_secret and choix == 3:
                 print(f"\033[2J")
-                print("\x1b[32mBravo ! ", joueur.pseudo, " a trouvé en ", tentatives, " tentatives.\x1b[37m")
+                print("\x1b[32mBravo ! ", joueur.pseudo, " a trouvé en ", tentatives, " tentatives.")
+                print("Votre score : ", joueur.score, "\x1b[37m")
                 choix_valide = True
                 partie_finie = True
             else :

@@ -9,6 +9,8 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     
     print(f"\033[2J")
     print("\n    === Jeu des allumettes ===")
+    j1.score = 1
+    j2.score = 1
     allumettes = 20
     joueur = début_de_partie()
     while allumettes > 0:
@@ -40,6 +42,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
         if allumettes <= 0:
             print(f"\033[2J")
             print("\x1b[38;5;1m", joueur.pseudo, " a perdu !\x1b[37m")
+            joueur.score = 0
         if joueur == j1 :
             joueur = j2
         else :
