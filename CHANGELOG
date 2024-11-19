@@ -1,3 +1,8 @@
+CHangelog du 19/11/24 (Kylian) {
+  - Ajout du jeu de puissance 4
+  - Ajout du système de score pour le puissance 4
+}
+
 Changelog du 16/11/24 (Kylian) {
   - Système de score implémenté pour les jeux présents (tout sauf puissance 4 donc), seul l'affichage est manquant
   - Modification du saisi pour le morpion, lettre pour ligne, chiffre pour colonne (Ex : A1)
