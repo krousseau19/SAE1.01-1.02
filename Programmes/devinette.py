@@ -54,7 +54,7 @@ def saisir_intervalle() -> int :
     return borne_sup
 
 
-def devine_nombre(j1 : Joueur, j2: Joueur):
+def jeu_devinette(j1 : Joueur, j2: Joueur):
     nombre_secret : int
     devine : int
     tentatives : int

@@ -52,6 +52,7 @@ def saisi_case(plateau : list[list[str]]) -> str:
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur):
+    i : int
     jeu_termine : bool
     case : str
     ligne : int
@@ -64,7 +65,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     print("\n    === Jeu du morprion ===")
     j1.score = 0
     j2.score = 0
-    plateau = [[" " for _ in range(3)] for _ in range(3)]
+    plateau = [[" " for i in range(3)] for i in range(3)]
     jeu_termine = False
     joueur = début_de_partie()
     
