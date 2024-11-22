@@ -1,4 +1,10 @@
-CHangelog du 19/11/24 (Kylian) {
+Changelog du 22/11/24 (Kylian & Jules) {
+  - Début d'implémentation du système de fichier (dossier Data et fichier data.sav)
+  - Peaufinage du système de score
+  - Ajout de nouveaux attributs pour la classe Joueur (les highscores pour chaque jeux + nb parties/G)
+}
+
+Changelog du 19/11/24 (Kylian) {
   - Ajout du jeu de puissance 4
   - Ajout du système de score pour le puissance 4
 }
