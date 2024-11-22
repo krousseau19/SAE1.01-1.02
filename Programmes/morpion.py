@@ -39,20 +39,19 @@ def saisi_case(plateau : list[list[str]]) -> str:
     while not est_valide :
         choix = input("Choisissez une case (lettre puis numéro, ex : A1) : ").strip().upper()
         if len(choix) != 2 :
-            print(f"\033[2J")
+            print("\033c")
             print("Erreur : Coordonnées invalides.")
             afficher_plateau(plateau)
         elif choix[0] in chaine_l and choix[1] in chaine_c :
             case = str(chaine_l.index(choix[0])) + str(chaine_c.index(choix[1]))
             est_valide = True
         else:
-            print(f"\033[2J")
+            print("\033c")
             print("Erreur : Coordonnées invalides.")
             afficher_plateau(plateau)
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur):
-    i : int
     jeu_termine : bool
     case : str
     ligne : int
@@ -61,11 +60,11 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     joueur : Joueur
     symbole : str
 
-    print(f"\033[2J")
+    print("\033c")
     print("\n    === Jeu du morprion ===")
     j1.score = 0
     j2.score = 0
-    plateau = [[" " for i in range(3)] for i in range(3)]
+    plateau = [[" " for _ in range(3)] for _ in range(3)]
     jeu_termine = False
     joueur = début_de_partie()
     
@@ -80,21 +79,22 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
         case = saisi_case(plateau)
         ligne = int(case[0])
         colonne = int(case[1])
-        print(f"\033[2J")
+        print("\033c")
         if plateau[ligne][colonne] != " ":
-            print(f"\033[2J")
+            print("\033c")
             print("Erreur : Cette case est déjà prise. Choisissez une autre case.")
             continue
         plateau[ligne][colonne] = symbole
 
         if verifier_victoire(plateau):
-            print(f"\033[2J")
+            print("\033c")
             afficher_plateau(plateau)
             print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !\x1b[37m")
+            joueur.nb_partieG += 1
             joueur.score = 1
             jeu_termine = True
         elif verifier_egalite(plateau):
-            print(f"\033[2J")
+            print("\033c")
             afficher_plateau(plateau)
             print("\x1b[38;5;208mIl y a eu égalité !\x1b[37m")
             jeu_termine = True
@@ -103,3 +103,5 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
                 joueur = j2
             else :
                 joueur = j1
+    j1.nb_partie += 1
+    j2.nb_partie += 1

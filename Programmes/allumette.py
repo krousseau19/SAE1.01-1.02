@@ -7,7 +7,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     i : int # type: ignore
     saisi_all : bool
     
-    print(f"\033[2J")
+    print("\033c")
     print("\n    === Jeu des allumettes ===")
     j1.score = 1
     j2.score = 1
@@ -27,20 +27,20 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
             print("\x1b[37m")
             try :
                 nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
-                print(f"\033[2J")
+                print("\033c")
                 if nb_all < 1 or nb_all > 3:
-                    print(f"\033[2J")
+                    print("\033c")
                     print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
                     continue
                 saisi_all = True
             except ValueError :
-                print(f"\033[2J")
+                print("\033c")
                 print("Erreur : Veuillez saisir un argument valide.")
         saisi_all = False
         
         allumettes -= nb_all
         if allumettes <= 0:
-            print(f"\033[2J")
+            print("\033c")
             print("\x1b[38;5;1m", joueur.pseudo, " a perdu !\x1b[37m")
             joueur.score = 0
         if joueur == j1 :
