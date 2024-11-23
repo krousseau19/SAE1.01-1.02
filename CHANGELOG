@@ -1,3 +1,9 @@
+Changelog du 23/11/24 (Kylian) {
+  - Highscore de chaque jeux maintenant enregistrés dans le fichier data.sav
+  - Nouvel affichage pour la fonction afficher_joueur
+  - Résolution de bugs mineurs concernant le système de fichier
+}
+
 Changelog du 22/11/24 (Kylian & Jules) {
   - Début d'implémentation du système de fichier (dossier Data et fichier data.sav)
   - Peaufinage du système de score
