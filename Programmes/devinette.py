@@ -134,6 +134,8 @@ def jeu_devinette(j1 : Joueur, j2: Joueur):
                 print("\033c")
                 print("\x1b[32mBravo ! ", joueur.pseudo, " a trouvé en ", tentatives, " tentatives.")
                 print("Votre score : ", joueur.score, "\x1b[37m")
+                if joueur.score > joueur.highscore_dev :
+                    joueur.highscore_dev = joueur.score
                 joueur.nb_partieG += 1
                 choix_valide = True
                 partie_finie = True

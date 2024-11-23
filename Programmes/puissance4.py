@@ -1,6 +1,6 @@
 from global_var import Joueur, début_de_partie
 
-def check_victoire(grille : list[list[str]], symbole : str):
+def check_victoire(grille : list[list[str]], symbole : str) -> bool :
     lignes : int
     colonnes : int
 
@@ -28,9 +28,18 @@ def check_victoire(grille : list[list[str]], symbole : str):
                 return True
     return False
 
+def check_égalité(grille : list[list[str]]) -> bool :
+    ligne : list[str]
+
+    for ligne in grille:
+        if " " in ligne:  # Si une case vide est trouvée, donc la grille n'est pas pleine
+            return False
+    return True  # Aucune case vide n'a été trouvée, donc la grille est pleine
+
 def afficher_grille(grille : list[list[str]]):
     ligne : list[str]
 
+    ligne = []
     for ligne in grille:
         print(" | ".join(ligne))    # séparateurs de colonnes
     print("1 | 2 | 3 | 4 | 5 | 6 | 7")  # indices des colonnes
@@ -39,7 +48,7 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
     joueur : Joueur
     grille : list[list[str]]
     symbole : str
-    jeu_termine : bool
+    partie_finie : bool
     colonne_pleine : bool
     colonne : int
     ligne : int
@@ -50,9 +59,9 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
     joueur = début_de_partie()
     j1.score = 0
     j2.score = 0
-    jeu_termine = False
+    partie_finie = False
     
-    while not jeu_termine :
+    while not partie_finie :
         afficher_grille(grille)
         if joueur == j1 :
             symbole = '\x1b[31mO\x1b[37m'
@@ -80,11 +89,19 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
                 print("Erreur : Cette colonne est pleine, choisissez-en une autre.")
                 
         if check_victoire(grille, symbole):
+            print("\033c")
             afficher_grille(grille)
             print(f"\x1b[32mFélicitations ! {joueur.pseudo} a gagné !\x1b[37m")
             joueur.nb_partieG += 1
-            joueur.score = 1
-            jeu_termine = True
+            joueur.score += 1
+            if joueur.score > joueur.highscore_pui :
+                    joueur.highscore_pui = joueur.score
+            partie_finie = True
+        elif check_égalité(grille):
+            print("\033c")
+            afficher_grille(grille)
+            print("\x1b[38;5;208mIl y a eu égalité ! La grille est pleine !\x1b[37m")
+            partie_finie = True
         else : 
             if joueur == j1 :
                 joueur = j2

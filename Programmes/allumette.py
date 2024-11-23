@@ -4,25 +4,25 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     allumettes : int
     joueur : Joueur
     nb_all : int
-    i : int # type: ignore
     saisi_all : bool
+    partie_finie : bool
     
     print("\033c")
     print("\n    === Jeu des allumettes ===")
-    j1.score = 1
-    j2.score = 1
+    j1.score = 0
+    j2.score = 0
     allumettes = 20
+    partie_finie = False
     joueur = début_de_partie()
-    while allumettes > 0:
-        
+    while not partie_finie:
         saisi_all = False
         nb_all = -1
         while not saisi_all :
             print("Il reste ", allumettes, "allumettes.")
-            for i in range(0,allumettes) :  # type: ignore
+            for _ in range(0,allumettes) :  
                 print("\x1b[38;5;1m.", end=" ")
             print("")
-            for i in range(0,allumettes) :  # type: ignore
+            for _ in range(0,allumettes) :  
                 print("\x1b[38;5;94m|", end=" ")
             print("\x1b[37m")
             try :
@@ -37,16 +37,25 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                 print("\033c")
                 print("Erreur : Veuillez saisir un argument valide.")
         saisi_all = False
-        
         allumettes -= nb_all
         if allumettes <= 0:
+            partie_finie = True
+        if partie_finie :
+            if joueur == j1 :
+                joueur = j2
+            else :
+                joueur = j1
             print("\033c")
-            print("\x1b[38;5;1m", joueur.pseudo, " a perdu !\x1b[37m")
-            joueur.score = 0
+            print("\x1b[32mBravo ! ", joueur.pseudo, " a gagné !\x1b[37m")
+            joueur.score += 1
+            joueur.nb_partieG += 1
+            if joueur.score > joueur.highscore_all :
+                    joueur.highscore_all = joueur.score
         if joueur == j1 :
             joueur = j2
         else :
             joueur = j1
-
+    j1.nb_partie += 1
+    j2.nb_partie += 1
 
 

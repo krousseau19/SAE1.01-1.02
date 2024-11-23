@@ -30,8 +30,7 @@ if __name__ == "__main__" :
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
         elif choix == 5 :
-            afficher_score(f, j1)
-            afficher_score(f, j2)
+            afficher_score(f, j1, j2)
         elif choix == 6 :
             print("\033c")
             print("Au revoir !")

@@ -70,11 +70,11 @@ def creation_joueurs() :
 
 def afficher_menu():
     print("    === MENU ===")
-    print("1 - Jeu de devinettes")
-    print("2 - Jeu des allumettes")
-    print("3 - Jeu de morpion")
-    print("4 - Jeu de puissance 4")
-    print("5 - Afficher les scores")
+    print("1 - Devinettes")
+    print("2 - Allumettes")
+    print("3 - Morpion")
+    print("4 - Puissance 4")
+    print("5 - Statistiques")
     print("6 - Quitter")
 
 def saisir_choix() -> int :
@@ -125,41 +125,48 @@ def début_de_partie() -> Joueur :
      return qui_joue
 
 def sauvegarder_joueur(fic: BinaryIO, J: Joueur):
-     j_existe: bool
-     fin: bool
-     res: Joueur
-     temp_fic : str
+    j_existe: bool = False
+    fin: bool = False
+    res: Joueur
+    temp_fic: str
+    fic_lecture: BinaryIO
+    fic_écriture: BinaryIO
 
-     j_existe = False  
-     fin = False
-     with open("Data/data.sav", "rb") as fic:
+    # Vérifie si le joueur existe déjà
+    with open("Data/data.sav", "rb") as fic:
+        while not fin:
+            try:
+                res = load(fic)  # Charge un joueur du fichier
+                if res.pseudo == J.pseudo:  # Si le joueur existe déjà
+                    j_existe = True
+                    fin = True
+            except EOFError:
+                fin = True
+
+    if j_existe:
+        # Si le joueur existe déjà, on met à jour ses informations
+        fin = False
+        temp_fic = "temp_data.sav"
+        
+        with open("Data/data.sav", "rb") as fic_lecture, open(temp_fic, "wb") as fic_écriture:
             while not fin:
                 try:
-                    res = load(fic)  # Charger un joueur du fichier
-                    if res.pseudo == J.pseudo:  # Le joueur existe déjà
-                        j_existe = True
-                        break
-                except EOFError:
-                    fin = True 
-     if j_existe:
-        fin = False
-        temp_fic = "Data/temp_data.sav" 
-        with open("Data/data.sav", "rb") as fic_in, open(temp_fic, "wb") as fic_out:
-            while not fin :
-                try:
-                    res = load(fic_in)
+                    res = load(fic_lecture)  # Charge chaque joueur
                     if res.pseudo == J.pseudo:
+                        # Met à jour le joueur dans le fichier temporaire
                         res.highscore_dev = J.highscore_dev
                         res.highscore_all = J.highscore_all
                         res.highscore_mor = J.highscore_mor
                         res.highscore_pui = J.highscore_pui
                         res.nb_partie = J.nb_partie
                         res.nb_partieG = J.nb_partieG
-                    dump(res, fic_out)  
+                    dump(res, fic_écriture)  # Sauvegarde les données mises à jour
                 except EOFError:
                     fin = True
+        # Remplace l'ancien fichier par le fichier temporaire mis à jour
         os.replace(temp_fic, "Data/data.sav")
-     else:
+    else:
+        # Ajoute un nouveau joueur si ce n'est pas déjà le cas
         with open("Data/data.sav", "ab") as fic:
             dump(J, fic)
 
@@ -203,24 +210,44 @@ def charger_joueur(fic : BinaryIO, J : Joueur) :
                fin = True
      fic.close()
 
-def afficher_score(fic : BinaryIO, J : Joueur) :
-     res : Joueur
+def afficher_score(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
+     res1 : Joueur
+     res2 : Joueur
      fin : bool
 
      fic = open("Data/data.sav", "rb")
-     res = Joueur()
+     res1 = Joueur()
+     res2 = Joueur()
      fin = False
      while not fin :
           try :
-               res = load(fic)
-               if res.pseudo == J.pseudo :
-                    print(res.pseudo, end=" : ")
-                    print(res.highscore_dev, end=" | ")
-                    print(res.highscore_all, end=" | ")
-                    print(res.highscore_mor, end=" | ")
-                    print(res.highscore_pui, end=" | ")
-                    print(res.nb_partie, end=" | ")
-                    print(res.nb_partieG)
+               res1 = load(fic)
+               if res1.pseudo == J1.pseudo :
+                    res2 = load(fic)
+                    if res2.pseudo == J2.pseudo :
+                         print("\033c")
+                         print("\n=========== Statistiques du Joueur 1 =========== Statistiques du Joueur 2 ===========")
+                         print("Pseudo                     : ", res1.pseudo, " "*(len(res1.pseudo)), " | ", "Pseudo                : ", res2.pseudo,  )
+                         print("Meilleur score Devinettes  : ", res1.highscore_dev, " "*(5+len(res1.pseudo))," | ", "Meilleur score Devinettes  : ", res2.highscore_dev,)
+                         print("Meilleur score Allumettes  : ", res1.highscore_all, " "*(5+len(res1.pseudo))," | ", "Meilleur score Allumettes  : ", res2.highscore_all)
+                         print("Meilleur score Morpion     : ", res1.highscore_mor, " "*(5+len(res1.pseudo))," | ", "Meilleur score Morpion     : ", res2.highscore_mor)
+                         print("Meilleur score Puissance 4 : ", res1.highscore_pui, " "*(5+len(res1.pseudo))," | ", "Meilleur score Puissance 4 : ", res2.highscore_pui)
+                         print("Nombre de parties jouées   : ", res1.nb_partie, " "*(5+len(res1.pseudo))," | ", "Nombre de parties jouées   : ", res2.nb_partie)
+                         print("Nombre de parties gagnées  : ", res1.nb_partieG, " "*(5+len(res1.pseudo))," | ", "Nombre de parties gagnées  : ", res2.nb_partieG)
+                         print("=" * 85)
+               elif res1.pseudo == j2.pseudo :
+                    res2 = load(fic)
+                    if res2.pseudo == j1.pseudo :
+                              print("\033c")
+                              print("\n=========== Statistiques du Joueur 1 =========== Statistiques du Joueur 2 ===========")
+                              print("Pseudo                     : ", res2.pseudo, " "*(len(res1.pseudo)), " | ", "Pseudo                : ", res1.pseudo,  )
+                              print("Meilleur score Devinettes  : ", res2.highscore_dev, " "*(5+len(res1.pseudo))," | ", "Meilleur score Devinettes  : ", res1.highscore_dev,)
+                              print("Meilleur score Allumettes  : ", res2.highscore_all, " "*(5+len(res1.pseudo))," | ", "Meilleur score Allumettes  : ", res1.highscore_all)
+                              print("Meilleur score Morpion     : ", res2.highscore_mor, " "*(5+len(res1.pseudo))," | ", "Meilleur score Morpion     : ", res1.highscore_mor)
+                              print("Meilleur score Puissance 4 : ", res2.highscore_pui, " "*(5+len(res1.pseudo))," | ", "Meilleur score Puissance 4 : ", res1.highscore_pui)
+                              print("Nombre de parties jouées   : ", res2.nb_partie, " "*(5+len(res1.pseudo))," | ", "Nombre de parties jouées   : ", res1.nb_partie)
+                              print("Nombre de parties gagnées  : ", res2.nb_partieG, " "*(5+len(res1.pseudo))," | ", "Nombre de parties gagnées  : ", res1.nb_partieG)
+                              print("=" * 85)
           except EOFError :
                fin = True
      fic.close()

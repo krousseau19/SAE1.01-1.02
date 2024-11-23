@@ -52,7 +52,7 @@ def saisi_case(plateau : list[list[str]]) -> str:
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur):
-    jeu_termine : bool
+    partie_finie : bool
     case : str
     ligne : int
     colonne : int
@@ -65,10 +65,10 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     j1.score = 0
     j2.score = 0
     plateau = [[" " for _ in range(3)] for _ in range(3)]
-    jeu_termine = False
+    partie_finie = False
     joueur = début_de_partie()
     
-    while not jeu_termine:
+    while not partie_finie:
         afficher_plateau(plateau)
         print(f"Tour de {joueur.pseudo}")
         if joueur == j1 :
@@ -91,13 +91,15 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
             afficher_plateau(plateau)
             print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !\x1b[37m")
             joueur.nb_partieG += 1
-            joueur.score = 1
-            jeu_termine = True
+            joueur.score += 1
+            if joueur.score > joueur.highscore_mor :
+                    joueur.highscore_mor = joueur.score
+            partie_finie = True
         elif verifier_egalite(plateau):
             print("\033c")
             afficher_plateau(plateau)
             print("\x1b[38;5;208mIl y a eu égalité !\x1b[37m")
-            jeu_termine = True
+            partie_finie = True
         else:
             if joueur == j1 :
                 joueur = j2
