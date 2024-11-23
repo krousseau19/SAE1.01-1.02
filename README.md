@@ -2,10 +2,8 @@
 Un projet de 1ère année en BUT informatique, son objectif est d'implémenter un besoin client en Python.
 
 # To-do list :
-  - Faire programme pour le puissance 4 (code + lien avec application)
-  - Ajout système de score ( à pouvoir afficher du meilleur au moins bon par jeu, et à sauvegarder entre les sessions -> fichier .json)
+  - Faire un affichage affichant les joueurs du meilleur au moins bon par jeu (LeaderBoard)
   - Faire la documentation annexe (manuel d'utilisation + tests)
   - Amélioration de l'affichage pour esthétique et meilleure lisibilité
-  - Potentielles optimisations
   - Docstrings et commentaires pour meilleure compréhension
   -  ???
