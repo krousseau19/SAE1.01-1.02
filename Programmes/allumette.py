@@ -32,6 +32,10 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                     print("\033c")
                     print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
                     continue
+                if nb_all > allumettes :
+                    print("\033c")
+                    print("Erreur : Il n'y a plus assez d'allumettes.")
+                    continue
                 saisi_all = True
             except ValueError :
                 print("\033c")

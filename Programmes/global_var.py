@@ -79,7 +79,7 @@ def afficher_menu():
 
 def saisir_choix() -> int :
      try:
-        return int(input("Choisissez un jeu : "))
+        return int(input("Saisir votre choix : "))
      except ValueError:
         return -1
 
@@ -210,7 +210,7 @@ def charger_joueur(fic : BinaryIO, J : Joueur) :
                fin = True
      fic.close()
 
-def afficher_score(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
+def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
      res1 : Joueur
      res2 : Joueur
      fin : bool
@@ -250,4 +250,65 @@ def afficher_score(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                               print("=" * 85)
           except EOFError :
                fin = True
+     fic.close()
+
+def tri_décroissant(l : list[Joueur], jeu : str) :
+     i : int
+
+     for i in range(0, len(l)-1):
+          for j in range(i+1, len(l)) :
+               if jeu == "Devinette" :
+                    if l[i].highscore_dev < l[j].highscore_dev :
+                         l[i], l[j] = l[j], l[i]
+               elif jeu == "Allumette" :
+                    if l[i].highscore_all < l[j].highscore_all :
+                         l[i], l[j] = l[j], l[i]
+               elif jeu == "Morpion" :
+                    if l[i].highscore_mor < l[j].highscore_mor :
+                         l[i], l[j] = l[j], l[i]
+               else :
+                    if l[i].highscore_pui < l[j].highscore_pui :
+                         l[i], l[j] = l[j], l[i]
+     
+def afficher_leaderboard(fic : BinaryIO, jeu : str) :
+     res : Joueur
+     fin : bool
+     joueurs : list[Joueur]
+
+     fic = open("Data/data.sav", "rb")
+     fin = False
+     joueurs = []
+     print("===== Leader Board -", jeu ,"=====")
+     while not fin :
+          try :
+               res = load(fic)
+               joueurs.append(res)
+          except EOFError :
+               fin = True
+     if jeu == "Devinette" :
+          tri_décroissant(joueurs, jeu)
+          for res in joueurs :
+               if len(res.pseudo) <= 10 :
+                    print(" "*13, res.pseudo, end=" : ")
+                    print(res.highscore_dev)
+     elif jeu == "Allumette" :
+          tri_décroissant(joueurs, jeu)
+          for res in joueurs :
+               if len(res.pseudo) <= 10 :
+                    print(" "*13, res.pseudo, end=" : ")
+                    print(res.highscore_all)
+     elif jeu == "Morpion" :
+          tri_décroissant(joueurs, jeu)
+          for res in joueurs :
+               if len(res.pseudo) <= 10 :
+                    print(" "*13, res.pseudo, end=" : ")
+                    print(res.highscore_mor)
+     else :
+          tri_décroissant(joueurs, jeu)
+          for res in joueurs :
+               if len(res.pseudo) <= 10 :
+                    print(" "*13, res.pseudo, end=" : ")
+                    print(res.highscore_pui)
+
+     print("="*(27+len(jeu)))
      fic.close()
