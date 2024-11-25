@@ -1,3 +1,10 @@
+Changelog du 25/11/24 (Kylian) {
+  - Création d'unne fonction affichage_joueur pour les infos des joueurs
+  - Création d'une fonction affichage_leaderboard pour afficher les différents leaderboards 
+    selon les jeux (scores dans l'ordre décroissant)
+  - Ajout d'un sous-menu contenant le/les leaderboard(s) et les infos sur les joueurs courants
+}
+
 Changelog du 23/11/24 (Kylian) {
   - Highscore de chaque jeux maintenant enregistrés dans le fichier data.sav
   - Nouvel affichage pour la fonction afficher_joueur
