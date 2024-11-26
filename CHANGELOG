@@ -1,3 +1,9 @@
+Changelog du 26/11/24 (Kylian) {
+  - Recodage d'un bon nombre de fonctions, pour supprimer l'utilisation de variables globales, de continues
+    et du module os
+  - Début d'implémentation des commentaires et docstrings
+}
+
 Changelog du 25/11/24 (Kylian) {
   - Création d'unne fonction affichage_joueur pour les infos des joueurs
   - Création d'une fonction affichage_leaderboard pour afficher les différents leaderboards 
