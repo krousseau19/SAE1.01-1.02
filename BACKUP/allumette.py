@@ -2,48 +2,64 @@ from global_var import Joueur, début_de_partie
 
 def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     allumettes : int
-    joueur : str
+    joueur : Joueur
     nb_all : int
-    i : int # type: ignore
     saisi_all : bool
+    partie_finie : bool
     
-    print(f"\033[2J")
+    print("\033c")
     print("\n    === Jeu des allumettes ===")
+    j1.score = 0
+    j2.score = 0
     allumettes = 20
+    partie_finie = False
     joueur = début_de_partie()
-    while allumettes > 0:
-        
+    while not partie_finie:
         saisi_all = False
         nb_all = -1
         while not saisi_all :
             print("Il reste ", allumettes, "allumettes.")
-            for i in range(0,allumettes) :  # type: ignore
+            for _ in range(0,allumettes) :  
                 print("\x1b[38;5;1m.", end=" ")
             print("")
-            for i in range(0,allumettes) :  # type: ignore
+            for _ in range(0,allumettes) :  
                 print("\x1b[38;5;94m|", end=" ")
             print("\x1b[37m")
             try :
-                nb_all = int(input(f"{joueur} combien d'allumettes prenez-vous (1-3) ? "))
-                print(f"\033[2J")
+                nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
+                print("\033c")
                 if nb_all < 1 or nb_all > 3:
-                    print(f"\033[2J")
-                    print("Veuillez prendre entre 1 et 3 allumettes.")
+                    print("\033c")
+                    print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
+                    continue
+                if nb_all > allumettes :
+                    print("\033c")
+                    print("Erreur : Il n'y a plus assez d'allumettes.")
                     continue
                 saisi_all = True
             except ValueError :
-                print(f"\033[2J")
+                print("\033c")
                 print("Erreur : Veuillez saisir un argument valide.")
         saisi_all = False
-        
         allumettes -= nb_all
         if allumettes <= 0:
-            print(f"\033[2J")
-            print("\x1b[38;5;1m", joueur, " a perdu !\x1b[37m")
-        if joueur == j1.pseudo :
-            joueur = j2.pseudo
+            partie_finie = True
+        if partie_finie :
+            if joueur == j1 :
+                joueur = j2
+            else :
+                joueur = j1
+            print("\033c")
+            print("\x1b[32mBravo ! ", joueur.pseudo, " a gagné !\x1b[37m")
+            joueur.score += 1
+            joueur.nb_partieG += 1
+            if joueur.score > joueur.highscore_all :
+                    joueur.highscore_all = joueur.score
+        if joueur == j1 :
+            joueur = j2
         else :
-            joueur = j1.pseudo
-
+            joueur = j1
+    j1.nb_partie += 1
+    j2.nb_partie += 1
 
 
