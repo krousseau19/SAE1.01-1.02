@@ -11,7 +11,7 @@ if __name__ == "__main__" :
     sous_choix : int
 
     menu_actif = True
-    creation_joueurs()
+    creation_joueurs(j1, j2, f)
     while menu_actif :
         afficher_menu()
         choix = saisir_choix()

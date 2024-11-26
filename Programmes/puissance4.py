@@ -1,4 +1,4 @@
-from global_var import Joueur, début_de_partie
+from global_var import Joueur, début_de_partie, qui_joue
 
 def check_victoire(grille : list[list[str]], symbole : str) -> bool :
     lignes : int
@@ -50,44 +50,52 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
     symbole : str
     partie_finie : bool
     colonne_pleine : bool
+    saisi_j : bool
     colonne : int
     ligne : int
 
     print("\033c")
     print("=== Jeu de Puissance 4 ===")
     grille = [[" " for _ in range(7)] for _ in range(6)]    # 7 colonnes, 6 lignes
-    joueur = début_de_partie()
+    joueur = début_de_partie(j1, j2, qui_joue)
     j1.score = 0
     j2.score = 0
+    ligne = -1
+    colonne = -1
     partie_finie = False
     
     while not partie_finie :
-        afficher_grille(grille)
         if joueur == j1 :
             symbole = '\x1b[31mO\x1b[37m'
         else :
             symbole = '\x1b[33mO\x1b[37m'
-        try:
-            colonne = int(input(f"{joueur.pseudo} ({symbole}), choisissez une colonne (1-7) : "))
-            print("\033c")
-        except ValueError:
-            print("\033c")
-            print("Erreur : Veuillez entrer un nombre valide.")
-            continue
-        if colonne < 1 or colonne > 7:
-            print("\033c")
-            print("Erreur : Numéro de colonne invalide, réessayez.")
-            continue
-        colonne_pleine = True
-        for ligne in range(5, -1, -1):
-            if grille[ligne][colonne-1] == " "  and colonne_pleine == True :
-                grille[ligne][colonne-1] = symbole
-                colonne_pleine = False
-        
-        if colonne_pleine :
+        saisi_j = False
+        while not saisi_j :
+            afficher_grille(grille)
+            try:
+                colonne = int(input(f"{joueur.pseudo} ({symbole}), choisissez une colonne (1-7) : "))
                 print("\033c")
-                print("Erreur : Cette colonne est pleine, choisissez-en une autre.")
-                
+                saisi_j = True
+            except ValueError:
+                print("\033c")
+                print("Erreur : Veuillez entrer un nombre valide.")
+                saisi_j = False
+            if colonne < 1 or colonne > 7:
+                print("\033c")
+                print("Erreur : Numéro de colonne invalide, réessayez.")
+                saisi_j = False
+            if saisi_j :
+                colonne_pleine = True
+                for ligne in range(5, -1, -1):
+                    if grille[ligne][colonne-1] == " "  and colonne_pleine == True :
+                        grille[ligne][colonne-1] = symbole 
+                        colonne_pleine = False
+            
+                if colonne_pleine :
+                    print("\033c")
+                    print("Erreur : Cette colonne est pleine, choisissez-en une autre.")
+                    saisi_j = False
+        saisi_j = False       
         if check_victoire(grille, symbole):
             print("\033c")
             afficher_grille(grille)

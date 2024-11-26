@@ -1,4 +1,4 @@
-from global_var import Joueur, début_de_partie
+from global_var import Joueur, début_de_partie, qui_joue
 
 def saisir_victoire(joueur : Joueur, j1 : Joueur, j2 : Joueur, devine : int) -> int :
     choix : int
@@ -68,7 +68,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur):
 
     print("\033c")
     print("\n    === Jeu de devinettes ===")
-    joueur = début_de_partie()
+    joueur = début_de_partie(j1, j2, qui_joue)
     saisi_j1 = False
     j1.score = 0
     j2.score = 0

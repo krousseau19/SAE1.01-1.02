@@ -1,9 +1,8 @@
 import random
-import os
-from typing import BinaryIO # type: ignore
+from typing import BinaryIO 
 from pickle import dump, load
 
-class Joueur :
+class Joueur :  # Classe représentant les joueurs, 2 à chaque partie, elle contient différents attributs nécessaires au bon fonctionnement de l'application
         pseudo : str
         score : int
         highscore_dev : int
@@ -13,31 +12,42 @@ class Joueur :
         nb_partie : int
         nb_partieG : int
 
-j1 : Joueur
-j2 : Joueur
-tour : int
-qui_joue : Joueur
-f : BinaryIO
+j1 : Joueur  # Le joueur N°1
+j2 : Joueur  # Le joueur N°2
+tour : int # Sert à compter le nombre de tour selon les jeux (à revoir car plus vraiment utile)
+qui_joue : Joueur  # Permet de déterminer qui commence la partie, elle contient un des deux joueurs
+f : BinaryIO  # Un fichier binaire, il permet de stocker les différents joueurs et leurs attributs afin de les sauvegarder entre les sessions de jeu
 
-j1 = Joueur()
+# On initialise les deux joueurs, le nombre de tour, et qui jouera en premier
+j1 = Joueur() 
 j2 = Joueur()
 tour = 1
 qui_joue = Joueur()
+
+# Initialisation du fichier binaire, on essaie de l'exécuter pour le créer, si il existe déjà, alors on le lit par simple vérification, puis on le ferme
 try :
      f = open("Data/data.sav", "xb")
 except FileExistsError :
      f = open("Data/data.sav", "rb")
 f.close()
 
-def creation_joueurs() :
-     global nb_j_valide
-     global j1
-     global j2
-     global f
-     j_existe : bool
+def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO) :
+     """
+     Entrée : 3 arguments, 2 joueurs, et un fichier binaire
+
+     Sortie : Rien
+
+     Fonctionnement : La fonction fait saisir aux deux utilisateurs leur pseudo,
+     après chaque entrée de pseudo, la fonction initialise tout les attributs de chaque joueurs
+     si ils n'existent pas puis on appelle une fonction l'enregistrant dans le fichier, cependant,
+     si ils existent, alors on appelle une fonction permettant de récupérer les données du joueur
+     dans le fichier binaire
+     """
+     j_existe : bool  # Sert à savoir si le joueur est présent ou non dans le fichier binaire
 
      print("\033c")
      print("Création du Joueur 1...")
+     # Initialisation des différents attributs du joueur / récupération de ceux-ci
      j1.pseudo = input("Veuillez saisir votre pseudo : ")
      j1.score = 0
      j_existe = recherche_joueur(f, j1)
@@ -52,6 +62,7 @@ def creation_joueurs() :
      else :
           charger_joueur(f, j1)
      print("Création du Joueur 2...")
+     # Initialisation des différents attributs du joueur / récupération de ceux-ci
      j2.pseudo = input("Veuillez saisir votre pseudo : ")
      j2.score = 0
      j_existe = recherche_joueur(f, j2)
@@ -65,28 +76,52 @@ def creation_joueurs() :
           sauvegarder_joueur(f, j2)
      else :
           charger_joueur(f, j2)
-     nb_j_valide = True
      print("\033c")
 
 def afficher_menu():
-    print("    === MENU ===")
-    print("1 - Devinettes")
-    print("2 - Allumettes")
-    print("3 - Morpion")
-    print("4 - Puissance 4")
-    print("5 - Statistiques")
-    print("6 - Quitter")
+     """
+     Entrée : Rien
+
+     Sortie : Rien
+
+     Fonctionnement : Afficher successivement les options du Menu Principal, sert
+     être appelée dans le programme principal.
+     """
+     print("    === MENU ===")
+     print("1 - Devinettes")
+     print("2 - Allumettes")
+     print("3 - Morpion")
+     print("4 - Puissance 4")
+     print("5 - Statistiques")
+     print("6 - Quitter")
 
 def saisir_choix() -> int :
+     """
+     Entrée : Rien
+
+     Sortie : Un entier, correspondant au choix de l'utilisateur, sinon à -1
+
+     Fonctionnement : Demande à l'utilisateur de saisir un choix, puis le renvoie
+     si il est valide, sinon, la fonction renverra -1.
+     """
      try:
         return int(input("Saisir votre choix : "))
      except ValueError:
         return -1
 
-def début_de_partie() -> Joueur :
-     global qui_joue
-     global j1
-     global j2
+def début_de_partie(j1 : Joueur, j2 : Joueur, qui_joue : Joueur) -> Joueur :
+     """
+     Entrée : 3 arguments, les deux joueurs ainsi que la variable qui va contenir le joueur
+     qui va commencer la partie
+
+     Sortie : Le joueur qui va commencer la partie
+
+     Fonctionnement : Demande à l'utilisateur qui va jouer en premier, 3 cas possibles, ce
+     sera le joueur 1, alors qui_joue vaudra j1, sinon le joueur 2, qui_joue vaudrat j2, et 
+     enfin aléatoire, qui_joue vaudra un des deux joueurs aléatoirement. Ensuite, la fonction
+     renverra le contenu de la variable qui_joue. Le tout se fait dans un menu qui s'affiche
+     continuellement tant que le choix n'est pas valide.
+     """
      choix : int
      choix_valide : bool
      aleatoire : int
@@ -125,50 +160,50 @@ def début_de_partie() -> Joueur :
      return qui_joue
 
 def sauvegarder_joueur(fic: BinaryIO, J: Joueur):
-    j_existe: bool = False
-    fin: bool = False
-    res: Joueur
-    temp_fic: str
-    fic_lecture: BinaryIO
-    fic_écriture: BinaryIO
+     j_existe: bool = False
+     fin: bool = False
+     res: Joueur
+     joueurs : list[Joueur]
 
-    # Vérifie si le joueur existe déjà
-    with open("Data/data.sav", "rb") as fic:
-        while not fin:
-            try:
-                res = load(fic)  # Charge un joueur du fichier
-                if res.pseudo == J.pseudo:  # Si le joueur existe déjà
-                    j_existe = True
+     # Vérifie si le joueur existe déjà
+     with open("Data/data.sav", "rb") as fic:
+          while not fin:
+               try:
+                    res = load(fic)  # Charge un joueur du fichier
+                    if res.pseudo == J.pseudo:  # Si le joueur existe déjà
+                         j_existe = True
+                         fin = True
+               except EOFError:
                     fin = True
-            except EOFError:
-                fin = True
 
-    if j_existe:
-        # Si le joueur existe déjà, on met à jour ses informations
-        fin = False
-        temp_fic = "temp_data.sav"
-        
-        with open("Data/data.sav", "rb") as fic_lecture, open(temp_fic, "wb") as fic_écriture:
-            while not fin:
-                try:
-                    res = load(fic_lecture)  # Charge chaque joueur
-                    if res.pseudo == J.pseudo:
-                        # Met à jour le joueur dans le fichier temporaire
-                        res.highscore_dev = J.highscore_dev
-                        res.highscore_all = J.highscore_all
-                        res.highscore_mor = J.highscore_mor
-                        res.highscore_pui = J.highscore_pui
-                        res.nb_partie = J.nb_partie
-                        res.nb_partieG = J.nb_partieG
-                    dump(res, fic_écriture)  # Sauvegarde les données mises à jour
-                except EOFError:
-                    fin = True
-        # Remplace l'ancien fichier par le fichier temporaire mis à jour
-        os.replace(temp_fic, "Data/data.sav")
-    else:
-        # Ajoute un nouveau joueur si ce n'est pas déjà le cas
-        with open("Data/data.sav", "ab") as fic:
-            dump(J, fic)
+     if j_existe:
+          # Si le joueur existe déjà, on met à jour ses informations
+          fin = False
+          joueurs = []
+          # Remplit la liste avec tous les joueurs du fichier
+          with open("Data/data.sav", "rb") as fic :
+               while not fin:
+                    try:
+                         res = load(fic)  # Charge chaque joueur
+                         if res.pseudo == J.pseudo :
+                              res.highscore_dev = J.highscore_dev
+                              res.highscore_all = J.highscore_all
+                              res.highscore_mor = J.highscore_mor
+                              res.highscore_pui = J.highscore_pui
+                              res.nb_partie = J.nb_partie
+                              res.nb_partieG = J.nb_partieG
+                         joueurs.append(res) # Les ajoutent dans la liste
+                    except EOFError:
+                         fin = True
+                 
+          # Re-écrit tous les joueurs avec J mis à jour dans le fichier               
+          with open("Data/data.sav", "wb") as fic :
+               for joueur in joueurs :
+                  dump(joueur, fic)
+     else:
+          # Ajoute un nouveau joueur si il n'existe pas encore
+          with open("Data/data.sav", "ab") as fic:
+               dump(J, fic)
 
 def recherche_joueur(fic : BinaryIO, J : Joueur) -> bool : 
      res : Joueur
