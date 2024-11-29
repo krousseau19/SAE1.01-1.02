@@ -1,4 +1,4 @@
-from devinette import jeu_devinette
+from devinette import jeu_devinette, saisir_intervalle
 from allumette import jeu_allumettes
 from morpion import jeu_morpion
 from puissance4 import jeu_puissance4
@@ -9,6 +9,7 @@ if __name__ == "__main__" :
     menu_stats_actif : bool
     choix : int
     sous_choix : int
+    intervalle : int
 
     menu_actif = True
     creation_joueurs(j1, j2, f)
@@ -16,7 +17,8 @@ if __name__ == "__main__" :
         afficher_menu()
         choix = saisir_choix()
         if choix == 1 :
-            jeu_devinette(j1, j2)
+            intervalle = saisir_intervalle()
+            jeu_devinette(j1, j2, intervalle)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
         elif choix == 2 :
@@ -50,7 +52,7 @@ if __name__ == "__main__" :
                         print("3 - Morpion")
                         print("4 - Puissance 4")
                         print("5 - Quitter le LeaderBoard")
-                        sous_choix = int(input("Le leaderboard de quel jeu voulez-vous consulter ? : "))
+                        sous_choix = saisir_choix()
                         if sous_choix == 1 :
                             print("\033c")
                             afficher_leaderboard(f, "Devinette")

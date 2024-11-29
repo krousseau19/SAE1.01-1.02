@@ -347,3 +347,25 @@ def afficher_leaderboard(fic : BinaryIO, jeu : str) :
 
      print("="*(27+len(jeu)))
      fic.close()
+
+def restart(jeu : str, fin_partie : bool) -> bool :
+     choix : int
+
+     partie_finie = True
+     if jeu == "Devinette" :
+          fin_partie = False
+          input("La seconde manche va commencer, veuillez appuyer sur ENTRER...")
+          return fin_partie
+     else :
+          choix = -1
+          while choix != 3 :
+               print("Voulez vous refaire une partie ?")
+               print("1 - Oui")
+               print("2 - Non")
+               choix = saisir_choix()
+               if choix == 1 :
+                    partie_finie = False
+                    input("Une nouvelle partie va commencer, veuillez appuyer sur ENTRER...")
+               else :
+                    input("Veuillez appuyer sur ENTRER pour revenir au menu principal...")  
+     return partie_finie

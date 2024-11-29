@@ -30,7 +30,7 @@ def saisir_intervalle() -> int :
     choix : int
     borne_sup = 0
     choix = -1
-
+    print("\033c")
     while choix != 1 and choix != 2 and choix != 3 :
         print("Veuillez choisir un intervalle : ")
         print("1 - [1 - 100]")
@@ -54,7 +54,7 @@ def saisir_intervalle() -> int :
     return borne_sup
 
 
-def jeu_devinette(j1 : Joueur, j2: Joueur):
+def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
     nombre_secret : int
     devine : int
     tentatives : int
@@ -64,7 +64,6 @@ def jeu_devinette(j1 : Joueur, j2: Joueur):
     saisi_j2 : bool
     choix : int
     choix_valide : bool
-    intervalle : int
 
     print("\033c")
     print("\n    === Jeu de devinettes ===")
@@ -73,7 +72,6 @@ def jeu_devinette(j1 : Joueur, j2: Joueur):
     j1.score = 0
     j2.score = 0
     nombre_secret = -1
-    intervalle = saisir_intervalle()
     while not saisi_j1:
         try:
             while nombre_secret <= 0 or nombre_secret > intervalle :
