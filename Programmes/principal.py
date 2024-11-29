@@ -2,7 +2,34 @@ from devinette import jeu_devinette, saisir_intervalle
 from allumette import jeu_allumettes
 from morpion import jeu_morpion
 from puissance4 import jeu_puissance4
-from global_var import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard
+from global_var import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur
+
+def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
+    choix : int
+
+    choix = -1
+    restart = False
+    while choix != 1 and choix != 2 :
+        print("Voulez vous refaire une partie ?")
+        print("1 - Oui")
+        print("2 - Non")
+        choix = saisir_choix()
+        if choix == 1 :
+            input("Une nouvelle partie va commencer, veuillez appuyer sur ENTRER...")
+            if jeu == "Allumette" :
+                jeu_allumettes(j1, j2)
+            elif jeu == "Morpion" :
+                jeu_morpion(j1, j2)
+            elif jeu == "Puissance4" :
+                jeu_puissance4(j1, j2)
+            else :
+                pass
+            restart = True
+        elif choix == 2 :
+            input("Veuillez appuyer sur ENTRER pour revenir au menu principal...")
+        else :
+            print("Choix invalide")
+    return restart
 
 if __name__ == "__main__" :
     menu_actif : bool
@@ -10,8 +37,10 @@ if __name__ == "__main__" :
     choix : int
     sous_choix : int
     intervalle : int
+    rejoue : bool 
 
     menu_actif = True
+    rejoue = True
     creation_joueurs(j1, j2, f)
     while menu_actif :
         afficher_menu()
@@ -22,17 +51,31 @@ if __name__ == "__main__" :
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
         elif choix == 2 :
+            rejoue = True
             jeu_allumettes(j1, j2)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
+            while rejoue :
+                rejoue = restart("Allumette", j1, j2)
+                sauvegarder_joueur(f, j1)
+                sauvegarder_joueur(f, j2)
         elif choix == 3 :
+            rejoue = True
             jeu_morpion(j1, j2)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
+            while rejoue :
+                rejoue = restart("Morpion", j1, j2)
+                sauvegarder_joueur(f, j1)
+                sauvegarder_joueur(f, j2)
         elif choix == 4 :
             jeu_puissance4(j1, j2)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
+            while rejoue :
+                rejoue = restart("Puissance4", j1, j2)
+                sauvegarder_joueur(f, j1)
+                sauvegarder_joueur(f, j2)
         elif choix == 5 :
             menu_stats_actif = True
             print("\033c")

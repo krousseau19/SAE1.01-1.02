@@ -55,11 +55,11 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
             joueur.nb_partieG += 1
             if joueur.score > joueur.highscore_all :
                     joueur.highscore_all = joueur.score
+            j1.nb_partie += 1
+            j2.nb_partie += 1
         if joueur == j1 :
             joueur = j2
         else :
             joueur = j1
-    j1.nb_partie += 1
-    j2.nb_partie += 1
 
 
