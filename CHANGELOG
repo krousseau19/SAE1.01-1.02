@@ -1,3 +1,8 @@
+Changelog du 29/11/24 (Jules) {
+  - Débogage de certains bouts de code
+  - Ajout de la fonction pour refaire une partie après avoir gagné ou en cas d'égalité (sauf Devinette pour le moment)
+}
+
 Changelog du 26/11/24 (Kylian) {
   - Recodage d'un bon nombre de fonctions, pour supprimer l'utilisation de variables globales, de continues
     et du module os
