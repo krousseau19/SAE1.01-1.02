@@ -1,3 +1,10 @@
+Changelog du 01/12/24 (Kylian) {
+  - Ajout de la fonction pour refaire une partie pour devinettes également
+  - Changement du fonctionnement de devinettes, se fait maintenant en deux manches, celui avec le meilleur score gagne la partie
+  - Ajout d'une vérification lors du saisi du nombre dans devinette pour qu'il respecte l'intervalle (joueur qui cherche)
+  - Modification du nom du fichier contenant les fonctions et classes/variables globales (global_var -> ressource)
+}
+
 Changelog du 29/11/24 (Jules) {
   - Débogage de certains bouts de code
   - Ajout de la fonction pour refaire une partie après avoir gagné ou en cas d'égalité (sauf Devinette pour le moment)
