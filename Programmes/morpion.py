@@ -1,4 +1,5 @@
-from global_var import Joueur, début_de_partie, qui_joue
+# Fichier contenant toutes les fonctions relatives au jeu de morpion
+from ressource import Joueur, début_de_partie, qui_joue
 
 def afficher_plateau(plateau : list[list[str]]):
     print("   1   2   3")

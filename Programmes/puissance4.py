@@ -1,4 +1,5 @@
-from global_var import Joueur, début_de_partie, qui_joue
+# Fichier contenant toutes les fonctions relatives au jeu de puissance 4
+from ressource import Joueur, début_de_partie, qui_joue
 
 def check_victoire(grille : list[list[str]], symbole : str) -> bool :
     lignes : int

@@ -1,4 +1,5 @@
-from global_var import Joueur, début_de_partie, qui_joue
+# Fichier contenant toutes les fonctions relatives au jeu des allumettes
+from ressource import Joueur, début_de_partie, qui_joue
 
 def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     allumettes : int

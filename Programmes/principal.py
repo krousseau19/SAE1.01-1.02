@@ -1,11 +1,13 @@
+# Fichier assemblant les différents modules et leur fonctions respectives pour permettre à l'application d'être éxécutée correctement
 from devinette import jeu_devinette, saisir_intervalle
 from allumette import jeu_allumettes
 from morpion import jeu_morpion
 from puissance4 import jeu_puissance4
-from global_var import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur
+from ressource import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur
 
 def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
     choix : int
+    intervalle = int
 
     choix = -1
     restart = False
@@ -23,12 +25,15 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
             elif jeu == "Puissance4" :
                 jeu_puissance4(j1, j2)
             else :
-                pass
+                intervalle = saisir_intervalle()
+                jeu_devinette(j1, j2, intervalle)
             restart = True
         elif choix == 2 :
             input("Veuillez appuyer sur ENTRER pour revenir au menu principal...")
         else :
+            print("\033c")
             print("Choix invalide")
+            
     return restart
 
 if __name__ == "__main__" :
@@ -43,13 +48,19 @@ if __name__ == "__main__" :
     rejoue = True
     creation_joueurs(j1, j2, f)
     while menu_actif :
+        print("\033c")
         afficher_menu()
         choix = saisir_choix()
         if choix == 1 :
+            rejoue = True
             intervalle = saisir_intervalle()
             jeu_devinette(j1, j2, intervalle)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
+            while rejoue :
+                rejoue = restart("Devinette", j1, j2)
+                sauvegarder_joueur(f, j1)
+                sauvegarder_joueur(f, j2)
         elif choix == 2 :
             rejoue = True
             jeu_allumettes(j1, j2)
@@ -80,6 +91,7 @@ if __name__ == "__main__" :
             menu_stats_actif = True
             print("\033c")
             while menu_stats_actif :
+                print("\033c")
                 print("    === Statistiques ===")
                 print("1 - LeaderBoard")
                 print("2 - Infos sur les joueurs")
@@ -89,6 +101,7 @@ if __name__ == "__main__" :
                     sous_choix = -1
                     print("\033c")
                     while sous_choix != 5 :
+                        print("\033c")
                         print("    === LeaderBoard ===")
                         print("1 - Devinettes")
                         print("2 - Allumettes")
