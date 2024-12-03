@@ -1,3 +1,7 @@
+Changelog du 03/12/24 (Kylian) {
+  - Hotfix sur le menu statistique (problème avec affichage des joueurs selon l'ordre dans le fichier)
+}
+
 Changelog du 01/12/24 (Kylian) {
   - Ajout de la fonction pour refaire une partie pour devinettes également
   - Changement du fonctionnement de devinettes, se fait maintenant en deux manches, celui avec le meilleur score gagne la partie
