@@ -248,46 +248,38 @@ def charger_joueur(fic : BinaryIO, J : Joueur) :
 
 def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
      res1 : Joueur
-     res2 : Joueur
      fin : bool
 
      fic = open("Data/data.sav", "rb")
      res1 = Joueur()
-     res2 = Joueur()
      fin = False
+     print("\033c")
      while not fin :
           try :
                res1 = load(fic)
                if res1.pseudo == J1.pseudo :
-                    res2 = load(fic)
-                    if res2.pseudo == J2.pseudo :
-                         print("\033c")
-                         print("\n=========== Statistiques du Joueur 1 =========== Statistiques du Joueur 2 ===========")
-                         print("Pseudo                     : ", res1.pseudo, " "*(len(res1.pseudo)), " | ", "Pseudo                : ", res2.pseudo,  )
-                         print("Meilleur score Devinettes  : ", res1.highscore_dev, " "*(5+len(res1.pseudo))," | ", "Meilleur score Devinettes  : ", res2.highscore_dev,)
-                         print("Meilleur score Allumettes  : ", res1.highscore_all, " "*(5+len(res1.pseudo))," | ", "Meilleur score Allumettes  : ", res2.highscore_all)
-                         print("Meilleur score Morpion     : ", res1.highscore_mor, " "*(5+len(res1.pseudo))," | ", "Meilleur score Morpion     : ", res2.highscore_mor)
-                         print("Meilleur score Puissance 4 : ", res1.highscore_pui, " "*(5+len(res1.pseudo))," | ", "Meilleur score Puissance 4 : ", res2.highscore_pui)
-                         print("Nombre de parties jouées   : ", res1.nb_partie, " "*(5+len(res1.pseudo))," | ", "Nombre de parties jouées   : ", res2.nb_partie)
-                         print("Nombre de parties gagnées  : ", res1.nb_partieG, " "*(5+len(res1.pseudo))," | ", "Nombre de parties gagnées  : ", res2.nb_partieG)
-                         print("=" * 85)
-                         input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
-               elif res1.pseudo == j2.pseudo :
-                    res2 = load(fic)
-                    if res2.pseudo == j1.pseudo :
-                              print("\033c")
-                              print("\n=========== Statistiques du Joueur 1 =========== Statistiques du Joueur 2 ===========")
-                              print("Pseudo                     : ", res2.pseudo, " "*(len(res1.pseudo)), " | ", "Pseudo                : ", res1.pseudo,  )
-                              print("Meilleur score Devinettes  : ", res2.highscore_dev, " "*(5+len(res1.pseudo))," | ", "Meilleur score Devinettes  : ", res1.highscore_dev,)
-                              print("Meilleur score Allumettes  : ", res2.highscore_all, " "*(5+len(res1.pseudo))," | ", "Meilleur score Allumettes  : ", res1.highscore_all)
-                              print("Meilleur score Morpion     : ", res2.highscore_mor, " "*(5+len(res1.pseudo))," | ", "Meilleur score Morpion     : ", res1.highscore_mor)
-                              print("Meilleur score Puissance 4 : ", res2.highscore_pui, " "*(5+len(res1.pseudo))," | ", "Meilleur score Puissance 4 : ", res1.highscore_pui)
-                              print("Nombre de parties jouées   : ", res2.nb_partie, " "*(5+len(res1.pseudo))," | ", "Nombre de parties jouées   : ", res1.nb_partie)
-                              print("Nombre de parties gagnées  : ", res2.nb_partieG, " "*(5+len(res1.pseudo))," | ", "Nombre de parties gagnées  : ", res1.nb_partieG)
-                              print("=" * 85)
-                              input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
+                    print("\n=========== Statistiques du Joueur 1 ===========")
+                    print("Pseudo                     : ", res1.pseudo)
+                    print("Meilleur score Devinettes  : ", res1.highscore_dev)
+                    print("Meilleur score Allumettes  : ", res1.highscore_all)
+                    print("Meilleur score Morpion     : ", res1.highscore_mor)
+                    print("Meilleur score Puissance 4 : ", res1.highscore_pui)
+                    print("Nombre de parties jouées   : ", res1.nb_partie)
+                    print("Nombre de parties gagnées  : ", res1.nb_partieG)
+                    print("=" * 47)
+               if res1.pseudo == J2.pseudo :
+                    print("\n=========== Statistiques du Joueur 2 ===========")
+                    print("Pseudo                : ", res1.pseudo)
+                    print("Meilleur score Devinettes  : ", res1.highscore_dev)
+                    print("Meilleur score Allumettes  : ", res1.highscore_all)
+                    print("Meilleur score Morpion     : ", res1.highscore_mor)
+                    print("Meilleur score Puissance 4 : ", res1.highscore_pui)
+                    print("Nombre de parties jouées   : ", res1.nb_partie)
+                    print("Nombre de parties gagnées  : ", res1.nb_partieG)
+                    print("=" * 47)
           except EOFError :
                fin = True
+     input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
      fic.close()
 
 def tri_décroissant(l : list[Joueur], jeu : str) :
