@@ -6,6 +6,15 @@ from puissance4 import jeu_puissance4
 from ressource import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur
 
 def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
+    """
+    Entrée : 3 arguments, une chaîne de caractère correspondant au jeu, et 2 joueurs
+
+    Sortie : Un booléen (pour savoir si les joueurs veulent rejouer ou non)
+
+    Fonctionnement : La fonction affiche un menu en continue et demande si le joueur veut refaire une partie ou non,
+    si la réponse est oui, la fonction lance le jeu passé en paramètre, et renvoie True, sinon elle ramène au menu principal
+    et renvoie False
+    """
     choix : int
     intervalle = int
 
@@ -36,6 +45,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
             
     return restart
 
+#Programme principal de l'application (Menu et lancement des jeux)
 if __name__ == "__main__" :
     menu_actif : bool
     menu_stats_actif : bool

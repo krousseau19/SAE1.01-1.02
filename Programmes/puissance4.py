@@ -2,6 +2,15 @@
 from ressource import Joueur, début_de_partie, qui_joue
 
 def check_victoire(grille : list[list[str]], symbole : str) -> bool :
+    """
+    Entrée : Tableau de tableau (3x3) contenant des chaînes de caractères, et le symbole du joueur
+
+    Sortie : Un booléen, True si il y a une victoire, False sinon
+
+    Fonctionnement : Utilise 2 boucles imbriquées pour parcourir les lignes, les colonnes, et les diagonales afin de
+    trouver un paterne contenant 4 fois d'affilé le symbole du joueur, dans ce cas, la fonction renvoie True, sinon il n'y
+    a pas de victoire donc la fonction renvoie False
+    """
     lignes : int
     colonnes : int
 
@@ -30,14 +39,30 @@ def check_victoire(grille : list[list[str]], symbole : str) -> bool :
     return False
 
 def check_égalité(grille : list[list[str]]) -> bool :
-    ligne : list[str]
+    """
+    Entrée : Un tableau de tableau (3x3) contenant des chaînes de caractères
 
+    Sortie : Un booléen, True si il y a égalité, False sinon
+
+    Fonctionnement : Parcours chaque ligne du tableau, si une case vide est trouvée alors la fonction renvoie
+    False, sinon si elle n'en trouve pas, alors le tableau et plein, il y a égalité, et elle renvoie True
+    """
+    ligne : list[str]
+    # Parcours chaque ligne de la grille
     for ligne in grille:
         if " " in ligne:  # Si une case vide est trouvée, donc la grille n'est pas pleine
             return False
     return True  # Aucune case vide n'a été trouvée, donc la grille est pleine
 
 def afficher_grille(grille : list[list[str]]):
+    """
+    Entrée : Un tableau de tableau (3x3) contenant des chaînes de caractères
+
+    Sortie : Rien
+
+    Fonctionnement : Affiche la grille passée en paramètre avec en jointure des " | " pour faire les séparateurs
+    de colonnes, une fois cela fait, la fonction affiche les indicces de chaque colonne en dessous de celles-ci
+    """
     ligne : list[str]
 
     ligne = []
@@ -46,6 +71,17 @@ def afficher_grille(grille : list[list[str]]):
     print("1 | 2 | 3 | 4 | 5 | 6 | 7")  # indices des colonnes
 
 def jeu_puissance4(j1 : Joueur, j2 : Joueur):
+    """
+    Entrée : 2 arguments, les 2 joueurs
+
+    Sortie : Rien
+
+    Fonctionnement : Fonction qui gère les principales fonctionnalités du puissance 4, et qui fait aussi appel aux autres fonctions la précédant. 
+    Elle initialise les variables concernant le jeu (la grille, le symbole, les booléens de contrôle, etc...). Une fois cela fait, tant que la partie
+    n'est pas finie, la fonction affiche la grille et demande un saisi à l'utilisateur, puis modifie la grille en conséquence. A chaque tour la fonction
+    effectue les différents tests de victoire/égalité et affiche les messages en fonction des résultats, ainsi que la modification du booléen partie_finie
+    si nécessaire. Une fois la partie finie, les attributs des joueurs sont modifiés selon leur score et la fonction s'arrête
+    """
     joueur : Joueur
     grille : list[list[str]]
     symbole : str
