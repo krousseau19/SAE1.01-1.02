@@ -1,3 +1,7 @@
+Changelog du 04/12/24 (Kylian) {
+  - Ajout des docstrings sur l'ensemble des fichiers (sauf devinette car temporairement en panne)
+}
+
 Changelog du 03/12/24 (Kylian) {
   - Hotfix sur le menu statistique (problème avec affichage des joueurs selon l'ordre dans le fichier)
 }
