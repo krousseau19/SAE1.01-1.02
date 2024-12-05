@@ -161,21 +161,23 @@ def début_de_partie(j1 : Joueur, j2 : Joueur, qui_joue : Joueur) -> Joueur :
      return qui_joue
 
 def sauvegarder_joueur(fic: BinaryIO, J: Joueur):
+     """
+     Entrée : 2 arguments,  fic : un fichier binaire contenant les joueurs, et J : Un joueur à sauvegarder
+
+     Sortie : Rien
+
+     Fonctionnement : Ouvre le fichier binaire en lecture pour savoir si le joueur est déjà dans le fichier ou non
+     si il ne l'est pas, alors il est simplement rajouté à la suite dans le fichier, sinon, on stocke tous les joueurs
+     dans une liste et on modifie au passage les attributs du joueur à sauvegarder pour le mettre à jour, enfin, on remet
+     dans le fichier les joueurs un par un.
+     """
      j_existe: bool = False
      fin: bool = False
      res: Joueur
      joueurs : list[Joueur]
 
      # Vérifie si le joueur existe déjà
-     with open("Data/data.sav", "rb") as fic:
-          while not fin:
-               try:
-                    res = load(fic)  # Charge un joueur du fichier
-                    if res.pseudo == J.pseudo:  # Si le joueur existe déjà
-                         j_existe = True
-                         fin = True
-               except EOFError:
-                    fin = True
+     j_existe = recherche_joueur(fic, J)
 
      if j_existe:
           # Si le joueur existe déjà, on met à jour ses informations
@@ -206,26 +208,43 @@ def sauvegarder_joueur(fic: BinaryIO, J: Joueur):
           with open("Data/data.sav", "ab") as fic:
                dump(J, fic)
 
-def recherche_joueur(fic : BinaryIO, J : Joueur) -> bool : 
+def recherche_joueur(fic : BinaryIO, J : Joueur) -> bool :
+     """
+     Entrée : 2 arguments, un fichier binaire, et un joueur
+
+     Sortie : Un booléen, True si le joueur est présent, False sinon
+
+     Fonctionnement : Parcours le fichier en lecture tant que la fin n'est pas atteinte, puis renvoie un booléen
+     selon si le joueur se trouve dans le fichier ou non.
+     """
      res : Joueur
      fin : bool
      est_trouvé : bool
 
      fic = open("Data/data.sav", "rb")
-     fin = False
-     est_trouvé = False
+     fin = False   
+     est_trouvé = False  # Par défaut le joueur n'est pas trouvé
      res = Joueur()
-     while not fin and not est_trouvé :
+     while not fin and not est_trouvé : 
           try :
                res = load(fic)
-               if res.pseudo == J.pseudo :
-                    est_trouvé = True
+               if res.pseudo == J.pseudo : # Si le joueur actuel est le joueur recherché
+                    est_trouvé = True   # Alors il est trouvé
           except EOFError :
                fin = True
      fic.close()
      return est_trouvé
 
 def charger_joueur(fic : BinaryIO, J : Joueur) :
+     """
+     Entrée : 2 arguments, un fichier binaire et un joueur
+
+     Sortie : Rien
+
+     Fonctionnement : Parcours le fichier en lecture, dès que le joueur actuel correspond au joueur rentré
+     en paramètre, le joueur en paramètre voit ses attributs mis à jour avec ceux de celui qui est dans le fichier.
+     Cette fonction permet de récupérer les statistiques sauvegardés des joueurs.
+     """
      res : Joueur
      fin : bool
 
@@ -236,6 +255,7 @@ def charger_joueur(fic : BinaryIO, J : Joueur) :
           try :
                res = load(fic)
                if res.pseudo == J.pseudo :
+                    # Mise à jour membre à membre des attributs du joueur
                     J.highscore_dev = res.highscore_dev
                     J.highscore_all = res.highscore_all
                     J.highscore_mor = res.highscore_mor
@@ -247,6 +267,15 @@ def charger_joueur(fic : BinaryIO, J : Joueur) :
      fic.close()
 
 def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
+     """
+     Entrée : 3 arguments, un fichier binaire, et les deux joueurs
+
+     Sortie : Rien
+
+     Fonctionnement : Permet d'afficher les statistiques des joueurs sous la forme d'une tableau l'un en dessous de l'autre.
+     Les statistiques correspondent à chaque attribut du joueur excepté le score qui est propre à la partie. La fonction parcours
+     le fichier binaire en mode lecture et affiche les statistiques d'un joueur dès qu'elle le trouve dans le fichier.
+     """
      res1 : Joueur
      fin : bool
 
@@ -283,6 +312,13 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
      fic.close()
 
 def tri_décroissant(l : list[Joueur], jeu : str) :
+     """
+     Entrée : 2 arguments, une liste de joueurs, et une chaîne de caractères correspondant au jeu
+
+     Sortie : Rien
+
+     Fonctionnement : Algorithme de tri classique, il tri les joueurs en fonction du jeu, du meilleur au moins bon score.
+     """
      i : int
 
      for i in range(0, len(l)-1):
@@ -301,6 +337,15 @@ def tri_décroissant(l : list[Joueur], jeu : str) :
                          l[i], l[j] = l[j], l[i]
      
 def afficher_leaderboard(fic : BinaryIO, jeu : str) :
+     """
+     Entrée : 2 arguments, un fichier binaire, et une chaîne de caractères correspondant au jeu
+
+     Sortie : Rien
+
+     Fonctionnement : Fonction qui affiche le leaderboard du jeu passé en paramètre, elle parcours le fichier binaire
+     et rempli une liste de joueurs, une fois cela fait, elle les tri en fonction du jeu (grâce à tri_décroissant), 
+     et affiche la liste des joueurs triée.
+     """
      res : Joueur
      fin : bool
      joueurs : list[Joueur]
