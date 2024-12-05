@@ -1,4 +1,5 @@
-from global_var import Joueur, début_de_partie
+# Fichier contenant toutes les fonctions relatives au jeu de morpion
+from ressource import Joueur, début_de_partie, qui_joue
 
 def afficher_plateau(plateau : list[list[str]]):
     print("   1   2   3")
@@ -25,7 +26,7 @@ def verifier_victoire(plateau : list[list[str]]):
 def verifier_egalite(plateau : list[list[str]]):
     return all([case != " " for ligne in plateau for case in ligne])
 
-def saisi_case(plateau : list[list[str]]) -> str:
+def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
     chaine_c : str
     chaine_l : str
     case : str
@@ -42,6 +43,7 @@ def saisi_case(plateau : list[list[str]]) -> str:
             print("\033c")
             print("Erreur : Coordonnées invalides.")
             afficher_plateau(plateau)
+            print(f"Tour de {joueur.pseudo}")
         elif choix[0] in chaine_l and choix[1] in chaine_c :
             case = str(chaine_l.index(choix[0])) + str(chaine_c.index(choix[1]))
             est_valide = True
@@ -49,6 +51,7 @@ def saisi_case(plateau : list[list[str]]) -> str:
             print("\033c")
             print("Erreur : Coordonnées invalides.")
             afficher_plateau(plateau)
+            print(f"Tour de {joueur.pseudo}")
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur):
@@ -59,33 +62,38 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     plateau : list[list[str]]
     joueur : Joueur
     symbole : str
+    saisi_c : bool
 
     print("\033c")
     print("\n    === Jeu du morprion ===")
     j1.score = 0
     j2.score = 0
+    ligne = -1
+    colonne = -1
     plateau = [[" " for _ in range(3)] for _ in range(3)]
     partie_finie = False
-    joueur = début_de_partie()
+    joueur = début_de_partie(j1, j2, qui_joue)
     
     while not partie_finie:
-        afficher_plateau(plateau)
-        print(f"Tour de {joueur.pseudo}")
         if joueur == j1 :
             symbole = '\x1b[31mX\x1b[37m'
         else :
             symbole = '\x1b[34mO\x1b[37m'
-
-        case = saisi_case(plateau)
-        ligne = int(case[0])
-        colonne = int(case[1])
-        print("\033c")
-        if plateau[ligne][colonne] != " ":
+        saisi_c = False
+        while not saisi_c :
+            afficher_plateau(plateau)
+            print(f"Tour de {joueur.pseudo}")
+            case = saisi_case(plateau, joueur)
+            saisi_c = True
+            ligne = int(case[0])
+            colonne = int(case[1])
             print("\033c")
-            print("Erreur : Cette case est déjà prise. Choisissez une autre case.")
-            continue
-        plateau[ligne][colonne] = symbole
-
+            if plateau[ligne][colonne] != " ":
+                print("\033c")
+                print("Erreur : Cette case est déjà prise. Choisissez une autre case.")
+                saisi_c = False
+        saisi_c = False
+        plateau[ligne][colonne] = symbole 
         if verifier_victoire(plateau):
             print("\033c")
             afficher_plateau(plateau)

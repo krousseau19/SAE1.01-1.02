@@ -1,4 +1,5 @@
-from global_var import Joueur, début_de_partie
+# Fichier contenant toutes les fonctions relatives au jeu des allumettes
+from ressource import Joueur, début_de_partie, qui_joue
 
 def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     allumettes : int
@@ -13,7 +14,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
     j2.score = 0
     allumettes = 20
     partie_finie = False
-    joueur = début_de_partie()
+    joueur = début_de_partie(j1, j2, qui_joue)
     while not partie_finie:
         saisi_all = False
         nb_all = -1
@@ -27,16 +28,16 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
             print("\x1b[37m")
             try :
                 nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
+                saisi_all = True
                 print("\033c")
                 if nb_all < 1 or nb_all > 3:
                     print("\033c")
                     print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
-                    continue
+                    saisi_all = False   
                 if nb_all > allumettes :
                     print("\033c")
                     print("Erreur : Il n'y a plus assez d'allumettes.")
-                    continue
-                saisi_all = True
+                    saisi_all = False
             except ValueError :
                 print("\033c")
                 print("Erreur : Veuillez saisir un argument valide.")
@@ -55,11 +56,11 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
             joueur.nb_partieG += 1
             if joueur.score > joueur.highscore_all :
                     joueur.highscore_all = joueur.score
+            j1.nb_partie += 1
+            j2.nb_partie += 1
         if joueur == j1 :
             joueur = j2
         else :
             joueur = j1
-    j1.nb_partie += 1
-    j2.nb_partie += 1
 
 
