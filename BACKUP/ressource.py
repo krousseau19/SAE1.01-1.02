@@ -88,12 +88,24 @@ def afficher_menu():
      Fonctionnement : Afficher successivement les options du Menu Principal, sert
      être appelée dans le programme principal.
      """
-     print("    === MENU ===")
-     print("1 - Devinettes")
-     print("2 - Allumettes")
-     print("3 - Morpion")
-     print("4 - Puissance 4")
-     print("5 - Statistiques")
+     print("                                           __  __ _____ _   _ _   _")
+     print("                                          |  \/  | ____| \ | | | | |")
+     print("                                          | |\/| |  _| |  \| | | | |")
+     print("                                          | |  | | |___| |\  | |_| |")
+     print("                                          |_|  |_|_____|_| \_|\___/")
+     print(" ")
+     print(" ")
+     print("1 - Devinettes         2 - Allumettes           3 - Morpion          4 - Puissance 4          5 - Statistiques")
+     print(" ")
+     print(" ")
+     print("     ┏━━━┓                 ##                       ")
+     print("     ┃┏━┓┃                ####                      ")
+     print("     ┗┛┏┛┃                 ┏┓                       ")
+     print("       ┃┏┛                 ┃┃                       ")
+     print("       ┏┓                  ┃┃                       ")
+     print("       ┗┛                  ┗┛                       ")
+          
+     
      print("6 - Quitter")
 
 def saisir_choix() -> int :
