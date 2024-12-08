@@ -295,7 +295,7 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("Meilleur score Puissance 4 : ", res1.highscore_pui)
                     print("Nombre de parties jouées   : ", res1.nb_partie)
                     print("Nombre de parties gagnées  : ", res1.nb_partieG)
-                    print("=" * 47)
+                    print("=" * 48)
                if res1.pseudo == J2.pseudo :
                     print("\n=========== Statistiques du Joueur 2 ===========")
                     print("Pseudo                : ", res1.pseudo)
@@ -305,7 +305,7 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("Meilleur score Puissance 4 : ", res1.highscore_pui)
                     print("Nombre de parties jouées   : ", res1.nb_partie)
                     print("Nombre de parties gagnées  : ", res1.nb_partieG)
-                    print("=" * 47)
+                    print("=" * 48)
           except EOFError :
                fin = True
      input("Veuillez appuyer sur ENTRER pour revenir en arrière...")

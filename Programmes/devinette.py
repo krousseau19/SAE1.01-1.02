@@ -2,31 +2,46 @@
 from ressource import Joueur, début_de_partie, qui_joue
 
 def saisir_victoire(joueur : Joueur, j1 : Joueur, j2 : Joueur, devine : int) -> int :
+    """
+    Entrée : 4 arguments, le joueur actuel, le joueur 1 et le joueur 2, et le nombre saisi par celui qui cherche
+
+    Sortie : Un entier, le choix de celui qui fait deviner
+
+    Fonctionnement : Echange les joueurs (pour que ce soit le joueur qui fasse deviner qui réponde), puis affiche un menu
+    en continu. Après cela, la fonction demande au joueur un saisi, et en fonction de ce saisi, la fonction se termine ou non.
+    Si le résultat est 1, 2, ou 3 alors elle renvoie ce résultat, sinon l'affichage continu et le saisi recommence après un message d'erreur.
+    """
     choix : int
+    fin : bool
 
     if joueur == j1 :
         joueur = j2
     else :
         joueur = j1
     choix = 0
-    print("Le nombre de votre adversaire est ", devine, ", celui-ci est-il : ")
-    print("1 - Trop petit")
-    print("2 - Trop grand")
-    print("3 - C'est gagné !")
-    try :
-        choix = int(input(f" {joueur.pseudo} veuillez saisir un choix :"))
-        if choix == 1 :
-            return 1
-        elif choix == 2 :
-            return 2
-        elif choix == 3 :
-            return 3
-        else :
-            return -1
-    except ValueError :
-        return -1
+    fin = False
+    while not fin :
+        print("Le nombre de votre adversaire est ", devine, ", celui-ci est-il : ")
+        print("1 - Trop petit")
+        print("2 - Trop grand")
+        print("3 - C'est gagné !")
+        try :
+            choix = int(input(f" {joueur.pseudo} veuillez saisir un choix :"))
+        except ValueError :
+            fin = False
+        if choix in [1 , 2, 3] :
+            fin = True
+            return choix
     
 def saisir_intervalle() -> int :
+    """
+    Entrée : Rien
+
+    Sortie : Un entier, correspondant à la borne supérieure de l'intervalle
+
+    Fonctionnement : Affiche en continu un menu permettant de choisir un intervalle, si le choix est valide (donc 1, 2 ou 3)
+    alors l'affichage s'arrête, et la valeur de la borne supérieure est retournée, sinon, l'affichage continu et le saisi recommence.
+    """
     borne_sup : int
     choix : int
     borne_sup = 0
@@ -56,6 +71,20 @@ def saisir_intervalle() -> int :
 
 
 def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
+    """
+    Entrée : 3 arguments, les deux joueurs, ainsi qu'un entier représentant la borne supérieure de l'intervalle
+
+    Sortie : Rien
+
+    Fonctionnement : Fonction principale du jeu de devinettes, initialise toutes les variables nécessaires au fonctionnement du jeu ( le nombre de tentatives, le nomrbe à trouver,
+    le nombre à comparer avec le nombre à trouver, etc...). Après l'initialisation, tant que 2 manches ne se sont pas écoulées (2 manches pour que chaque joueur puisse avoir un score),
+    la fonction va demander au joueur de saisir le nombre à faire deviner, il doit se trouver entre 1 et la borne supérieure de l'intervalle, si ce n'est pas le cas, le saisi recommence
+    après un message d'erreur. Une fois cela fait, l'autre joueur va saisir le nombre qu'il pense avoir été saisi par son adversaire, par la suite, le joueur ayant choisi le nombre à faire
+    deviner va devoir saisir si le nombre de son adversaire est correct ou non (trop petit, trop grand, ou c'est le bon), la fonction effectue ensuite des tests pour s'assurer que le joueur
+    ne triche pas, et que par exemple le nombre est bien plus petit que le nombre à deviner. Si la réponse est cohérente avec le saisi du joueur, alors la manche se termine et une nouvelle recommence,
+    une fois les deux manches finies, la fonction compare le score des deux joueurs, celui avec le meilleur score gagne (les joueurs commençent avec un score équivalent à l'intervalle choisi, à chaque tentative,
+    le joueur perd 10% de son score, la partie s'arrête si le joueur n'a plus de score).
+    """
     nombre_secret : int
     devine : int
     tentatives : int
@@ -153,6 +182,8 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                 else :
                     print("\033c")
                     print("Erreur : La réponse de ne correspond pas avec le résultat !")
+            devine = -1
+                
         if joueur_d == j1.pseudo :
             joueur = j2
         else :
