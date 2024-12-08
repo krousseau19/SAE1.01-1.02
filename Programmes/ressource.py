@@ -88,12 +88,24 @@ def afficher_menu():
      Fonctionnement : Afficher successivement les options du Menu Principal, sert
      être appelée dans le programme principal.
      """
-     print("    === MENU ===")
-     print("1 - Devinettes")
-     print("2 - Allumettes")
-     print("3 - Morpion")
-     print("4 - Puissance 4")
-     print("5 - Statistiques")
+     print(r"                                            __  __ _____ _   _ _   _                                           ")
+     print(r"                                           |  \/  | ____| \ | | | | |                                          ")
+     print(r"                                           | |\/| |  _| |  \| | | | |                                          ")
+     print(r"                                           | |  | | |___| |\  | |_| |                                          ")
+     print(r"                                           |_|  |_|_____|_| \_|\___./                                          ")
+     print(" ")
+     print(" ")
+     print("1 - Devinettes         2 - Allumettes           3 - Morpion          4 - Puissance 4          5 - Statistiques  ")
+     print(r"   __________             __________              ___________            __________              ___________    ")
+     print("  |          |           |          |            |           |          | \x1b[31mO\x1b[0m        |            |           |   ")
+     print("  |  \x1b[31m┏━━━┓\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |           |          |   \x1b[31mO\x1b[0m      |            |  \x1b[38;5;244m.-'''-.\x1b[0m  |   ")
+     print("  |  \x1b[31m┃┏━┓┃\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |     \x1b[31mO\x1b[0m    |            | \x1b[38;5;244m/       \ \x1b[0m|   ")  # type: ignore
+     print("  |  \x1b[31m┗┛┏┛┃\x1b[0m   |           |    \x1b[38;5;94m┏┓\x1b[0m    |            |---+---+---|          | \x1b[33mO\x1b[0m     \x1b[31mO\x1b[0m  |            |\x1b[38;5;244m|  .-. .  |\x1b[0m|   ")
+     print("  |  \x1b[31m  ┃┏┛\x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            | \x1b[34mO\x1b[0m  | \x1b[34mO\x1b[0m|   |          |   \x1b[33mO\x1b[0m      |            | \x1b[38;5;244m\ '---' /\x1b[0m |   ") # type: ignore
+     print("  |  \x1b[31m  ┏┓ \x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            |---+---+---|          |     \x1b[33mO\x1b[0m    |            |  \x1b[38;5;244m'-...-'\x1b[0m  |   ")
+     print("  |  \x1b[31m  ┗┛ \x1b[0m   |           |    \x1b[38;5;94m┗┛\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |       \x1b[33mO\x1b[0m  |            |           |   ")
+     print("  |__________|           |__________|            |___________|          |__________|            |___________|   ")
+     print(" ")
      print("6 - Quitter")
 
 def saisir_choix() -> int :
@@ -140,7 +152,11 @@ def début_de_partie(j1 : Joueur, j2 : Joueur, qui_joue : Joueur) -> Joueur :
                     choix_valide = True
                except ValueError :
                     print("\033c")
-                    print("Erreur : Veuillez saisir un choix valide.")
+                    print("\x1b[31mErreur : Veuillez saisir un choix valide.\x1b[0m")
+                    print("Qui joue en premier ?")
+                    print("1.", j1.pseudo)
+                    print("2.", j2.pseudo)
+                    print("3. Aléatoire")
           choix_valide = False
           if choix == 1 :
              qui_joue = j1
@@ -156,7 +172,11 @@ def début_de_partie(j1 : Joueur, j2 : Joueur, qui_joue : Joueur) -> Joueur :
                     qui_joue = j2
           else :
                print("\033c")
-               print("Erreur : Veuillez saisir un choix valide.")
+               print("\x1b[31mErreur : Veuillez saisir un choix valide.\x1b[0m")
+               print("Qui joue en premier ?")
+               print("1.", j1.pseudo)
+               print("2.", j2.pseudo)
+               print("3. Aléatoire")
      print("\033c")
      return qui_joue
 
@@ -278,15 +298,23 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
      """
      res1 : Joueur
      fin : bool
+     ratio : float
 
      fic = open("Data/data.sav", "rb")
      res1 = Joueur()
+     ratio = 0.0
      fin = False
      print("\033c")
      while not fin :
           try :
                res1 = load(fic)
                if res1.pseudo == J1.pseudo :
+                    # Evite la division par 0
+                    if res1.nb_partie != 0 :
+                         ratio = (res1.nb_partieG/res1.nb_partie)*100
+                         ratio = round(ratio, 2)
+                    else :
+                         ratio = 0.0
                     print("\n=========== Statistiques du Joueur 1 ===========")
                     print("Pseudo                     : ", res1.pseudo)
                     print("Meilleur score Devinettes  : ", res1.highscore_dev)
@@ -295,8 +323,15 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("Meilleur score Puissance 4 : ", res1.highscore_pui)
                     print("Nombre de parties jouées   : ", res1.nb_partie)
                     print("Nombre de parties gagnées  : ", res1.nb_partieG)
-                    print("=" * 48)
+                    print("Ratio de victoire global  : ", ratio, "%")
+                    print("=" * 47)
                if res1.pseudo == J2.pseudo :
+                    # Evite la division par 0
+                    if res1.nb_partie != 0 :
+                         ratio = (res1.nb_partieG/res1.nb_partie)*100
+                         ratio = round(ratio, 2)
+                    else :
+                         ratio = 0.0
                     print("\n=========== Statistiques du Joueur 2 ===========")
                     print("Pseudo                : ", res1.pseudo)
                     print("Meilleur score Devinettes  : ", res1.highscore_dev)
@@ -305,7 +340,8 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("Meilleur score Puissance 4 : ", res1.highscore_pui)
                     print("Nombre de parties jouées   : ", res1.nb_partie)
                     print("Nombre de parties gagnées  : ", res1.nb_partieG)
-                    print("=" * 48)
+                    print("Ratio de victoire global  : ", ratio, "%")
+                    print("=" * 47)
           except EOFError :
                fin = True
      input("Veuillez appuyer sur ENTRER pour revenir en arrière...")

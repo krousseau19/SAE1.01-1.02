@@ -49,31 +49,35 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
                 print("\033c")
                 if nb_all < 1 or nb_all > 3:
                     print("\033c")
-                    print("Erreur : Veuillez prendre entre 1 et 3 allumettes.")
+                    print("\x1b[31mErreur : Veuillez prendre entre 1 et 3 allumettes.\x1b[0m")
                     saisi_all = False   
                 if nb_all > allumettes :
                     print("\033c")
-                    print("Erreur : Il n'y a plus assez d'allumettes.")
+                    print("\x1b[31mErreur : Il n'y a plus assez d'allumettes.\x1b[0m")
                     saisi_all = False
             except ValueError :
                 print("\033c")
-                print("Erreur : Veuillez saisir un argument valide.")
+                print("\x1b[31mErreur : Veuillez saisir un argument valide.\x1b[0m")
         saisi_all = False
         allumettes -= nb_all
+        joueur.score += nb_all
         # Condition de victoire/défaite
         if allumettes <= 0:
             partie_finie = True
         # Changement de joueur pour faire gagner celui qui n'a pas retiré la dernière
         if partie_finie :
+            # Mise à jour score perdant
+            if joueur.score > joueur.highscore_all :
+                    joueur.highscore_all = joueur.score
             if joueur == j1 :
                 joueur = j2
             else :
                 joueur = j1
             print("\033c")
-            print("\x1b[32mBravo ! ", joueur.pseudo, " a gagné !\x1b[37m")
-            joueur.score += 1
+            print("\x1b[32mBravo ! ", joueur.pseudo, " a gagné !")
+            print("Votre score : ", joueur.score, "\x1b[0m")
             joueur.nb_partieG += 1
-            # Mise à jour du meilleur score si nécessaire
+            # Mise à jour du score gagnant 
             if joueur.score > joueur.highscore_all :
                     joueur.highscore_all = joueur.score
             j1.nb_partie += 1

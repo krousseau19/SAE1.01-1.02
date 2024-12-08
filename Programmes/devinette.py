@@ -28,10 +28,15 @@ def saisir_victoire(joueur : Joueur, j1 : Joueur, j2 : Joueur, devine : int) -> 
         try :
             choix = int(input(f" {joueur.pseudo} veuillez saisir un choix :"))
         except ValueError :
+            print("\033c")
+            print("\x1b[31mErreur : Choix invalide\x1b[0m")
             fin = False
         if choix in [1 , 2, 3] :
             fin = True
-            return choix
+        else :
+            print("\033c")
+            print("\x1b[31mErreur : Choix invalide\x1b[0m")
+    return choix
     
 def saisir_intervalle() -> int :
     """
@@ -62,10 +67,10 @@ def saisir_intervalle() -> int :
                 borne_sup = 10000
             else :
                 print("\033c")
-                print("Choix invalide")
+                print("\x1b[31mErreur : Choix invalide\x1b[0m")
         except : 
             print("\033c")
-            print("Choix invalide")
+            print("\x1b[31mErreur : Choix invalide\x1b[0m")
     print("\033c")
     return borne_sup
 
@@ -117,12 +122,12 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                     nombre_secret = int(input(f"{joueur.pseudo}, entrez un nombre secret à faire deviner : "))
                     if nombre_secret <=0 or nombre_secret > intervalle :
                         print("\033c")
-                        print("Erreur : veuillez entrer un nombre entier valide.")
+                        print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
                 print("\033c")
                 saisi_j1 = True
             except ValueError:
                 print("\033c")
-                print("Erreur : veuillez entrer un nombre entier valide.")
+                print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
         tentatives = 0
         partie_finie = False
         if joueur == j1 :
@@ -139,12 +144,12 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                         devine = int(input(f"{joueur.pseudo}, devinez le nombre : "))
                         if devine <= 0 or devine > intervalle :
                             print("\033c")
-                            print("Veuillez saisir un nombre dans l'intervalle.")
+                            print("\x1b[31mErreur : Veuillez saisir un nombre dans l'intervalle.\x1b[0m")
                     print("\033c")
                     saisi_j2 = True
                 except ValueError :
                     print("\033c")
-                    print("Erreur : veuillez entrer un nombre entier valide.")
+                    print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
             saisi_j2 = False
             tentatives += 1
             joueur.score = int(joueur.score - (intervalle*(10/100)))
@@ -174,14 +179,14 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                 elif devine == nombre_secret and choix == 3:
                     print("\033c")
                     print("\x1b[32mBravo ! ", joueur.pseudo, " a trouvé en ", tentatives, " tentatives.")
-                    print("Votre score : ", joueur.score, "\x1b[37m")
+                    print("Votre score : ", joueur.score, "\x1b[0m")
                     if joueur.score > joueur.highscore_dev :
                         joueur.highscore_dev = joueur.score
                     choix_valide = True
                     partie_finie = True
                 else :
                     print("\033c")
-                    print("Erreur : La réponse de ne correspond pas avec le résultat !")
+                    print("\x1b[31mErreur : La réponse de ne correspond pas avec le résultat !\x1b[0m")
             devine = -1
                 
         if joueur_d == j1.pseudo :

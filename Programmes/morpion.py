@@ -78,7 +78,7 @@ def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
         choix = input("Choisissez une case (lettre puis numéro, ex : A1) : ").strip().upper()
         if len(choix) != 2 :
             print("\033c")
-            print("Erreur : Coordonnées invalides.")
+            print("\x1b[31mErreur : Coordonnées invalides.\x1b[0m")
             afficher_plateau(plateau)
             print(f"Tour de {joueur.pseudo}")
         elif choix[0] in chaine_l and choix[1] in chaine_c :
@@ -87,7 +87,7 @@ def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
             est_valide = True
         else:
             print("\033c")
-            print("Erreur : Coordonnées invalides.")
+            print("\x1b[31mErreur : Coordonnées invalides.\x1b[0m")
             afficher_plateau(plateau)
             print(f"Tour de {joueur.pseudo}")
     return case
@@ -139,23 +139,32 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
             print("\033c")
             if plateau[ligne][colonne] != " ":
                 print("\033c")
-                print("Erreur : Cette case est déjà prise. Choisissez une autre case.")
+                print("\x1b[31mErreur : Cette case est déjà prise. Choisissez une autre case.\x1b[0m")
                 saisi_c = False
         saisi_c = False
+        joueur.score += 10
         plateau[ligne][colonne] = symbole 
         if verifier_victoire(plateau):
             print("\033c")
             afficher_plateau(plateau)
-            print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !\x1b[37m")
+            print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !")
+            print("Votre score : ", joueur.score, "\x1b[0m")
             joueur.nb_partieG += 1
-            joueur.score += 1
+            # Mise à jour score gagnant
+            if joueur.score > joueur.highscore_mor :
+                    joueur.highscore_mor = joueur.score
+            if joueur == j1 :
+                joueur = j2
+            else :
+                joueur = j1
+            # Mise à jour score perdant
             if joueur.score > joueur.highscore_mor :
                     joueur.highscore_mor = joueur.score
             partie_finie = True
         elif verifier_egalite(plateau):
             print("\033c")
             afficher_plateau(plateau)
-            print("\x1b[38;5;208mIl y a eu égalité !\x1b[37m")
+            print("\x1b[38;5;208mIl y a eu égalité !\x1b[0m")
             partie_finie = True
         else:
             if joueur == j1 :

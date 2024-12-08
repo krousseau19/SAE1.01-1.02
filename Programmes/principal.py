@@ -41,7 +41,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
             input("Veuillez appuyer sur ENTRER pour revenir au menu principal...")
         else :
             print("\033c")
-            print("Choix invalide")
+            print("\x1b[31mErreur : Choix invalide\x1b[0m")
             
     return restart
 
@@ -90,6 +90,7 @@ if __name__ == "__main__" :
                 sauvegarder_joueur(f, j1)
                 sauvegarder_joueur(f, j2)
         elif choix == 4 :
+            rejoue = True
             jeu_puissance4(j1, j2)
             sauvegarder_joueur(f, j1)
             sauvegarder_joueur(f, j2)
@@ -135,7 +136,7 @@ if __name__ == "__main__" :
                             print("\033c")
                         else :
                             print("\033c")
-                            print("Choix invalide.")
+                            print("\x1b[31mErreur : Choix invalide.\x1b[0m")
                 elif sous_choix == 2 :
                     print("\033c")
                     afficher_stats(f, j1, j2)
@@ -144,11 +145,11 @@ if __name__ == "__main__" :
                     menu_stats_actif = False
                 else :
                     print("\033c")
-                    print("Choix invalide.")
+                    print("\x1b[31mErreur : Choix invalide.\x1b[0m")
         elif choix == 6 :
             print("\033c")
             print("Au revoir !")
             menu_actif = False
         else :
             print("\033c")
-            print("Choix invalide.")
+            print("\x1b[31mErreur : Choix invalide.\x1b[0m")
