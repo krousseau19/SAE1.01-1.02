@@ -32,9 +32,28 @@ except FileExistsError :
      f = open("Data/data.sav", "rb")
 f.close()
 
-def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO) :
+def mode_jeu() -> int :
      """
-     Entrée : 3 arguments, 2 joueurs, et un fichier binaire
+     Entrée : Rien
+
+     Sortie : Un entier, correspondant au mode de jeu choisi
+
+     Fonctionnement : Affichage d'un menu en continu, demande à l'utilisateur de choisir son mode de jeu (1, 2, ou 3),
+     tant que le choix n'est pas valide, re-affiche le menu, sinon retourne l'entier correspondant au mode de jeu choisi.
+     """
+     choix : int
+     choix = 0
+     while choix not in [1, 2, 3] :
+          print("=== Mode de jeu ===")
+          print("1 - Humain VS Humain")
+          print("2 - Humain VS Machine")
+          print("3 - Machine VS Machine")
+          choix = saisir_choix()
+     return choix
+
+def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
+     """
+     Entrée : 4 arguments, 2 joueurs, un fichier binaire, et un entier pour le mode de jeu choisi
 
      Sortie : Rien
 
@@ -46,38 +65,43 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO) :
      """
      j_existe : bool  # Sert à savoir si le joueur est présent ou non dans le fichier binaire
 
-     print("\033c")
-     print("Création du Joueur 1...")
-     # Initialisation des différents attributs du joueur / récupération de ceux-ci
-     j1.pseudo = input("Veuillez saisir votre pseudo : ")
-     j1.score = 0
-     j_existe = recherche_joueur(f, j1)
-     if  not j_existe :
-          j1.highscore_dev = 0
-          j1.highscore_all = 0
-          j1.highscore_mor = 0
-          j1.highscore_pui = 0
-          j1.nb_partie = 0
-          j1.nb_partieG = 0
-          sauvegarder_joueur(f, j1)
+     if mode == 1 :
+          print("\033c")
+          print("Création du Joueur 1...")
+          # Initialisation des différents attributs du joueur / récupération de ceux-ci
+          j1.pseudo = input("Veuillez saisir votre pseudo : ")
+          j1.score = 0
+          j_existe = recherche_joueur(f, j1)
+          if  not j_existe :
+               j1.highscore_dev = 0
+               j1.highscore_all = 0
+               j1.highscore_mor = 0
+               j1.highscore_pui = 0
+               j1.nb_partie = 0
+               j1.nb_partieG = 0
+               sauvegarder_joueur(f, j1)
+          else :
+               charger_joueur(f, j1)
+          print("Création du Joueur 2...")
+          # Initialisation des différents attributs du joueur / récupération de ceux-ci
+          j2.pseudo = input("Veuillez saisir votre pseudo : ")
+          j2.score = 0
+          j_existe = recherche_joueur(f, j2)
+          if not j_existe : 
+               j2.highscore_dev = 0
+               j2.highscore_all = 0
+               j2.highscore_mor = 0
+               j2.highscore_pui = 0
+               j2.nb_partie = 0
+               j2.nb_partieG = 0
+               sauvegarder_joueur(f, j2)
+          else :
+               charger_joueur(f, j2)
+          print("\033c")
+     elif mode == 2 :
+          print("Humain vs machine")
      else :
-          charger_joueur(f, j1)
-     print("Création du Joueur 2...")
-     # Initialisation des différents attributs du joueur / récupération de ceux-ci
-     j2.pseudo = input("Veuillez saisir votre pseudo : ")
-     j2.score = 0
-     j_existe = recherche_joueur(f, j2)
-     if not j_existe : 
-          j2.highscore_dev = 0
-          j2.highscore_all = 0
-          j2.highscore_mor = 0
-          j2.highscore_pui = 0
-          j2.nb_partie = 0
-          j2.nb_partieG = 0
-          sauvegarder_joueur(f, j2)
-     else :
-          charger_joueur(f, j2)
-     print("\033c")
+          print("Machine vs machine")
 
 def afficher_menu():
      """
@@ -101,7 +125,7 @@ def afficher_menu():
      print("  |  \x1b[31m┏━━━┓\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |           |          |   \x1b[31mO\x1b[0m      |            |  \x1b[38;5;244m.-'''-.\x1b[0m  |   ")
      print("  |  \x1b[31m┃┏━┓┃\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |     \x1b[31mO\x1b[0m    |            | \x1b[38;5;244m/       \ \x1b[0m|   ")  # type: ignore
      print("  |  \x1b[31m┗┛┏┛┃\x1b[0m   |           |    \x1b[38;5;94m┏┓\x1b[0m    |            |---+---+---|          | \x1b[38;5;226mO\x1b[0m     \x1b[31mO\x1b[0m  |            |\x1b[38;5;244m|  .-. .  |\x1b[0m|   ")
-     print("  |  \x1b[31m  ┃┏┛\x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            | \x1b[34mO\x1b[0m  | \x1b[34mO\x1b[0m|   |          |   \x1b[38;5;226mO\x1b[0m      |            | \x1b[38;5;244m\ '---' /\x1b[0m |   ") # type: ignore
+     print("  |  \x1b[31m  ┃┏┛\x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            | \x1b[34mO\x1b[0m | \x1b[34mO\x1b[0m |   |          |   \x1b[38;5;226mO\x1b[0m      |            | \x1b[38;5;244m\ '---' /\x1b[0m |   ") # type: ignore
      print("  |  \x1b[31m  ┏┓ \x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            |---+---+---|          |     \x1b[38;5;226mO\x1b[0m    |            |  \x1b[38;5;244m'-...-'\x1b[0m  |   ")
      print("  |  \x1b[31m  ┗┛ \x1b[0m   |           |    \x1b[38;5;94m┗┛\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |       \x1b[38;5;226mO\x1b[0m  |            |           |   ")
      print("  |__________|           |__________|            |___________|          |__________|            |___________|   ")

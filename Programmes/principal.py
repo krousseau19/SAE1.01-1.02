@@ -3,7 +3,7 @@ from devinette import jeu_devinette, saisir_intervalle
 from allumette import jeu_allumettes
 from morpion import jeu_morpion
 from puissance4 import jeu_puissance4
-from ressource import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur
+from ressource import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur, mode_jeu
 
 def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
     """
@@ -52,11 +52,14 @@ if __name__ == "__main__" :
     choix : int
     sous_choix : int
     intervalle : int
-    rejoue : bool 
+    rejoue : bool
+    mode : int
 
     menu_actif = True
     rejoue = True
-    creation_joueurs(j1, j2, f)
+
+    mode = mode_jeu()
+    creation_joueurs(j1, j2, f, mode)
     while menu_actif :
         print("\033c")
         afficher_menu()
