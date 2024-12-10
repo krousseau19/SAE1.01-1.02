@@ -1,0 +1,104 @@
+Changelog 08/12/24 (Kylian) {
+  -Polish (finitions et corrections de bugs)
+}
+
+Changelog du 04/12/24 (Kylian) {
+  - Ajout des docstrings sur l'ensemble des fichiers (sauf devinette car temporairement en panne)
+}
+
+Changelog du 03/12/24 (Kylian) {
+  - Hotfix sur le menu statistique (problème avec affichage des joueurs selon l'ordre dans le fichier)
+}
+
+Changelog du 01/12/24 (Kylian) {
+  - Ajout de la fonction pour refaire une partie pour devinettes également
+  - Changement du fonctionnement de devinettes, se fait maintenant en deux manches, celui avec le meilleur score gagne la partie
+  - Ajout d'une vérification lors du saisi du nombre dans devinette pour qu'il respecte l'intervalle (joueur qui cherche)
+  - Modification du nom du fichier contenant les fonctions et classes/variables globales (global_var -> ressource)
+  - Ajout d'inputs simples (juste appuyer sur ENTRER), pour avoir un affichage plus clair et naturel dans l'ensemble de l'application
+}
+
+Changelog du 29/11/24 (Jules) {
+  - Débogage de certains bouts de code
+  - Ajout de la fonction pour refaire une partie après avoir gagné ou en cas d'égalité (sauf Devinette pour le moment)
+}
+
+Changelog du 26/11/24 (Kylian) {
+  - Recodage d'un bon nombre de fonctions, pour supprimer l'utilisation de variables globales, de continues
+    et du module os
+  - Début d'implémentation des commentaires et docstrings
+}
+
+Changelog du 25/11/24 (Kylian) {
+  - Création d'unne fonction affichage_joueur pour les infos des joueurs
+  - Création d'une fonction affichage_leaderboard pour afficher les différents leaderboards 
+    selon les jeux (scores dans l'ordre décroissant)
+  - Ajout d'un sous-menu contenant le/les leaderboard(s) et les infos sur les joueurs courants
+}
+
+Changelog du 23/11/24 (Kylian) {
+  - Highscore de chaque jeux maintenant enregistrés dans le fichier data.sav
+  - Nouvel affichage pour la fonction afficher_joueur
+  - Résolution de bugs mineurs concernant le système de fichier
+}
+
+Changelog du 22/11/24 (Kylian & Jules) {
+  - Début d'implémentation du système de fichier (dossier Data et fichier data.sav)
+  - Peaufinage du système de score
+  - Ajout de nouveaux attributs pour la classe Joueur (les highscores pour chaque jeux + nb parties/G)
+}
+
+Changelog du 19/11/24 (Kylian) {
+  - Ajout du jeu de puissance 4
+  - Ajout du système de score pour le puissance 4
+}
+
+Changelog du 16/11/24 (Kylian) {
+  - Système de score implémenté pour les jeux présents (tout sauf puissance 4 donc), seul l'affichage est manquant
+  - Modification du saisi pour le morpion, lettre pour ligne, chiffre pour colonne (Ex : A1)
+  - Simplification générale du code pour le morpion
+}
+
+Changelog du 14/11/24 (Jules & Kylian) {
+  - Ajout du choix d'un intervalle pour le jeu devinette, pour faciliter le calcul du score (et des tests associés)
+  - Début d'implémentation du score pour les joueurs dans devinette
+  - Corrections mineures (Type de la var joueur par ex., etc...)
+}
+
+Changelog du 11/11/24 (Kylian) {
+  - Modification du jeu devinette pour que le joueur faisant deviner choisisse si le nombre de son adversaire
+    est trop petit, trop grand, ou si c'est gagné (ajout de la fonctionnalité et des tests associés en cas d'erreur)
+  - Modification de la fonction début de partie, pour que le 3ème choix soit un joueur aléatoire qui commence entre les deux
+}
+
+Changelog du 10/11/24 (Kylian) {
+  - Correction de bug d'affichages et de vérification en cas de victoire/égalité pour le morpion
+  - Ajout de couleurs et de clear console pour meilleure expérience
+}
+
+Changelog du 10/11/24 (Jules) {
+  - Ajout du jeu de morpion (complet)
+  - Ajout du lien entre le morpion et reste de l'application
+}
+
+Changelog du 10/11/24 (Kylian) {
+  - Refonte totale de la structure des fichiers (simplification du tout, fonctions, imports, etc...)
+  - Nouvelle façon de faire pour le jeu des allumettes
+  - Ajout du jeu des devinettes
+  - Le choix des joueurs est maintenant obligatoire dès le lancement du programme
+  - Modification de l'affichage avec ANSI ( couleurs et clear de la console)
+}
+
+Changelog du 08/11/24 (Kylian & Jules) {
+  - Ajout de contrôles dans le jeu des allumettes lors des saisis
+  - Correction de problèmes mineurs (synthaxe et code)
+}
+
+Changelog du 07/11/24 (Kylian) {
+  - Création nouveau fichier "global_var" contenant fonctions et variables communes aux différents fichiers pour éviter les doublons.
+  - Avancement sur le fichier "Allumette". (fonction pour créer la liste, faire un coup)
+  - Création du menu dans le menu principal, pour créer les joueurs, choisir un jeu, ou quitter.
+  - Ajout de fonctions pour créer les joueurs et savoir qui commence dans le fichier "global_var"
+}
+
+
