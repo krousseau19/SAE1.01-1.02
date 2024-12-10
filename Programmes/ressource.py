@@ -100,10 +100,10 @@ def afficher_menu():
      print("  |          |           |          |            |           |          | \x1b[31mO\x1b[0m        |            |           |   ")
      print("  |  \x1b[31m┏━━━┓\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |           |          |   \x1b[31mO\x1b[0m      |            |  \x1b[38;5;244m.-'''-.\x1b[0m  |   ")
      print("  |  \x1b[31m┃┏━┓┃\x1b[0m   |           |    \x1b[31m##\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |     \x1b[31mO\x1b[0m    |            | \x1b[38;5;244m/       \ \x1b[0m|   ")  # type: ignore
-     print("  |  \x1b[31m┗┛┏┛┃\x1b[0m   |           |    \x1b[38;5;94m┏┓\x1b[0m    |            |---+---+---|          | \x1b[33mO\x1b[0m     \x1b[31mO\x1b[0m  |            |\x1b[38;5;244m|  .-. .  |\x1b[0m|   ")
-     print("  |  \x1b[31m  ┃┏┛\x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            | \x1b[34mO\x1b[0m  | \x1b[34mO\x1b[0m|   |          |   \x1b[33mO\x1b[0m      |            | \x1b[38;5;244m\ '---' /\x1b[0m |   ") # type: ignore
-     print("  |  \x1b[31m  ┏┓ \x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            |---+---+---|          |     \x1b[33mO\x1b[0m    |            |  \x1b[38;5;244m'-...-'\x1b[0m  |   ")
-     print("  |  \x1b[31m  ┗┛ \x1b[0m   |           |    \x1b[38;5;94m┗┛\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |       \x1b[33mO\x1b[0m  |            |           |   ")
+     print("  |  \x1b[31m┗┛┏┛┃\x1b[0m   |           |    \x1b[38;5;94m┏┓\x1b[0m    |            |---+---+---|          | \x1b[38;5;226mO\x1b[0m     \x1b[31mO\x1b[0m  |            |\x1b[38;5;244m|  .-. .  |\x1b[0m|   ")
+     print("  |  \x1b[31m  ┃┏┛\x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            | \x1b[34mO\x1b[0m  | \x1b[34mO\x1b[0m|   |          |   \x1b[38;5;226mO\x1b[0m      |            | \x1b[38;5;244m\ '---' /\x1b[0m |   ") # type: ignore
+     print("  |  \x1b[31m  ┏┓ \x1b[0m   |           |    \x1b[38;5;94m┃┃\x1b[0m    |            |---+---+---|          |     \x1b[38;5;226mO\x1b[0m    |            |  \x1b[38;5;244m'-...-'\x1b[0m  |   ")
+     print("  |  \x1b[31m  ┗┛ \x1b[0m   |           |    \x1b[38;5;94m┗┛\x1b[0m    |            |   |   | \x1b[31mX\x1b[0m |          |       \x1b[38;5;226mO\x1b[0m  |            |           |   ")
      print("  |__________|           |__________|            |___________|          |__________|            |___________|   ")
      print(" ")
      print("6 - Quitter")

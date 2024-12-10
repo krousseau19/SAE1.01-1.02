@@ -105,7 +105,7 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
         if joueur == j1 :
             symbole = '\x1b[31mO\x1b[37m'
         else :
-            symbole = '\x1b[33mO\x1b[37m'
+            symbole = '\x1b[38;5;226mO\x1b[37m'
         saisi_j = False
         while not saisi_j :
             afficher_grille(grille)
