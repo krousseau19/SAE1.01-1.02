@@ -42,7 +42,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
         else :
             print("\033c")
             print("\x1b[31mErreur : Choix invalide\x1b[0m")
-            
+    print("\033c")
     return restart
 
 #Programme principal de l'application (Menu et lancement des jeux)
