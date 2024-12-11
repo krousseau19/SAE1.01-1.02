@@ -174,9 +174,6 @@ def début_de_partie(j1 : Joueur, j2 : Joueur, qui_joue : Joueur) -> Joueur :
                print("\033c")
                print("\x1b[31mErreur : Veuillez saisir un choix valide.\x1b[0m")
                print("Qui joue en premier ?")
-               print("1.", j1.pseudo)
-               print("2.", j2.pseudo)
-               print("3. Aléatoire")
      print("\033c")
      return qui_joue
 
