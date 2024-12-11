@@ -57,8 +57,8 @@ if __name__ == "__main__" :
     menu_actif = True
     rejoue = True
     creation_joueurs(j1, j2, f)
+    print("\033c")
     while menu_actif :
-        print("\033c")
         afficher_menu()
         choix = saisir_choix()
         if choix == 1 :
@@ -101,8 +101,7 @@ if __name__ == "__main__" :
         elif choix == 5 :
             menu_stats_actif = True
             print("\033c")
-            while menu_stats_actif :
-                print("\033c")
+            while menu_stats_actif :             
                 print("    === Statistiques ===")
                 print("1 - LeaderBoard")
                 print("2 - Infos sur les joueurs")
@@ -112,7 +111,6 @@ if __name__ == "__main__" :
                     sous_choix = -1
                     print("\033c")
                     while sous_choix != 5 :
-                        print("\033c")
                         print("    === LeaderBoard ===")
                         print("1 - Devinettes")
                         print("2 - Allumettes")

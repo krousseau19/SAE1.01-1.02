@@ -420,5 +420,6 @@ def afficher_leaderboard(fic : BinaryIO, jeu : str) :
 
      print("="*(27+len(jeu)))
      input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
+     print("\033c")
      fic.close()
 
