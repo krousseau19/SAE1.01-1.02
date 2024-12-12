@@ -342,6 +342,7 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
           except EOFError :
                fin = True
      input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
+     print("\033c")
      fic.close()
 
 def tri_décroissant(l : list[Joueur], jeu : str) :
