@@ -54,9 +54,9 @@ def verifier_egalite(plateau : list[list[str]]) -> bool:
     """
     return all([case != " " for ligne in plateau for case in ligne])
 
-def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
+def saisi_case(plateau : list[list[str]], joueur : Joueur, symbole : str) -> str:
     """
-    Entrée : 2 arguments, un plateau de jeu (tableau à deux dimensions de 3x3) et le joueur effectuant le saisi
+    Entrée : 3 arguments, un plateau de jeu (tableau à deux dimensions de 3x3), le joueur effectuant le saisi et son symbole
 
     Sortie : Une chaîne de caractère correspondant aux coordonnées de la case à modifier
 
@@ -80,7 +80,7 @@ def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
             print("\033c")
             print("\x1b[31mErreur : Coordonnées invalides.\x1b[0m")
             afficher_plateau(plateau)
-            print(f"Tour de {joueur.pseudo}")
+            print(f"Tour de {joueur.pseudo} ({symbole})")
         elif choix[0] in chaine_l and choix[1] in chaine_c :
             # Concatène les deux résultats pour former les coordonnées de la case
             case = str(chaine_l.index(choix[0])) + str(chaine_c.index(choix[1]))
@@ -89,7 +89,7 @@ def saisi_case(plateau : list[list[str]], joueur : Joueur) -> str:
             print("\033c")
             print("\x1b[31mErreur : Coordonnées invalides.\x1b[0m")
             afficher_plateau(plateau)
-            print(f"Tour de {joueur.pseudo}")
+            print(f"Tour de {joueur.pseudo} ({symbole})")
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur):
@@ -131,8 +131,8 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
         saisi_c = False
         while not saisi_c :
             afficher_plateau(plateau)
-            print(f"Tour de {joueur.pseudo}")
-            case = saisi_case(plateau, joueur)
+            print(f"Tour de {joueur.pseudo} ({symbole})")
+            case = saisi_case(plateau, joueur, symbole)
             saisi_c = True
             ligne = int(case[0])
             colonne = int(case[1])
