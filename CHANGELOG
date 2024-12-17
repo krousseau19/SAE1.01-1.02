@@ -1,1 +1,5 @@
-
+Changelog du 17/12/24 (Kylian & Jules) {
+  - Implémentation menu pour mode de jeu
+  - Implémentation menu pour choix de difficulté
+  - Mode Humain vs Machine et Machine vs Machine pour Allumettes
+}
