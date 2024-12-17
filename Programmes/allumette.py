@@ -47,11 +47,11 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
                 print("\x1b[37m")
                 sleep(2)
                 if diff == 1 :
-                    nb_all = randint(1,3)
-                    if nb_all <= allumettes :
-                        saisi_all = True
-                        print("\033c")
-                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
+                    if allumettes == 1 or allumettes == 2 : # type: ignore
+                        nb_all = 1
+                    else :
+                        nb_all = randint(1,3)
+                    saisi_all = True
                 elif diff == 2 :
                     nb_all = randint(1,2)
                     if allumettes == 8 and nb_all == 2 :  # type: ignore
@@ -68,12 +68,12 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
                         nb_all = 1
                     elif allumettes == 1 and nb_all == 2 :  # type: ignore
                         nb_all = 1
-                    else : 
-                        nb_all = randint(1,3)
-                    if nb_all <= allumettes :
-                        saisi_all = True
-                        print("\033c")
-                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
+                    else :
+                        if allumettes == 1 or allumettes == 2 : # type: ignore
+                            nb_all = 1
+                        else :
+                            nb_all = randint(1,3)
+                    saisi_all = True
                 else :
                     if allumettes == 20 :
                         nb_all = 3
@@ -108,12 +108,13 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
                     elif allumettes == 1 : 
                         nb_all = 1
                     else : 
-                        nb_all = randint(1,3)
-                    if nb_all <= allumettes :
-                        saisi_all = True
-                        print("\033c")
-                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
-
+                        if allumettes == 1 or allumettes == 2 : 
+                            nb_all = 1
+                        else :
+                            nb_all = randint(1,3)
+                    saisi_all = True
+                print("\033c")
+                print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
             else :
                 print("Il reste ", allumettes, "allumettes.")
                 # Affichage "tête" des allumettes
