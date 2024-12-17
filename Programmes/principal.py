@@ -42,7 +42,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
         else :
             print("\033c")
             print("\x1b[31mErreur : Choix invalide\x1b[0m")
-            
+    print("\033c")         
     return restart
 
 #Programme principal de l'application (Menu et lancement des jeux)
@@ -61,7 +61,6 @@ if __name__ == "__main__" :
     mode = mode_jeu()
     creation_joueurs(j1, j2, f, mode)
     while menu_actif :
-        print("\033c")
         afficher_menu()
         choix = saisir_choix()
         if choix == 1 :
@@ -105,7 +104,6 @@ if __name__ == "__main__" :
             menu_stats_actif = True
             print("\033c")
             while menu_stats_actif :
-                print("\033c")
                 print("    === Statistiques ===")
                 print("1 - LeaderBoard")
                 print("2 - Infos sur les joueurs")
@@ -115,7 +113,6 @@ if __name__ == "__main__" :
                     sous_choix = -1
                     print("\033c")
                     while sous_choix != 5 :
-                        print("\033c")
                         print("    === LeaderBoard ===")
                         print("1 - Devinettes")
                         print("2 - Allumettes")
