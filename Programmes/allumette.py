@@ -1,7 +1,9 @@
 # Fichier contenant toutes les fonctions relatives au jeu des allumettes
 from ressource import Joueur, début_de_partie, qui_joue
+from random import randint
+from time import sleep
 
-def jeu_allumettes(j1 : Joueur, j2 : Joueur):
+def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
     """
     Entrée : 2 arguments, qui sont les 2 joueurs
 
@@ -33,31 +35,111 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur):
         nb_all = -1
         # Tant que le saisi du nombre d'allumette n'est pas correct
         while not saisi_all :
-            print("Il reste ", allumettes, "allumettes.")
-            # Affichage "tête" des allumettes
-            for _ in range(0,allumettes) :  
-                print("\x1b[38;5;1m.", end=" ")
-            print("")
-            # Affichage "corps" des allumettes
-            for _ in range(0,allumettes) :  
-                print("\x1b[38;5;94m|", end=" ")
-            print("\x1b[37m")
-            # Saisi du joueur courant
-            try :
-                nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
-                saisi_all = True
-                print("\033c")
-                if nb_all < 1 or nb_all > 3:
+            if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :
+                print("Il reste ", allumettes, "allumettes.")
+                # Affichage "tête" des allumettes
+                for _ in range(0,allumettes) :  
+                    print("\x1b[38;5;1m.", end=" ")
+                print("")
+                # Affichage "corps" des allumettes
+                for _ in range(0,allumettes) :  
+                    print("\x1b[38;5;94m|", end=" ")
+                print("\x1b[37m")
+                sleep(2)
+                if diff == 1 :
+                    nb_all = randint(1,3)
+                    if nb_all <= allumettes :
+                        saisi_all = True
+                        print("\033c")
+                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
+                elif diff == 2 :
+                    nb_all = randint(1,2)
+                    if allumettes == 8 and nb_all == 2 :  # type: ignore
+                        nb_all = 3
+                    elif allumettes == 7 and nb_all == 2 : # type: ignore
+                        nb_all = 2
+                    elif allumettes == 6 and nb_all == 2 :  # type: ignore 
+                        nb_all = 1
+                    elif allumettes == 4 and nb_all == 2 : # type: ignore
+                        nb_all = 3
+                    elif allumettes == 3 and nb_all == 2 : # type: ignore
+                        nb_all = 2
+                    elif allumettes == 2 and nb_all == 2 : # type: ignore
+                        nb_all = 1
+                    elif allumettes == 1 and nb_all == 2 :  # type: ignore
+                        nb_all = 1
+                    else : 
+                        nb_all = randint(1,3)
+                    if nb_all <= allumettes :
+                        saisi_all = True
+                        print("\033c")
+                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
+                else :
+                    if allumettes == 20 :
+                        nb_all = 3
+                    elif allumettes == 19 :
+                        nb_all = 2
+                    elif allumettes == 18 :
+                        nb_all = 1
+                    elif allumettes == 16 :
+                        nb_all = 3
+                    elif allumettes == 15 :
+                        nb_all = 2
+                    elif allumettes == 14 :
+                        nb_all = 1
+                    elif allumettes == 12 :
+                        nb_all = 3
+                    elif allumettes == 11 :
+                        nb_all = 2
+                    elif allumettes == 10 : 
+                        nb_all = 1
+                    elif allumettes == 8 :
+                        nb_all = 3
+                    elif allumettes == 7 :
+                        nb_all = 2
+                    elif allumettes == 6 :
+                        nb_all = 1
+                    elif allumettes == 4 :
+                        nb_all = 3
+                    elif allumettes == 3 :
+                        nb_all = 2
+                    elif allumettes == 2 :
+                        nb_all = 1
+                    elif allumettes == 1 : 
+                        nb_all = 1
+                    else : 
+                        nb_all = randint(1,3)
+                    if nb_all <= allumettes :
+                        saisi_all = True
+                        print("\033c")
+                        print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
+
+            else :
+                print("Il reste ", allumettes, "allumettes.")
+                # Affichage "tête" des allumettes
+                for _ in range(0,allumettes) :  
+                    print("\x1b[38;5;1m.", end=" ")
+                print("")
+                # Affichage "corps" des allumettes
+                for _ in range(0,allumettes) :  
+                    print("\x1b[38;5;94m|", end=" ")
+                print("\x1b[37m")
+                # Saisi du joueur courant
+                try :
+                    nb_all = int(input(f"{joueur.pseudo} combien d'allumettes prenez-vous (1-3) ? "))
+                    saisi_all = True
                     print("\033c")
-                    print("\x1b[31mErreur : Veuillez prendre entre 1 et 3 allumettes.\x1b[0m")
-                    saisi_all = False   
-                if nb_all > allumettes :
+                    if nb_all < 1 or nb_all > 3:
+                        print("\033c")
+                        print("\x1b[31mErreur : Veuillez prendre entre 1 et 3 allumettes.\x1b[0m")
+                        saisi_all = False   
+                    if nb_all > allumettes :
+                        print("\033c")
+                        print("\x1b[31mErreur : Il n'y a plus assez d'allumettes.\x1b[0m")
+                        saisi_all = False
+                except ValueError :
                     print("\033c")
-                    print("\x1b[31mErreur : Il n'y a plus assez d'allumettes.\x1b[0m")
-                    saisi_all = False
-            except ValueError :
-                print("\033c")
-                print("\x1b[31mErreur : Veuillez saisir un argument valide.\x1b[0m")
+                    print("\x1b[31mErreur : Veuillez saisir un argument valide.\x1b[0m")
         saisi_all = False
         allumettes -= nb_all
         joueur.score += nb_all

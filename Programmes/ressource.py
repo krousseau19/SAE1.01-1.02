@@ -49,7 +49,33 @@ def mode_jeu() -> int :
           print("2 - Humain VS Machine")
           print("3 - Machine VS Machine")
           choix = saisir_choix()
+          if choix not in [1, 2, 3] :
+               print("\033c")
+               print("\x1b[31mChoix invalide\x1b[0m")
      return choix
+
+def choix_difficulté() -> int :
+     """
+     Entrée : Rien
+
+     Sortie : Un entier, correspondant à la difficulté choisie
+
+     Fonctionnement : Affichage d'un menu en continu, demande à l'utilisateur de choisir sa difficulté (1, 2 ou 3),
+     tant que le choix n'est pas valide, re-affiche le menu, sinon retourne l'entier correspondant à la difficulté choisie
+     """
+     choix : int
+     choix = 0
+     while choix not in [1, 2, 3] :
+          print("=== Difficulté ===")
+          print("1 - Facile")
+          print("2 - Intermédiaire")
+          print("3 - Difficile")
+          choix = saisir_choix()
+          if choix not in [1, 2, 3] :
+               print("\033c")
+               print("\x1b[31mChoix invalide\x1b[0m")
+     return choix
+
 
 def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
      """
@@ -65,7 +91,7 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
      """
      j_existe : bool  # Sert à savoir si le joueur est présent ou non dans le fichier binaire
 
-     if mode == 1 :
+     if mode == 1 or mode == 2 :
           print("\033c")
           print("Création du Joueur 1...")
           # Initialisation des différents attributs du joueur / récupération de ceux-ci
@@ -82,6 +108,7 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
                sauvegarder_joueur(f, j1)
           else :
                charger_joueur(f, j1)
+     if mode == 1 :
           print("Création du Joueur 2...")
           # Initialisation des différents attributs du joueur / récupération de ceux-ci
           j2.pseudo = input("Veuillez saisir votre pseudo : ")
@@ -97,11 +124,26 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
                sauvegarder_joueur(f, j2)
           else :
                charger_joueur(f, j2)
-          print("\033c")
-     elif mode == 2 :
-          print("Humain vs machine")
      else :
-          print("Machine vs machine")
+          if mode == 2 or mode == 3 :
+               j2.pseudo = "machine 2"
+               j2.score = 0
+               j2.highscore_dev = 0
+               j2.highscore_all = 0
+               j2.highscore_mor = 0
+               j2.highscore_pui = 0
+               j2.nb_partie = 0
+               j2.nb_partieG = 0
+          if mode == 3 :
+               j1.pseudo = "machine 1"
+               j1.score = 0
+               j1.highscore_dev = 0
+               j1.highscore_all = 0
+               j1.highscore_mor = 0
+               j1.highscore_pui = 0
+               j1.nb_partie = 0
+               j1.nb_partieG = 0
+     print("\033c")
 
 def afficher_menu():
      """
