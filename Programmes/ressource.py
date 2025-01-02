@@ -44,6 +44,7 @@ def mode_jeu() -> int :
      choix : int
      choix = 0
      while choix not in [1, 2, 3] :
+          print("\033c")
           print("=== Mode de jeu ===")
           print("1 - Humain VS Humain")
           print("2 - Humain VS Machine")

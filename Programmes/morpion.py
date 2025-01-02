@@ -1,5 +1,7 @@
 # Fichier contenant toutes les fonctions relatives au jeu de morpion
 from ressource import Joueur, début_de_partie, qui_joue
+import random
+from time import sleep
 
 def afficher_plateau(plateau : list[list[str]]):
     """
@@ -92,7 +94,66 @@ def saisi_case(plateau : list[list[str]], joueur : Joueur, symbole : str) -> str
             print(f"Tour de {joueur.pseudo} ({symbole})")
     return case
 
-def jeu_morpion(j1 : Joueur, j2 : Joueur):
+
+def coup_aleatoire(plateau: list[list[str]]) -> tuple[int, int]:
+    """
+    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
+
+    Sortie : Un tuple de deux entiers correspondant aux coordonnées d'une case libre
+
+    Fonctionnement : Fonction qui sélectionne un coup aléatoire parmi les cases libres.
+    """
+    libres : list[tuple[int, int]]
+    libres = []
+    for i in range(3):
+        for j in range(3):
+            if plateau[i][j] == " ":
+                libres.append((i, j))
+    return random.choice(libres)
+
+def coup_optimal(plateau: list[list[str]]) -> tuple[int, int] :
+    """
+    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
+
+    Sortie : Un tuple de deux entiers correspondant aux coordonnées d'une case libre
+
+    Fonctionnement : Fonction qui sélectionne le coup optimal en fonction du plateau rentré en paramètre, si aucun coup optimal n'est possible,
+    fait alors appel à la foncion coup_aleatoire pour trouver un coup aléatoire à la place.
+    """
+    meilleure_case : tuple[int, int]
+    if plateau[1][1] == " " :
+        meilleure_case = (1,1)
+    elif plateau[0][0] == " " :
+        meilleure_case = (0,0)
+    elif plateau[0][2] == " " :
+        meilleure_case = (0,2)
+    elif plateau[2][0] == " " :
+        meilleure_case = (2,0)
+    elif plateau[2][2] == " " :
+        meilleure_case = (2,2)
+    else :
+        meilleure_case = coup_aleatoire(plateau)
+    return meilleure_case
+
+def coup_intermediaire(plateau : list[list[str]]) -> tuple[int, int]:
+    """
+    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
+
+    Sortie : Un tuple de deux entiers correspondant aux coordonnées d'une case libre
+
+    Fonctionnement : Fonction qui en fonction du résultat de alea, va soit donner un coup aléatoire ou le coup optimal à jouer en fonction du plateau,
+    celle-ci est utilisée pour faire jouer la machine en difficulté intermédiaire.
+    """
+    case : tuple[int, int]
+    alea : int
+    alea = random.randint(0,1)
+    if alea == 0 :
+        case = coup_aleatoire(plateau)
+    else :
+        case = coup_optimal(plateau)
+    return case
+
+def jeu_morpion(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
     """
     Entrée : 2 arguments, les deux joueurs 
 
@@ -106,6 +167,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
     """
     partie_finie : bool
     case : str
+    case_m : tuple[int, int]
     ligne : int
     colonne : int
     plateau : list[list[str]]
@@ -130,17 +192,31 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur):
             symbole = '\x1b[34mO\x1b[37m'
         saisi_c = False
         while not saisi_c :
+            print("\033c")
             afficher_plateau(plateau)
             print(f"Tour de {joueur.pseudo} ({symbole})")
-            case = saisi_case(plateau, joueur, symbole)
-            saisi_c = True
-            ligne = int(case[0])
-            colonne = int(case[1])
-            print("\033c")
-            if plateau[ligne][colonne] != " ":
+            if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :   # Si machine joue
+                case_m = (0,0)
+                if diff == 2 :
+                    case_m = coup_intermediaire(plateau)
+                elif diff == 3 :
+                    case_m = coup_optimal(plateau)
+                else :  # Diff 1 
+                    case_m = coup_aleatoire(plateau)
+                ligne = case_m[0]
+                colonne = case_m[1]
+                saisi_c = True
+                sleep(2)
+            else :  # Si joueur joue
+                case = saisi_case(plateau, joueur, symbole)
+                saisi_c = True
+                ligne = int(case[0])
+                colonne = int(case[1])
                 print("\033c")
-                print("\x1b[31mErreur : Cette case est déjà prise. Choisissez une autre case.\x1b[0m")
-                saisi_c = False
+                if plateau[ligne][colonne] != " ":
+                    print("\033c")
+                    print("\x1b[31mErreur : Cette case est déjà prise. Choisissez une autre case.\x1b[0m")
+                    saisi_c = False
         saisi_c = False
         joueur.score += 10
         plateau[ligne][colonne] = symbole 

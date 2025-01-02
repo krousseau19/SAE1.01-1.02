@@ -5,7 +5,7 @@ from morpion import jeu_morpion
 from puissance4 import jeu_puissance4
 from ressource import creation_joueurs, afficher_menu, saisir_choix, j1, j2, afficher_stats, f, sauvegarder_joueur, afficher_leaderboard, Joueur, mode_jeu, choix_difficulté
 
-def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
+def restart(jeu : str, j1 : Joueur, j2 : Joueur, mode : int, diff : int) -> bool :
     """
     Entrée : 3 arguments, une chaîne de caractère correspondant au jeu, et 2 joueurs
 
@@ -30,7 +30,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur) -> bool :
             if jeu == "Allumette" :
                 jeu_allumettes(j1, j2, mode, diff)
             elif jeu == "Morpion" :
-                jeu_morpion(j1, j2)
+                jeu_morpion(j1, j2, mode, diff)
             elif jeu == "Puissance4" :
                 jeu_puissance4(j1, j2)
             else :
@@ -77,7 +77,7 @@ if __name__ == "__main__" :
             if mode == 1 :
                 sauvegarder_joueur(f, j2)
             while rejoue :
-                rejoue = restart("Devinette", j1, j2)
+                rejoue = restart("Devinette", j1, j2, mode, diff)
                 if mode == 1 or mode == 2 :
                     sauvegarder_joueur(f, j1)
                 if mode == 1 :
@@ -90,20 +90,20 @@ if __name__ == "__main__" :
             if mode == 1 :
                 sauvegarder_joueur(f, j2)
             while rejoue :
-                rejoue = restart("Allumette", j1, j2)
+                rejoue = restart("Allumette", j1, j2, mode, diff)
                 if mode == 1 or mode == 2 :
                     sauvegarder_joueur(f, j1)
                 if mode == 1 :
                     sauvegarder_joueur(f, j2)
         elif choix == 3 :
             rejoue = True
-            jeu_morpion(j1, j2)
+            jeu_morpion(j1, j2, mode, diff)
             if mode == 1 or mode == 2 :
                 sauvegarder_joueur(f, j1)
             if mode == 1 :
                 sauvegarder_joueur(f, j2)
             while rejoue :
-                rejoue = restart("Morpion", j1, j2)
+                rejoue = restart("Morpion", j1, j2, mode, diff)
                 if mode == 1 or mode == 2 :
                     sauvegarder_joueur(f, j1)
                 if mode == 1 :
@@ -116,7 +116,7 @@ if __name__ == "__main__" :
             if mode == 1 :
                 sauvegarder_joueur(f, j2)
             while rejoue :
-                rejoue = restart("Puissance4", j1, j2)
+                rejoue = restart("Puissance4", j1, j2, mode, diff)
                 if mode == 1 or mode == 2 :
                     sauvegarder_joueur(f, j1)
                 if mode == 1 :
