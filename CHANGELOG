@@ -1,3 +1,7 @@
+Changelog du 02/01/25 (Kylian) {
+  - Implémentation Humain vs Machine et Machine vs Machine pour le Morpion (difficulté Facile et Intermédiaire, Difficile à revoir)
+}
+
 Changelog du 17/12/24 (Kylian & Jules) {
   - Implémentation menu pour mode de jeu
   - Implémentation menu pour choix de difficulté
