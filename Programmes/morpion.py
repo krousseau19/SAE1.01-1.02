@@ -111,31 +111,75 @@ def coup_aleatoire(plateau: list[list[str]]) -> tuple[int, int]:
                 libres.append((i, j))
     return random.choice(libres)
 
-def coup_optimal(plateau: list[list[str]]) -> tuple[int, int] :
+def coup_optimal(plateau: list[list[str]], symbole : str) -> tuple[int, int] :
     """
-    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
-
-    Sortie : Un tuple de deux entiers correspondant aux coordonnées d'une case libre
-
-    Fonctionnement : Fonction qui sélectionne le coup optimal en fonction du plateau rentré en paramètre, si aucun coup optimal n'est possible,
-    fait alors appel à la foncion coup_aleatoire pour trouver un coup aléatoire à la place.
+    Entrée : 
+        - plateau (liste de liste de chaînes de caractères) : un plateau de morpion de 3x3
+        - symbole (str) : le symbole du joueur, soit 'X' soit 'O'
+    
+    Sortie : 
+        - Une tuple contenant les indices (ligne, colonne) de la meilleure case à jouer.
+        
+    Fonctionnement :
+        - Cherche d'abord un coup gagnant pour le joueur.
+        - Si aucun coup gagnant, cherche à bloquer l'adversaire.
+        - Sinon, choisit une case stratégique (par exemple le centre, puis les coins).
     """
-    meilleure_case : tuple[int, int]
-    if plateau[1][1] == " " :
-        meilleure_case = (1,1)
-    elif plateau[0][0] == " " :
-        meilleure_case = (0,0)
-    elif plateau[0][2] == " " :
-        meilleure_case = (0,2)
-    elif plateau[2][0] == " " :
-        meilleure_case = (2,0)
-    elif plateau[2][2] == " " :
-        meilleure_case = (2,2)
+    adversaire : str
+    i : int
+    j : int
+    coins : list[tuple[int, int]]
+    bords : list[tuple[int, int]]
+    coin : tuple[int, int]
+    bord : tuple[int, int]
+
+    if symbole == '\x1b[34mO\x1b[37m' :
+        adversaire = '\x1b[31mX\x1b[37m'
     else :
-        meilleure_case = coup_aleatoire(plateau)
-    return meilleure_case
+        adversaire = '\x1b[34mO\x1b[37m'
 
-def coup_intermediaire(plateau : list[list[str]]) -> tuple[int, int]:
+    # Parcours pour trouver si case gagnante
+    for i in range(3):
+        for j in range(3):
+            if plateau[i][j] == ' ':  # Si la case est vide
+                plateau[i][j] = symbole
+                if verifier_victoire(plateau):
+                    plateau[i][j] = ' '  # Annule le coup après avoir vérifié
+                    return (i, j)
+                plateau[i][j] = ' '  # Annule le coup
+
+    # Parcours pour trouver si bloquer la victoire possible
+    for i in range(3):
+        for j in range(3):
+            if plateau[i][j] == ' ': 
+                plateau[i][j] = adversaire
+                if verifier_victoire(plateau):
+                    plateau[i][j] = ' ' 
+                    return (i, j)
+                plateau[i][j] = ' ' 
+
+    # Si aucun des deux cas au dessus, on choisi une case stratégique
+    if plateau[1][1] == ' ':  # Le centre
+        return (1, 1)
+
+    coins = [(0, 0), (0, 2), (2, 0), (2, 2)] # Les coins
+    for coin in coins:
+        i = coin[0]
+        j = coin[1]
+        if plateau[i][j] == ' ':
+            return (i, j)
+
+    bords = [(0, 1), (1, 0), (1, 2), (2, 1)] # Les bords
+    for bord in bords:
+        i = bord[0]
+        j = bord[1]
+        if plateau[i][j] == ' ':
+            return (i, j)
+
+    return None  # type: ignore
+
+
+def coup_intermediaire(plateau : list[list[str]], symbole : str) -> tuple[int, int]:
     """
     Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
 
@@ -150,7 +194,7 @@ def coup_intermediaire(plateau : list[list[str]]) -> tuple[int, int]:
     if alea == 0 :
         case = coup_aleatoire(plateau)
     else :
-        case = coup_optimal(plateau)
+        case = coup_optimal(plateau, symbole)
     return case
 
 def jeu_morpion(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
@@ -198,9 +242,9 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
             if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :   # Si machine joue
                 case_m = (0,0)
                 if diff == 2 :
-                    case_m = coup_intermediaire(plateau)
+                    case_m = coup_intermediaire(plateau, symbole)
                 elif diff == 3 :
-                    case_m = coup_optimal(plateau)
+                    case_m = coup_optimal(plateau, symbole)
                 else :  # Diff 1 
                     case_m = coup_aleatoire(plateau)
                 ligne = case_m[0]
