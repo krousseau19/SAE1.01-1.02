@@ -1,7 +1,9 @@
 # Fichier contenant toutes les fonctions relatives au jeu de devinettes
 from ressource import Joueur, début_de_partie, qui_joue
+import random
+#from time import sleep
 
-def saisir_victoire(joueur : Joueur, j1 : Joueur, j2 : Joueur, devine : int) -> int :
+def saisir_victoire(joueur : Joueur, devine : int) -> int :
     """
     Entrée : 4 arguments, le joueur actuel, le joueur 1 et le joueur 2, et le nombre saisi par celui qui cherche
 
@@ -14,10 +16,6 @@ def saisir_victoire(joueur : Joueur, j1 : Joueur, j2 : Joueur, devine : int) -> 
     choix : int
     fin : bool
 
-    if joueur == j1 :
-        joueur = j2
-    else :
-        joueur = j1
     choix = 0
     fin = False
     while not fin :
@@ -74,8 +72,45 @@ def saisir_intervalle() -> int :
     print("\033c")
     return borne_sup
 
+def choix_entier(borne_sup : int) -> int :
+    """
+    """
+    n : int
 
-def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
+    n = random.randint(1, borne_sup)
+
+    return n
+
+def choix_optimal(borne_inf : int, borne_sup : int) -> int :
+    """
+    Entrée : borne_inf (int) : borne inférieure de l'intervalle / borne_sup (int) : borne supérieure de l'intervalle.
+
+    Retour : Le choix optimal basé sur la recherche dichotomique (int).
+
+    Fonctionnement : Retourne le milieu de l'intervalle pour la recherche dichotomique.
+    """
+    return (borne_inf + borne_sup) // 2
+    
+
+def choix_intermediaire(borne_inf : int, borne_sup : int) -> int :
+    """
+    Entrée : Un entier correspondant à l'intervalle choisi
+
+    Sortie : Un entier correspondant au chiffre/nombre choisi
+
+    Fonctionnement : Fonction qui en fonction du résultat de alea, va soit donner un coup aléatoire ou le coup optimal à jouer,
+    celle-ci est utilisée pour faire jouer la machine en difficulté intermédiaire.
+    """
+    n : int
+    alea : int
+    alea = random.randint(0,1)
+    if alea == 0 :
+        n = choix_entier(borne_sup)
+    else :
+        n = choix_optimal(borne_inf, borne_sup)
+    return n
+
+def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : int):
     """
     Entrée : 3 arguments, les deux joueurs, ainsi qu'un entier représentant la borne supérieure de l'intervalle
 
@@ -101,6 +136,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
     choix : int
     choix_valide : bool
     manche : int
+    borne_inf : int
 
     print("\033c")
     print("\n    === Jeu de devinettes ===")
@@ -117,17 +153,21 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
         nombre_secret = -1
         print("\033c")
         while not saisi_j1:
-            try:
-                while nombre_secret <= 0 or nombre_secret > intervalle :
-                    nombre_secret = int(input(f"{joueur.pseudo}, entrez un nombre secret à faire deviner : "))
-                    if nombre_secret <=0 or nombre_secret > intervalle :
-                        print("\033c")
-                        print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
-                print("\033c")
+            if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :
+                nombre_secret = choix_entier(intervalle)
                 saisi_j1 = True
-            except ValueError:
-                print("\033c")
-                print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
+            else :
+                try:
+                    while nombre_secret <= 0 or nombre_secret > intervalle :
+                        nombre_secret = int(input(f"{joueur.pseudo}, entrez un nombre secret à faire deviner : "))
+                        if nombre_secret <=0 or nombre_secret > intervalle :
+                            print("\033c")
+                            print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
+                    print("\033c")
+                    saisi_j1 = True
+                except ValueError:
+                    print("\033c")
+                    print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
         tentatives = 0
         partie_finie = False
         if joueur == j1 :
@@ -137,25 +177,53 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
         saisi_j2 = False
         devine = -1
         joueur.score = intervalle
+        borne_inf = 1
+        borne_sup = intervalle
         while not partie_finie:
             while not saisi_j2 :
-                try :
-                    while devine <= 0 or devine > intervalle :
-                        devine = int(input(f"{joueur.pseudo}, devinez le nombre : "))
-                        if devine <= 0 or devine > intervalle :
-                            print("\033c")
-                            print("\x1b[31mErreur : Veuillez saisir un nombre dans l'intervalle.\x1b[0m")
-                    print("\033c")
+                if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :
+                    if diff == 1 :
+                        devine = choix_entier(intervalle)
+                    elif diff == 2 :
+                        devine = choix_intermediaire(borne_inf, borne_sup)
+                    else :
+                        devine = choix_optimal(borne_inf, borne_sup)
                     saisi_j2 = True
-                except ValueError :
-                    print("\033c")
-                    print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
+                else :
+                    try :
+                        while devine <= 0 or devine > intervalle :
+                            devine = int(input(f"{joueur.pseudo}, devinez le nombre : "))
+                            if devine <= 0 or devine > intervalle :
+                                print("\033c")
+                                print("\x1b[31mErreur : Veuillez saisir un nombre dans l'intervalle.\x1b[0m")
+                        print("\033c")
+                        saisi_j2 = True
+                    except ValueError :
+                        print("\033c")
+                        print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
             saisi_j2 = False
             tentatives += 1
             joueur.score = int(joueur.score - (intervalle*(10/100)))
             choix_valide = False
+            if joueur == j1 :
+                joueur = j2
+            else :
+                joueur = j1
             while not choix_valide :
-                choix = saisir_victoire(joueur, j1, j2, devine)
+                choix = -1
+                if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :
+                    if devine < nombre_secret :
+                        choix = 1
+                    elif devine > nombre_secret :
+                        choix = 2
+                    else : 
+                        choix = 3
+                else :
+                    choix = saisir_victoire(joueur, devine)
+                if joueur == j1 :
+                    joueur = j2
+                else :
+                    joueur = j1
                 if devine < nombre_secret and choix == 1:
                     if joueur.score <= 0 :
                         print("\033c")
@@ -165,6 +233,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                         print("\033c")
                         print("\x1b[38;5;1mTrop petit.\x1b[37m")
                         print("")
+                    borne_inf = devine + 1 # Met à jour la borne inférieure pour la machine
                     choix_valide = True
                 elif devine > nombre_secret and choix == 2:
                     if joueur.score <= 0 :
@@ -175,6 +244,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                         print("\033c")
                         print("\x1b[38;5;1mTrop grand.\x1b[37m")
                         print("")
+                    borne_sup = devine - 1 # Met à jour la borne supérieure pour la machine
                     choix_valide = True
                 elif devine == nombre_secret and choix == 3:
                     print("\033c")
@@ -182,11 +252,18 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int):
                     print("Votre score : ", joueur.score, "\x1b[0m")
                     if joueur.score > joueur.highscore_dev :
                         joueur.highscore_dev = joueur.score
+                    # Remise à état initial des deux bornes
+                    borne_inf = 1           
+                    borne_sup = intervalle
                     choix_valide = True
                     partie_finie = True
                 else :
                     print("\033c")
                     print("\x1b[31mErreur : La réponse de ne correspond pas avec le résultat !\x1b[0m")
+                    if joueur == j1 :
+                        joueur = j2
+                    else :
+                        joueur = j1
             devine = -1
                 
         if joueur_d == j1.pseudo :

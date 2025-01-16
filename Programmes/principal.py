@@ -35,7 +35,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur, mode : int, diff : int) -> bool
                 jeu_puissance4(j1, j2, mode, diff)
             else :
                 intervalle = saisir_intervalle()
-                jeu_devinette(j1, j2, intervalle)
+                jeu_devinette(j1, j2, intervalle, mode, diff)
             restart = True
         elif choix == 2 :
             input("Veuillez appuyer sur ENTRER pour revenir au menu principal...")
@@ -71,7 +71,7 @@ if __name__ == "__main__" :
         if choix == 1 :
             rejoue = True
             intervalle = saisir_intervalle()
-            jeu_devinette(j1, j2, intervalle)
+            jeu_devinette(j1, j2, intervalle, mode, diff)
             if mode == 1 or mode == 2 :
                 sauvegarder_joueur(f, j1)
             if mode == 1 :
