@@ -104,6 +104,8 @@ def coup_aleatoire(plateau: list[list[str]]) -> tuple[int, int]:
     Fonctionnement : Fonction qui sélectionne un coup aléatoire parmi les cases libres.
     """
     libres : list[tuple[int, int]]
+    i : int
+    j : int
     libres = []
     for i in range(3):
         for j in range(3):
@@ -113,17 +115,14 @@ def coup_aleatoire(plateau: list[list[str]]) -> tuple[int, int]:
 
 def coup_optimal(plateau: list[list[str]], symbole : str) -> tuple[int, int] :
     """
-    Entrée : 
-        - plateau (liste de liste de chaînes de caractères) : un plateau de morpion de 3x3
-        - symbole (str) : le symbole du joueur, soit 'X' soit 'O'
+    Entrée : Un plateau (liste de liste de chaînes de caractères) : un plateau de morpion de 3x3
+    Un symbole (str) : le symbole du joueur, soit 'X' soit 'O'
     
-    Sortie : 
-        - Une tuple contenant les indices (ligne, colonne) de la meilleure case à jouer.
+    Sortie : Une tuple contenant les indices (ligne, colonne) de la meilleure case à jouer.
         
-    Fonctionnement :
-        - Cherche d'abord un coup gagnant pour le joueur.
-        - Si aucun coup gagnant, cherche à bloquer l'adversaire.
-        - Sinon, choisit une case stratégique (par exemple le centre, puis les coins).
+    Fonctionnement : Cherche d'abord un coup gagnant pour le joueur.
+    Si aucun coup gagnant, cherche à bloquer l'adversaire.
+    Sinon, choisit une case stratégique (par exemple le centre, puis les coins).
     """
     adversaire : str
     i : int
@@ -181,7 +180,7 @@ def coup_optimal(plateau: list[list[str]], symbole : str) -> tuple[int, int] :
 
 def coup_intermediaire(plateau : list[list[str]], symbole : str) -> tuple[int, int]:
     """
-    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu
+    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu, une chaine de caractère correspondant au symbole du joueur
 
     Sortie : Un tuple de deux entiers correspondant aux coordonnées d'une case libre
 

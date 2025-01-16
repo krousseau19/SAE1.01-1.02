@@ -32,7 +32,7 @@ def restart(jeu : str, j1 : Joueur, j2 : Joueur, mode : int, diff : int) -> bool
             elif jeu == "Morpion" :
                 jeu_morpion(j1, j2, mode, diff)
             elif jeu == "Puissance4" :
-                jeu_puissance4(j1, j2)
+                jeu_puissance4(j1, j2, mode, diff)
             else :
                 intervalle = saisir_intervalle()
                 jeu_devinette(j1, j2, intervalle)
@@ -110,7 +110,7 @@ if __name__ == "__main__" :
                     sauvegarder_joueur(f, j2)
         elif choix == 4 :
             rejoue = True
-            jeu_puissance4(j1, j2)
+            jeu_puissance4(j1, j2, mode, diff)
             if mode == 1 or mode == 2 :
                 sauvegarder_joueur(f, j1)
             if mode == 1 :

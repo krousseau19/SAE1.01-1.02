@@ -1,9 +1,11 @@
 # Fichier contenant toutes les fonctions relatives au jeu de puissance 4
 from ressource import Joueur, début_de_partie, qui_joue
+import random
+from time import sleep
 
 def check_victoire(grille : list[list[str]], symbole : str) -> bool :
     """
-    Entrée : Tableau de tableau (3x3) contenant des chaînes de caractères, et le symbole du joueur
+    Entrée : Tableau de tableau (6x7) contenant des chaînes de caractères, et le symbole du joueur
 
     Sortie : Un booléen, True si il y a une victoire, False sinon
 
@@ -40,7 +42,7 @@ def check_victoire(grille : list[list[str]], symbole : str) -> bool :
 
 def check_égalité(grille : list[list[str]]) -> bool :
     """
-    Entrée : Un tableau de tableau (3x3) contenant des chaînes de caractères
+    Entrée : Un tableau de tableau (6x7) contenant des chaînes de caractères
 
     Sortie : Un booléen, True si il y a égalité, False sinon
 
@@ -56,7 +58,7 @@ def check_égalité(grille : list[list[str]]) -> bool :
 
 def afficher_grille(grille : list[list[str]]):
     """
-    Entrée : Un tableau de tableau (3x3) contenant des chaînes de caractères
+    Entrée : Un tableau de tableau (6x7) contenant des chaînes de caractères
 
     Sortie : Rien
 
@@ -70,7 +72,109 @@ def afficher_grille(grille : list[list[str]]):
         print(" | ".join(ligne))    # séparateurs de colonnes
     print("1 | 2 | 3 | 4 | 5 | 6 | 7")  # indices des colonnes
 
-def jeu_puissance4(j1 : Joueur, j2 : Joueur):
+def coup_aleatoire(grille : list[list[str]])  -> int :
+    """
+    Entrée : Une liste de chaîne de caractères correspondant à la grille du puissance 4 
+
+    Sortie : Un entier correspondant à l'indice de la colonne à jouer
+
+    Fonctionnement : Fonction qui sélectionne un coup aléatoire parmi les colonnes libres (colonnes avec
+    au moins une case vide)
+    """
+    libres : list[int]
+    i : int
+    j : int
+    libres = []
+    for i in range(6) :
+        for j in range(5, -1, -1):
+            if grille[i][j-1] == " " :
+                libres.append(i)
+    return random.choice(libres)
+
+def coup_optimal(grille: list[list[str]], symbole: str) -> int:
+    """
+    Entrée : Une grille (liste de liste de chaînes de caractères) : une grille de puissance 4 de 6x7
+    Un symbole (str) : le symbole du joueur, un cercle "O" rouge ou jaune.
+    
+    Sortie : Un entier, correspondant à la meilleure colonne jouer
+        
+    Fonctionnement : Cherche d'abord un coup gagnant pour le joueur.
+    Si aucun coup gagnant, cherche à bloquer l'adversaire.
+    Sinon, choisit une case stratégique (en commençant par le centre).
+    """
+    lignes : int
+    colonnes : int
+    adversaire : str
+    lignes_disponibles : list[int]
+    recherche : bool
+    col : int
+    ligne : int
+    ordre_priorite : list[int]
+
+    lignes = len(grille)
+    colonnes = len(grille[0])
+
+    if symbole == "\x1b[31mO\x1b[37m" :
+        adversaire = "\x1b[38;5;226mO\x1b[37m"
+    else :
+        adversaire = "\x1b[31mO\x1b[37m" 
+
+    # Cherche la ligne jouable pour chaque colonne
+    lignes_disponibles = [-1] * colonnes  # Stocke la première ligne disponible pour chaque colonne
+    recherche = True
+    while recherche :
+        for col in range(colonnes):
+            for ligne in range(lignes-1, -1, -1):  # Parcours des colonnes de bas en haut
+                if grille[ligne][col] == " ":
+                    lignes_disponibles[col] = ligne
+                    recherche = False
+
+    # Si la machine peut gagner, alors elle joue la case gagnante
+    for col in range(colonnes):
+        if lignes_disponibles[col] != -1:  # Si la colonne n'est pas pleine
+            grille[lignes_disponibles[col]][col] = symbole  # Simule un coup
+            if check_victoire(grille, symbole):  # Vérifie victoire
+                grille[lignes_disponibles[col]][col] = " "  # Annule le coup
+                return col + 1  # Colonne optimale trouvée
+            grille[lignes_disponibles[col]][col] = " "  
+
+    # Si l'adversaire peut gagner, le bloque
+    for col in range(colonnes):
+        if lignes_disponibles[col] != -1:  
+            grille[lignes_disponibles[col]][col] = adversaire  # Simule un coup de l'adversaire
+            if check_victoire(grille, adversaire):  
+                grille[lignes_disponibles[col]][col] = " "  
+                return col + 1 
+            grille[lignes_disponibles[col]][col] = " " 
+
+    # Si aucun des deux cas précédents, alors on choisi une case stratégique (en priorité le centre)
+    ordre_priorite = [3, 4, 2, 5, 1, 6, 0]  # Ordre des colonnes par priorité, avec le centre en premier
+    for col in ordre_priorite:
+        if lignes_disponibles[col] != -1:  # Si la colonne est jouable
+            return col + 1
+
+    return 1 # Si jamais un problème 
+
+
+def coup_intermediaire(grille : list[list[str]], symbole : str)  -> int :
+    """
+    Entrée : Une liste de chaîne de caractères correspondant au plateau de jeu, une chaine de caractère correspondant au symbole du joueur
+
+    Sortie : Un entier correspondant à la colonne choisie
+
+    Fonctionnement : Fonction qui en fonction du résultat de alea, va soit donner un coup aléatoire ou le coup optimal à jouer en fonction de la grille,
+    celle-ci est utilisée pour faire jouer la machine en difficulté intermédiaire.
+    """
+    colonne : int
+    alea : int
+    alea = random.randint(0,1) # Génère aléatoirement un entier entre 0 et 1
+    if alea == 0 : # Si 0 alors un coup aléatoire
+        colonne = coup_aleatoire(grille)
+    else : # Sinon le meilleur coup possible
+        colonne = coup_optimal(grille, symbole) 
+    return colonne
+
+def jeu_puissance4(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
     """
     Entrée : 2 arguments, les 2 joueurs
 
@@ -109,18 +213,32 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
         saisi_j = False
         while not saisi_j :
             afficher_grille(grille)
-            try:
-                colonne = int(input(f"{joueur.pseudo} ({symbole}), choisissez une colonne (1-7) : "))
+            print(f"Tour de {joueur.pseudo} ({symbole})")
+            if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" : # Si une machine joue
+                if diff == 1 :
+                    colonne = coup_aleatoire(grille)
+                    saisi_j = True
+                elif diff == 2 :
+                    colonne = coup_intermediaire(grille, symbole)
+                    saisi_j = True
+                else :
+                    colonne = coup_optimal(grille, symbole)
+                    saisi_j = True
+                sleep(2)
                 print("\033c")
-                saisi_j = True
-            except ValueError:
-                print("\033c")
-                print("\x1b[31mErreur : Veuillez entrer un nombre valide.\x1b[0m")
-                saisi_j = False
-            if colonne < 1 or colonne > 7:
-                print("\033c")
-                print("\x1b[31mErreur : Numéro de colonne invalide, réessayez.\x1b[0m")
-                saisi_j = False
+            else :
+                try:
+                    colonne = int(input(f"{joueur.pseudo} ({symbole}), choisissez une colonne (1-7) : "))
+                    print("\033c")
+                    saisi_j = True
+                except ValueError:
+                    print("\033c")
+                    print("\x1b[31mErreur : Veuillez entrer un nombre valide.\x1b[0m")
+                    saisi_j = False
+                if colonne < 1 or colonne > 7:
+                    print("\033c")
+                    print("\x1b[31mErreur : Numéro de colonne invalide, réessayez.\x1b[0m")
+                    saisi_j = False
             if saisi_j :
                 colonne_pleine = True
                 for ligne in range(5, -1, -1):
@@ -128,7 +246,7 @@ def jeu_puissance4(j1 : Joueur, j2 : Joueur):
                         grille[ligne][colonne-1] = symbole
                         joueur.score += 5
                         colonne_pleine = False
-            
+                
                 if colonne_pleine :
                     print("\033c")
                     print("\x1b[31mErreur : Cette colonne est pleine, choisissez-en une autre.\x1b[0m")
