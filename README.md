@@ -6,8 +6,6 @@ Un projet de 1ère année en BUT informatique, son objectif est d'implémenter u
           - Facile
           - Intermédiaire
           - Difficile
-      - Morpion
-          - Difficile (à revoir)
       - Puissance 4
           - Facile
           - Intermédiaire
@@ -17,8 +15,6 @@ Un projet de 1ère année en BUT informatique, son objectif est d'implémenter u
           - Facile
           - Intermédiaire
           - Difficile
-      - Morpion
-          - Difficile (à revoir)
       - Puissance 4
           - Facile
           - Intermédiaire
