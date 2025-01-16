@@ -6,16 +6,9 @@ Un projet de 1ère année en BUT informatique, son objectif est d'implémenter u
           - Facile
           - Intermédiaire
           - Difficile
-      - Puissance 4
-          - Facile
-          - Intermédiaire
-          - Difficile
   - Implémentation machine vs machine
       - Devinettes
           - Facile
           - Intermédiaire
           - Difficile
-      - Puissance 4
-          - Facile
-          - Intermédiaire
-          - Difficile
+  - Vérification du temps d'éxécution en fonction de la difficulté (avec module time) 
