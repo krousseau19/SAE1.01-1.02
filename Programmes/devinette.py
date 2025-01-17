@@ -74,6 +74,11 @@ def saisir_intervalle() -> int :
 
 def choix_entier(borne_sup : int) -> int :
     """
+    Entrée : borne_sup (int) : borne supérieure de l'intervalle.
+
+    Sortie : Un entier aléatoire compris entre 1 et la borne supérieure
+
+    Fonctionnement : Initialise un entier n, prend une valeur comprise entre 1 et la borne supérieure, puis la renvoie.
     """
     n : int
 
