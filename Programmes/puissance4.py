@@ -113,48 +113,46 @@ def coup_optimal(grille: list[list[str]], symbole: str) -> int:
 
     lignes = len(grille)
     colonnes = len(grille[0])
-
     if symbole == "\x1b[31mO\x1b[37m" :
-        adversaire = "\x1b[38;5;226mO\x1b[37m"
+        adversaire = "\x1b[38;5;226mO\x1b[37m" 
     else :
-        adversaire = "\x1b[31mO\x1b[37m" 
-
-    # Cherche la ligne jouable pour chaque colonne
-    lignes_disponibles = [-1] * colonnes  # Stocke la première ligne disponible pour chaque colonne
-    recherche = True
-    while recherche :
-        for col in range(colonnes):
-            for ligne in range(lignes-1, -1, -1):  # Parcours des colonnes de bas en haut
-                if grille[ligne][col] == " ":
-                    lignes_disponibles[col] = ligne
-                    recherche = False
-
-    # Si la machine peut gagner, alors elle joue la case gagnante
+        adversaire = "\x1b[31mO\x1b[37m"
+    
+    # Trouver les lignes disponibles pour chaque colonne
+    lignes_disponibles = [-1] * colonnes
     for col in range(colonnes):
-        if lignes_disponibles[col] != -1:  # Si la colonne n'est pas pleine
-            grille[lignes_disponibles[col]][col] = symbole  # Simule un coup
-            if check_victoire(grille, symbole):  # Vérifie victoire
-                grille[lignes_disponibles[col]][col] = " "  # Annule le coup
-                return col + 1  # Colonne optimale trouvée
-            grille[lignes_disponibles[col]][col] = " "  
-
-    # Si l'adversaire peut gagner, le bloque
+        recherche = True  # Indique si une ligne disponible a été trouvée pour cette colonne
+        for ligne in range(lignes - 1, -1, -1):
+            if grille[ligne][col] == " " and recherche:
+                lignes_disponibles[col] = ligne
+                recherche = False  # On arrête la recherche pour cette colonne
+    
+    # Tester un coup gagnant pour la machine
     for col in range(colonnes):
-        if lignes_disponibles[col] != -1:  
-            grille[lignes_disponibles[col]][col] = adversaire  # Simule un coup de l'adversaire
-            if check_victoire(grille, adversaire):  
-                grille[lignes_disponibles[col]][col] = " "  
-                return col + 1 
-            grille[lignes_disponibles[col]][col] = " " 
+        if lignes_disponibles[col] != -1:
+            grille[lignes_disponibles[col]][col] = symbole
+            if check_victoire(grille, symbole):
+                grille[lignes_disponibles[col]][col] = " "
+                return col + 1
+            grille[lignes_disponibles[col]][col] = " "
 
-    # Si aucun des deux cas précédents, alors on choisi une case stratégique (en priorité le centre)
-    ordre_priorite = [3, 4, 2, 5, 1, 6, 0]  # Ordre des colonnes par priorité, avec le centre en premier
+    # Bloquer un coup gagnant pour l'adversaire
+    for col in range(colonnes):
+        if lignes_disponibles[col] != -1:
+            grille[lignes_disponibles[col]][col] = adversaire
+            if check_victoire(grille, adversaire):
+                grille[lignes_disponibles[col]][col] = " "
+                return col + 1
+            grille[lignes_disponibles[col]][col] = " "
+
+    # Choisir une colonne stratégique
+    ordre_priorite = [3, 4, 2, 5, 1, 6, 0]
     for col in ordre_priorite:
-        if lignes_disponibles[col] != -1:  # Si la colonne est jouable
+        if lignes_disponibles[col] != -1:
             return col + 1
 
-    return 1 # Si jamais un problème 
-
+    # Si aucune colonne jouable (normalement impossible)
+    return -1
 
 def coup_intermediaire(grille : list[list[str]], symbole : str)  -> int :
     """
