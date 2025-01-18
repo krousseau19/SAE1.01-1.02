@@ -3,6 +3,90 @@ from ressource import Joueur, début_de_partie, qui_joue
 from random import randint
 from time import sleep
 
+def coup_aleatoire(allumettes : int) -> int :
+    """
+    Entrée : Un entier correspondant au nombre d'allumettes restantes.
+
+    Sortie : Un entier correspondant au nombre d'allumettes choisies.
+
+    Fonctionnement : Prend un chiffre au hasard entre 1 et 3, si le nombre d'allumettes est inférieur à 3,
+    alors en choisit une seule.
+    """
+    nb_all : int
+
+    if allumettes == 1 or allumettes == 2 : 
+        nb_all = 1
+    else :
+        nb_all = randint(1,3)
+    return nb_all
+
+def coup_optimal(allumettes : int) -> int :
+    """
+    Entrée : Un entier correspondant au nombre d'allumettes choisies.
+
+    Sortie : Un entier correspondant au nombre d'allumettes choisies
+
+    Fonctionnement : Prend le meilleur nombre d'allumettes possible pour s'assurer la victoire au moment de jouer,
+    sinon, joue un coup aléatoire en appelant la fonction coup_aleatoire().
+    """
+    nb_all : int
+
+    if allumettes == 20 :
+        nb_all = 3
+    elif allumettes == 19 :
+        nb_all = 2
+    elif allumettes == 18 :
+        nb_all = 1
+    elif allumettes == 16 :
+        nb_all = 3
+    elif allumettes == 15 :
+        nb_all = 2
+    elif allumettes == 14 :
+        nb_all = 1
+    elif allumettes == 12 :
+        nb_all = 3
+    elif allumettes == 11 :
+        nb_all = 2
+    elif allumettes == 10 : 
+        nb_all = 1
+    elif allumettes == 8 :
+        nb_all = 3
+    elif allumettes == 7 :
+        nb_all = 2
+    elif allumettes == 6 :
+        nb_all = 1
+    elif allumettes == 4 :
+        nb_all = 3
+    elif allumettes == 3 :
+        nb_all = 2
+    elif allumettes == 2 :
+        nb_all = 1
+    elif allumettes == 1 : 
+        nb_all = 1
+    else :
+        nb_all = coup_aleatoire(allumettes)
+    return nb_all
+
+def coup_intermediaire(allumettes : int) -> int :
+    """
+    Entrée : Un entier correspondant au nombre d'allumettes restantes
+
+    Sortie : Un entier correspondant au nombre d'allumettes choisi choisi
+
+    Fonctionnement : Fonction qui en fonction du résultat de alea, va soit donner un coup aléatoire ou le coup optimal à jouer,
+    celle-ci est utilisée pour faire jouer la machine en difficulté intermédiaire.
+    """
+    nb_all : int
+    alea : int
+
+    alea = randint(0,1)
+    if alea == 0 :
+        nb_all = coup_aleatoire(allumettes)
+    else :
+        nb_all = coup_optimal(allumettes)
+
+    return nb_all
+
 def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
     """
     Entrée : 2 arguments, qui sont les 2 joueurs
@@ -47,71 +131,13 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
                 print("\x1b[37m")
                 sleep(2)
                 if diff == 1 :
-                    if allumettes == 1 or allumettes == 2 : # type: ignore
-                        nb_all = 1
-                    else :
-                        nb_all = randint(1,3)
+                    nb_all = coup_aleatoire(allumettes)
                     saisi_all = True
                 elif diff == 2 :
-                    nb_all = randint(1,2)
-                    if allumettes == 8 and nb_all == 2 :  # type: ignore
-                        nb_all = 3
-                    elif allumettes == 7 and nb_all == 2 : # type: ignore
-                        nb_all = 2
-                    elif allumettes == 6 and nb_all == 2 :  # type: ignore 
-                        nb_all = 1
-                    elif allumettes == 4 and nb_all == 2 : # type: ignore
-                        nb_all = 3
-                    elif allumettes == 3 and nb_all == 2 : # type: ignore
-                        nb_all = 2
-                    elif allumettes == 2 and nb_all == 2 : # type: ignore
-                        nb_all = 1
-                    elif allumettes == 1 and nb_all == 2 :  # type: ignore
-                        nb_all = 1
-                    else :
-                        if allumettes == 1 or allumettes == 2 : # type: ignore
-                            nb_all = 1
-                        else :
-                            nb_all = randint(1,3)
+                    nb_all = coup_intermediaire(allumettes)
                     saisi_all = True
                 else :
-                    if allumettes == 20 :
-                        nb_all = 3
-                    elif allumettes == 19 :
-                        nb_all = 2
-                    elif allumettes == 18 :
-                        nb_all = 1
-                    elif allumettes == 16 :
-                        nb_all = 3
-                    elif allumettes == 15 :
-                        nb_all = 2
-                    elif allumettes == 14 :
-                        nb_all = 1
-                    elif allumettes == 12 :
-                        nb_all = 3
-                    elif allumettes == 11 :
-                        nb_all = 2
-                    elif allumettes == 10 : 
-                        nb_all = 1
-                    elif allumettes == 8 :
-                        nb_all = 3
-                    elif allumettes == 7 :
-                        nb_all = 2
-                    elif allumettes == 6 :
-                        nb_all = 1
-                    elif allumettes == 4 :
-                        nb_all = 3
-                    elif allumettes == 3 :
-                        nb_all = 2
-                    elif allumettes == 2 :
-                        nb_all = 1
-                    elif allumettes == 1 : 
-                        nb_all = 1
-                    else : 
-                        if allumettes == 1 or allumettes == 2 : 
-                            nb_all = 1
-                        else :
-                            nb_all = randint(1,3)
+                    nb_all = coup_optimal(allumettes)
                     saisi_all = True
                 print("\033c")
                 print(f"{joueur.pseudo} a retiré {nb_all} allumettes.")
