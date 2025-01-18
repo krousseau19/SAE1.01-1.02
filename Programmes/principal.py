@@ -60,6 +60,7 @@ if __name__ == "__main__" :
     rejoue = True
 
     diff = 0
+    print("\033c")
     mode = mode_jeu()
     if mode != 1 :
         print("\033c")
