@@ -1,3 +1,9 @@
+Changelog du 18/01/25 (Kylian) {
+  - Modification de allumette.py pour que les différentes difficultés soient dans des fonctions comme dans les autres jeux
+  - Ajout d'une version de "debug" pour vérifier la complexité (avec des prints et sans les clear consoles) dans un dossier à
+    part (Démo)
+}
+
 Changelog du 16/01/25 (Kylian) {
   - Implémentation de Humain vs Machine et Machine vs Machine pour le Puissance 4 (difficulté Facile, Intermédiaire et Difficile)
   - Implémentation de Humain vs Machine et Machine vs Machine pour les Devinettes (difficulté Facile, Intermédiaire et Difficile)
