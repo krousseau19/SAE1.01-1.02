@@ -1,3 +1,8 @@
+Changelog du 19/01/25 (Kylian) {
+  - Correction de bugs d'affichages mineurs
+  - Correction d'un bug dans le calcul des scores dans Devinettes
+}
+
 Changelog du 18/01/25 (Kylian) {
   - Modification de allumette.py pour que les différentes difficultés soient dans des fonctions comme dans les autres jeux
   - Ajout d'une version de "debug" pour vérifier la complexité (avec des prints et sans les clear consoles) dans un dossier à
