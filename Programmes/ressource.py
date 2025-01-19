@@ -90,15 +90,23 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
      dans le fichier binaire
      """
      j_existe : bool  # Sert à savoir si le joueur est présent ou non dans le fichier binaire
+     est_valide : bool 
 
      if mode == 1 or mode == 2 :
+          est_valide = False
           print("\033c")
-          print("Création du Joueur 1...")
-          # Initialisation des différents attributs du joueur / récupération de ceux-ci
-          j1.pseudo = input("Veuillez saisir votre pseudo : ")
+          while not est_valide :
+               print("Création du Joueur 1...")
+               # Initialisation des différents attributs du joueur / récupération de ceux-ci
+               j1.pseudo = input("Veuillez saisir votre pseudo : ")
+               if len(j1.pseudo) <= 10 : 
+                    est_valide = True
+               else :
+                    print("\033c")
+                    print("\x1b[31mErreur : 10 caractères maximum\x1b[0m")
           j1.score = 0
           j_existe = recherche_joueur(f, j1)
-          if  not j_existe :
+          if not j_existe :
                j1.highscore_dev = 0
                j1.highscore_all = 0
                j1.highscore_mor = 0
@@ -109,9 +117,17 @@ def creation_joueurs(j1 : Joueur, j2 : Joueur, f : BinaryIO, mode : int) :
           else :
                charger_joueur(f, j1)
      if mode == 1 :
-          print("Création du Joueur 2...")
-          # Initialisation des différents attributs du joueur / récupération de ceux-ci
-          j2.pseudo = input("Veuillez saisir votre pseudo : ")
+          est_valide = False
+          print("\033c")
+          while not est_valide :
+               print("Création du Joueur 2...")
+               # Initialisation des différents attributs du joueur / récupération de ceux-ci
+               j2.pseudo = input("Veuillez saisir votre pseudo : ")
+               if len(j2.pseudo) <= 10 : 
+                    est_valide = True
+               else :
+                    print("\033c")
+                    print("\x1b[31mErreur : 10 caractères maximum\x1b[0m")
           j2.score = 0
           j_existe = recherche_joueur(f, j2)
           if not j_existe : 

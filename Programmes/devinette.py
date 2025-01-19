@@ -24,7 +24,7 @@ def saisir_victoire(joueur : Joueur, devine : int) -> int :
         print("2 - Trop grand")
         print("3 - C'est gagné !")
         try :
-            choix = int(input(f" {joueur.pseudo} veuillez saisir un choix :"))
+            choix = int(input(f" {joueur.pseudo} veuillez saisir un choix : "))
         except ValueError :
             print("\033c")
             print("\x1b[31mErreur : Choix invalide\x1b[0m")
@@ -71,6 +71,20 @@ def saisir_intervalle() -> int :
             print("\x1b[31mErreur : Choix invalide\x1b[0m")
     print("\033c")
     return borne_sup
+
+def change_joueur(joueur : Joueur, j1 : Joueur, j2 : Joueur) -> Joueur :
+    """
+    Entrée : Le joueur actuel, et les deux joueurs présents dans le jeu
+
+    Sortie : Un joueur
+
+    Fonctionnement : Echange le joueur courant par son adversaire, si le joueur est j1, alors le joueur deviendra j2 et inversement.
+    """
+    if joueur == j1 :
+        joueur = j2
+    else :
+        joueur = j1
+    return joueur
 
 def choix_entier(borne_sup : int) -> int :
     """
@@ -135,7 +149,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
     tentatives : int
     partie_finie : bool
     joueur : Joueur
-    joueur_d : str
+    joueur_d : Joueur
     saisi_j1 : bool
     saisi_j2 : bool
     choix : int
@@ -146,7 +160,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
     print("\033c")
     print("\n    === Jeu de devinettes ===")
     joueur = début_de_partie(j1, j2, qui_joue)
-    joueur_d = joueur.pseudo
+    joueur_d = joueur
     j1.score = 0
     j2.score = 0
     manche = 1
@@ -175,10 +189,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                     print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
         tentatives = 0
         partie_finie = False
-        if joueur == j1 :
-            joueur = j2
-        else :
-            joueur = j1
+        joueur = change_joueur(joueur, j1, j2)
         saisi_j2 = False
         devine = -1
         joueur.score = intervalle
@@ -210,10 +221,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
             tentatives += 1
             joueur.score = int(joueur.score - (intervalle*(10/100)))
             choix_valide = False
-            if joueur == j1 :
-                joueur = j2
-            else :
-                joueur = j1
+            joueur = change_joueur(joueur, j1, j2)
             while not choix_valide :
                 choix = -1
                 if joueur.pseudo == "machine 1" or joueur.pseudo == "machine 2" :
@@ -225,10 +233,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                         choix = 3
                 else :
                     choix = saisir_victoire(joueur, devine)
-                if joueur == j1 :
-                    joueur = j2
-                else :
-                    joueur = j1
+                joueur = change_joueur(joueur, j1, j2)
                 if devine < nombre_secret and choix == 1:
                     if joueur.score <= 0 :
                         print("\033c")
@@ -265,16 +270,9 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                 else :
                     print("\033c")
                     print("\x1b[31mErreur : La réponse de ne correspond pas avec le résultat !\x1b[0m")
-                    if joueur == j1 :
-                        joueur = j2
-                    else :
-                        joueur = j1
-            devine = -1
-                
-        if joueur_d == j1.pseudo :
-            joueur = j2
-        else :
-            joueur = j1
+                    joueur = change_joueur(joueur, j1, j2)
+            devine = -1  
+        joueur_d = change_joueur(joueur_d, j1, j2)
         manche += 1
         if manche <= 2 :
             input("Une nouvelle manche va commencer, veuillez appuyer sur ENTRER...")
