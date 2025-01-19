@@ -184,7 +184,7 @@ def jeu_allumettes(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
                 joueur = j1
             print("\033c")
             print("\x1b[32mBravo ! ", joueur.pseudo, " a gagné !")
-            print("Votre score : ", joueur.score, "\x1b[0m")
+            print("Score : ", joueur.score, "\x1b[0m")
             joueur.nb_partieG += 1
             # Mise à jour du score gagnant 
             if joueur.score > joueur.highscore_all :

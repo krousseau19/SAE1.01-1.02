@@ -219,6 +219,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                         print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
             saisi_j2 = False
             tentatives += 1
+            # Mise à jour du score
             joueur.score = int(joueur.score - (intervalle*(10/100)))
             choix_valide = False
             joueur = change_joueur(joueur, j1, j2)
@@ -259,7 +260,7 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                 elif devine == nombre_secret and choix == 3:
                     print("\033c")
                     print("\x1b[32mBravo ! ", joueur.pseudo, " a trouvé en ", tentatives, " tentatives.")
-                    print("Votre score : ", joueur.score, "\x1b[0m")
+                    print("Score : ", joueur.score, "\x1b[0m")
                     if joueur.score > joueur.highscore_dev :
                         joueur.highscore_dev = joueur.score
                     # Remise à état initial des deux bornes
@@ -277,17 +278,14 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
         if manche <= 2 :
             input("Une nouvelle manche va commencer, veuillez appuyer sur ENTRER...")
     if j1.score > j2.score :
-        print("\033c")
-        print("\x1b[32mBravo ! ", j1.pseudo, " a gagné la partie !")
-        print("Votre score : ", j1.score, "\x1b[0m")
+        print("\x1b[32m\nBravo ! ", j1.pseudo, " a gagné la partie !")
+        print("Score : ", j1.score, "\x1b[0m")
         j1.nb_partieG += 1
     elif j2.score > j1.score :
-        print("\033c")
-        print("\x1b[32mBravo ! ", j2.pseudo, " a gagné la partie !")
-        print("Votre score : ", j2.score, "\x1b[0m")
+        print("\x1b[32m\nBravo ! ", j2.pseudo, " a gagné la partie !")
+        print("Score : ", j2.score, "\x1b[0m")
         j2.nb_partieG += 1
     else :
-        print("\033c")
-        print("\x1b[38;5;208mIl y a eu égalité.\x1b[0m") 
+        print("\x1b[38;5;208m\nIl y a eu égalité.\x1b[0m") 
     j1.nb_partie += 1
     j2.nb_partie += 1

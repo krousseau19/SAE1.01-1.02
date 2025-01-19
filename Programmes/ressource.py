@@ -381,16 +381,21 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
      res1 : Joueur
      fin : bool
      ratio : float
+     j1_trouve : bool
+     j2_trouve : bool
 
      fic = open("Data/data.sav", "rb")
      res1 = Joueur()
      ratio = 0.0
      fin = False
+     j1_trouve = False
+     j2_trouve = False
      print("\033c")
      while not fin :
           try :
                res1 = load(fic)
                if res1.pseudo == J1.pseudo :
+                    j1_trouve = True
                     # Evite la division par 0
                     if res1.nb_partie != 0 :
                          ratio = (res1.nb_partieG/res1.nb_partie)*100
@@ -408,6 +413,7 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("Ratio de victoire global  : ", ratio, "%")
                     print("=" * 47)
                if res1.pseudo == J2.pseudo :
+                    j2_trouve = True
                     # Evite la division par 0
                     if res1.nb_partie != 0 :
                          ratio = (res1.nb_partieG/res1.nb_partie)*100
@@ -426,7 +432,11 @@ def afficher_stats(fic : BinaryIO, J1 : Joueur, J2 : Joueur) :
                     print("=" * 47)
           except EOFError :
                fin = True
-     input("Veuillez appuyer sur ENTRER pour revenir en arrière...")
+     if not j1_trouve :
+          print("\nLe joueur 1 est une machine, elle ne possède pas de statistiques.")
+     if not j2_trouve :
+          print("\nLe joueur 2 est une machine, elle ne possède pas de statistiques.")
+     input("\nVeuillez appuyer sur ENTRER pour revenir en arrière...")
      print("\033c")
      fic.close()
 

@@ -267,7 +267,7 @@ def jeu_morpion(j1 : Joueur, j2 : Joueur, mode : int, diff : int):
             print("\033c")
             afficher_plateau(plateau)
             print("\x1b[32mFélicitations !", joueur.pseudo, " a gagné !")
-            print("Votre score : ", joueur.score, "\x1b[0m")
+            print("Score : ", joueur.score, "\x1b[0m")
             joueur.nb_partieG += 1
             # Mise à jour score gagnant
             if joueur.score > joueur.highscore_mor :
