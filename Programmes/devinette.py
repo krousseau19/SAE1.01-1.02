@@ -219,8 +219,6 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                         print("\x1b[31mErreur : veuillez entrer un nombre entier valide.\x1b[0m")
             saisi_j2 = False
             tentatives += 1
-            # Mise à jour du score
-            joueur.score = int(joueur.score - (intervalle*(10/100)))
             choix_valide = False
             joueur = change_joueur(joueur, j1, j2)
             while not choix_valide :
@@ -236,25 +234,19 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                     choix = saisir_victoire(joueur, devine)
                 joueur = change_joueur(joueur, j1, j2)
                 if devine < nombre_secret and choix == 1:
-                    if joueur.score <= 0 :
-                        print("\033c")
-                        print(f"\x1b[38;5;1m{joueur.pseudo} n'a pas réussi à trouver le nombre à temps ! (Score nul)\x1b[37m")
-                        partie_finie = True
-                    else :
-                        print("\033c")
-                        print("\x1b[38;5;1mTrop petit.\x1b[37m")
-                        print("")
+                    print("\033c")
+                    print("\x1b[38;5;1mTrop petit.\x1b[37m")
+                    print("")
+                    # Mise à jour du score
+                    joueur.score = int(joueur.score - (intervalle*(10/100)))
                     borne_inf = devine + 1 # Met à jour la borne inférieure pour la machine
                     choix_valide = True
                 elif devine > nombre_secret and choix == 2:
-                    if joueur.score <= 0 :
-                        print("\033c")
-                        print(f"\x1b[38;5;1m{joueur.pseudo} n'a pas réussi à trouver le nombre à temps ! (Score nul)\x1b[37m")
-                        partie_finie = True
-                    else :
-                        print("\033c")
-                        print("\x1b[38;5;1mTrop grand.\x1b[37m")
-                        print("")
+                    print("\033c")
+                    print("\x1b[38;5;1mTrop grand.\x1b[37m")
+                    print("")
+                    # Mise à jour du score
+                    joueur.score = int(joueur.score - (intervalle*(10/100)))
                     borne_sup = devine - 1 # Met à jour la borne supérieure pour la machine
                     choix_valide = True
                 elif devine == nombre_secret and choix == 3:
@@ -272,6 +264,11 @@ def jeu_devinette(j1 : Joueur, j2: Joueur, intervalle : int, mode : int, diff : 
                     print("\033c")
                     print("\x1b[31mErreur : La réponse de ne correspond pas avec le résultat !\x1b[0m")
                     joueur = change_joueur(joueur, j1, j2)
+                if joueur.score <= 0 :
+                        print("\033c")
+                        print(f"\x1b[38;5;1m{joueur.pseudo} n'a pas réussi à trouver le nombre à temps ! (Score nul)\x1b[37m")
+                        choix_valide = True
+                        partie_finie = True
             devine = -1  
         joueur_d = change_joueur(joueur_d, j1, j2)
         manche += 1
