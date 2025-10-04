@@ -1,4 +1,4 @@
-# Terminal Games Collection (English README)
+# Terminal Games Collection
 
 This small Python project provides a collection of terminal games implemented for learning and fun. The program bundles four games with a unified menu and persistent player statistics saved to a binary file.
 
